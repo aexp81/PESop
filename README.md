@@ -27,8 +27,11 @@ v4.0 针对性重构为工程,核心三招:
 | `AGENT.md` | **AI 唯一入口**:全自动执行契约(铁律/SOP loop/engine用法/回灌) | AI 每次读 |
 | `engine/http_client.py` | 统一发包+自动存证(curl 优先,python 兜底) | AI 调用 |
 | `engine/evidence.py` | 结构化证据台账(无真实证据不许 confirmed) | AI 调用 |
+| `engine/recon.py` | 指纹识别:发探测包→匹配指纹库→告知该加载哪个 playbook | AI 调用 |
+| `engine/js_harvester.py` | JS 全量拉取+接口/密钥/路由提取(对应 HF-2) | AI 调用 |
+| `engine/reflow.py` | 自动回灌:把新指纹/新手法 append 进 knowledge(只增不删+去重) | AI 调用 |
 | `knowledge/fingerprints.yaml` | 指纹信号 → 产品身份 → 触发哪个 playbook | AI 按需读 |
-| `knowledge/playbooks/*.yaml` | 按产品/框架身份的攻击手册(spring-boot/envoy/oauth/竹云…) | AI 命中才读 |
+| `knowledge/playbooks/*.yaml` | 按身份的攻击手册(spring-boot/security/shiro/envoy/kong/oauth/竹云) | AI 命中才读 |
 | `runs/<target>/` | 每次测试产物:证据/发现台账/报告(不进版本库) | AI 写,人看 |
 | `L1-methodology.md` | 方法论事实源(为什么这么做),F1-F5/四准则的推导 | 人(审计时) |
 | `L2-ai-prompt.md` | 老执行清单,现作 HF-1~7 细则参考,被 AGENT.md 引用 | 人/AI 查阅 |

@@ -1,0 +1,39 @@
+# Playbook: Spring Security (Java 鉴权框架)
+# 触发: fingerprints.yaml -> spring-security
+#
+# 核心认知:Spring Security 的 Filter 层 pattern 与后端路由层解析不一致时可绕过。
+# 走 Q1-Q5:Q1 识别=Spring Security -> Q2 建 Filter/RequestMatcher 差异模型 ->
+# Q3 推绕过点 -> Q4 变量隔离实测。CVE 为代表性模式参考,命中需实测。
+
+playbook: spring-security
+identity: "Spring Security"
+
+checks:
+  - id: matcher-inconsistency-bypass
+    why: "Filter 层 RequestMatcher 与 DispatcherServlet 路由解析不一致 -> 绕过鉴权"
+    how: "对受保护路径试下列变体,对比放行情况"
+    variants:
+      - "尾部加 /"                 # trailing slash 差异
+      - "大小写变化"               # RegexRequestMatcher 大小写问题
+      - ";jsessionid=xxx 插入"     # 分号参数
+      - "/./ 或 /../  路径规范化"
+      - "%2f 编码斜杠"
+    signal: "变体放行而原始 403"
+    cve_ref: "CVE-2022-22978 (RegexRequestMatcher 大小写绕过) —— 仅模式参考"
+
+  - id: actuator-permit-all
+    why: "常见错误配置:actuator 被 permitAll 或与业务用不同 SecurityFilterChain"
+    how: "对 /actuator/** 端点在有无认证下分别发包(联动 spring-boot playbook)"
+    signal: "actuator 端点无需认证即返回敏感数据"
+
+  - id: method-level-gap
+    why: "URL 级配了鉴权但方法级(@PreAuthorize)漏配,或反之"
+    how: "同一资源试不同 HTTP 方法,看是否某方法漏鉴权"
+    signal: "GET 需认证但 POST/PUT 放行(或相反)"
+
+  - id: jwt-if-used
+    why: "若用 JWT 做无状态鉴权,校验缺陷常见"
+    how: "alg=none / RS256->HS256 / 不校验 exp·aud·iss / 弱密钥"
+    signal: "篡改 token 被接受(联动 oauth-sso playbook 的 token-signature)"
+
+cve_note: "识别具体版本后查 CVE;反幻觉:编号可溯源,适用性落实测特征"

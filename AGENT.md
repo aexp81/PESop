@@ -9,7 +9,7 @@
 ## 0. 这套工程和老 SOP 的关系
 
 - 老的 `L1/L2/L3.md` = 给人读的方法论（为什么这么做）。你不必全文吃。
-- `engine/` = 你的手（发包+存证）。**所有发包必须走 engine,不许你口述响应。**
+- `engine/` = 你的手（发包+存证+指纹+JS挖掘+回灌）。**所有发包必须走 engine,不许你口述响应。**
 - `knowledge/` = 你的记忆（指纹库+playbook）。**按需精准调取,不通读。**
 - `runs/<target>/` = 本次测试的一切产物（证据、发现台账、报告）。
 
@@ -50,14 +50,14 @@
 
 ```
 0 授权确认   复述目标边界与禁区(不在授权内的不碰)
-1 侦察指纹   发包看响应头/错误体/行为 -> 匹配 knowledge/fingerprints.yaml
+1 侦察指纹   engine/recon.py 发探测包 -> 匹配 knowledge/fingerprints.yaml
 2 加载记忆   命中指纹 -> 读对应 knowledge/playbooks/<id>.yaml(只读命中的,不全读)
 3 建模       Q1-Q5 + 开发者共情:这是什么系统/怎么建的/最可能哪坏(写出来)
-4 挖接口     JS/APK/路径探测/文档 -> 接口清单(engine 发包核实存活)
+4 挖接口     engine/js_harvester.py 挖 JS(或APK) + 路径探测/文档 -> 接口清单
 5 分诊       接口按 危害×可利用性 分 P0/P1/P2,火力集中 P0
-6 深钻       对 P0 用 engine 打到终态:每步发包->存证->判定->记 finding
+6 深钻       对 P0 用 engine/http_client 打到终态:每步发包->存证->判定->记 finding
 7 越权/业务  多账号交叉、状态机、业务不变量(见 knowledge + L2 HF-4/HF-5)
-8 收尾       evidence.py summary 出汇总 -> 写报告 -> 回灌新知识(第 5 节)
+8 收尾       evidence.py summary 出汇总 -> 写报告 -> reflow.py 回灌新知识(第 5 节)
 ```
 
 不要求你把 0-8 每步都铺满再往下。允许在第 4 步发现一个 P0 就直接跳到第 6 步
@@ -78,7 +78,7 @@
 
 ## 4. engine 用法速查
 
-发包+存证:
+发包+存证（一切请求的地基）:
 ```
 python engine/http_client.py --target https://t.com GET /api/user \
     -H "Authorization: Bearer xxx" --note "越权:B账号token读A资源"
@@ -86,7 +86,21 @@ python engine/http_client.py --target https://t.com GET /api/user \
 # 后端默认 auto(curl优先,失败自动降级python);可 --backend curl|python 强制
 ```
 
-登记发现(确认必须挂真实 evidence_id):
+指纹识别 + 攻击面切换（SOP loop 第1-2步自动化）:
+```
+python engine/recon.py --target https://t.com
+# 发探测包 -> 匹配 fingerprints.yaml -> 输出命中身份 + 该加载哪个 playbook
+# 命中即读对应 knowledge/playbooks/<id>.yaml,不要通读全部 playbook
+```
+
+JS 全量拉取 + 接口/密钥提取（SOP loop 第4步,对应 HF-2）:
+```
+python engine/js_harvester.py --target https://t.com --max-js 100
+# 拉HTML->下全部JS->挖 api路径/调用点/硬编码密钥/内部域名
+# 产物 runs/<target>/js_assets.json;跳过的文件会显式标"跳过+理由+但未验证"
+```
+
+登记发现（确认必须挂真实 evidence_id）:
 ```
 python engine/evidence.py add --target https://t.com \
     --title "IDOR:订单越权读取" --severity high --status confirmed \
@@ -100,6 +114,15 @@ python engine/evidence.py list    --target https://t.com
 python engine/evidence.py summary --target https://t.com
 ```
 
+回灌新知识（收尾做,让下次更强,见第5节）:
+```
+python engine/reflow.py fingerprint --id <新指纹> --layer <层> \
+    --signal "<信号>" --identity "<身份>" --confidence high --playbook <id>
+python engine/reflow.py check --playbook <id> --check-id <新check> \
+    --why "<为什么测>" --how "<怎么发>" --signal "<什么算命中>"
+python engine/reflow.py suggest --target https://t.com   # 从产物找可回灌线索
+```
+
 严重度: info/low/medium/high/critical。评级按**真实可利用性**,拿不准就降级
 标 suspected,不许为显高危拔高。
 
@@ -110,14 +133,15 @@ python engine/evidence.py summary --target https://t.com
 每次测试结束,你必须做两件让下次更强的事:
 
 1. **写报告**到 `runs/<target>/report.md`(基于 evidence.py summary + 各 finding)。
-2. **回灌新知识**到 knowledge/(只增不删):
-   - 遇到了 fingerprints.yaml 里没有的指纹信号 -> append 一条。
-   - 某产品/框架跑出了 playbook 里没写的有效 check -> 追加进对应 playbook,
-     或新建 `knowledge/playbooks/<新产品>.yaml`。
+2. **回灌新知识**到 knowledge/(用 `engine/reflow.py`,它保证只增不删+去重+格式统一):
+   - 遇到 fingerprints.yaml 没有的指纹信号 -> `reflow.py fingerprint ...` 追加。
+   - 某产品/框架跑出 playbook 没写的有效 check -> `reflow.py check ...` 追加,
+     playbook 不存在时会自动新建。
+   - 拿不准有没有可回灌的 -> `reflow.py suggest --target ...` 从产物找线索。
    - **只回灌"可复用的判据/手法",不回灌"这个目标的具体数据"**(具体数据留 runs/)。
 
 这样沉淀增长的是 knowledge/ 里可精准调取的条目,而不是让你下次要通读的长文。
-沉淀越多,你单次任务反而越聚焦——这是本工程和老"粘长 prompt"范式的根本区别。
+回灌进去的新指纹,下次 recon.py 就能自动识别——这就是越用越强的复利飞轮。
 
 ---
 

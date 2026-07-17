@@ -1,0 +1,39 @@
+# Playbook: Kong API 网关
+# 触发: fingerprints.yaml -> kong
+#
+# 核心认知:Kong 的高价值面在 Admin API 暴露、路由/插件配置错误、以及
+# 网关与上游后端的信任边界不一致。
+
+playbook: kong-gateway
+identity: "Kong API 网关"
+
+checks:
+  - id: admin-api-exposure
+    why: "Kong Admin API 若对外暴露,可读写全部路由/服务/凭证,等于接管网关"
+    how: "扫 Admin API 标准端口/路径"
+    endpoints:
+      - ":8001/"        # Admin API (http)
+      - ":8444/"        # Admin API (https)
+      - ":8001/routes"
+      - ":8001/services"
+      - ":8001/consumers"
+      - ":8001/plugins"
+    signal: "200 返回 JSON 配置 -> Admin API 暴露(严重)"
+    escalate: "可读 consumers/凭证 -> 提取 API key/JWT secret;可写则加恶意路由"
+
+  - id: route-latency-oracle
+    why: "Kong 响应头暴露上游延迟,可用于判断端点存活(见 L3 X-Kong-Upstream-Latency)"
+    how: "对比响应头 X-Kong-Upstream-Latency / X-Kong-Proxy-Latency 差异"
+    signal: "存活上游 vs SPA fallback 的延迟差异,辅助识别真实后端端点"
+
+  - id: reverse-proxy-path-bypass
+    why: "Kong 路由前缀剥离/正则匹配错误 -> 可访问本该被拦的上游路径"
+    how: "试路径规范化变体绕过 Kong 路由规则(编码/双斜杠/大小写)"
+    signal: "绕过后触达上游受限接口"
+
+  - id: plugin-misconfiguration
+    why: "鉴权插件(key-auth/jwt/oauth2)配置错误或未挂到全部路由"
+    how: "对不同路由分别测无凭证访问,看是否有路由漏挂鉴权插件"
+    signal: "部分路由无需凭证即可访问受保护上游"
+
+cve_note: "识别 Kong 版本后查 CVE;反幻觉:编号可溯源,适用性落实测特征"

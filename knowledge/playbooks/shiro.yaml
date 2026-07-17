@@ -1,0 +1,33 @@
+# Playbook: Apache Shiro (Java 鉴权框架)
+# 触发: fingerprints.yaml -> shiro
+#
+# 核心认知:Shiro 的路径匹配与 Servlet 容器解析常不一致,产生鉴权绕过。
+# 走 Q1-Q5:Q1 已识别鉴权框架=Shiro -> Q2 建其路径 normalization 差异模型 ->
+# Q3 推本系统最可能的绕过点 -> Q4 变量隔离实测。
+# 注意:下列 CVE 是"代表性历史模式参考",命中与否仍需 engine 实测,不得凭框架名断言。
+
+playbook: shiro
+identity: "Apache Shiro"
+
+checks:
+  - id: path-normalization-bypass
+    why: "Shiro 拦截规则基于 URI 模式,与容器实际路由解析不一致时可绕过鉴权"
+    how: "对被 401/403 的受保护路径,插入下列变体后重发,对比是否放行"
+    variants:
+      - ";/"           # 分号插入 (path parameter)
+      - "//"           # 双斜杠
+      - "/%2e%2e/"     # 编码的 ..
+      - "尾部加 /"      # trailing slash
+      - "大小写变化"    # /Admin vs /admin
+      - "/.;/"
+    signal: "变体请求返回 200 而原始 403 -> 绕过成立"
+    cve_ref: "CVE-2020-1957 (Shiro 与 Servlet 容器路径解析不一致) —— 仅模式参考"
+
+  - id: rememberme-deserialization
+    why: "Shiro rememberMe cookie 用 AES+反序列化,默认/泄露密钥可致 RCE"
+    how: "检查 rememberMe cookie 是否存在;若怀疑默认密钥,构造反序列化 payload(需授权+谨慎)"
+    signal: "使用已知默认密钥(如 kPH+bIxk5D2deZiIxcaaaA==)能构造有效 rememberMe"
+    cve_ref: "Shiro-550 / Shiro-721 —— 仅模式参考,RCE 验证止于非破坏性(whoami/id)"
+    caution: "反序列化利用属高风险,须在明确授权下进行,PoC 仅做非破坏性验证"
+
+cve_note: "识别具体 Shiro 版本后查对应 CVE;按 L1 反幻觉:编号可溯源,适用性落实测特征"

@@ -1,0 +1,53 @@
+# Playbook: 竹云 IAM (商业 IAM 产品)
+# 触发: fingerprints.yaml -> zhuyun-iam
+#
+# 核心认知(来自 gcac.djicorp.com 实战教训,L3 沉淀):
+#   识别出竹云 IAM 7.0.1.1 后不能停在"信息泄露盘点",必须立即加载该产品
+#   已知攻击面清单做定向验证。识别产品身份 = 攻击面切换触发器。
+#
+# 注意:下列是"已验证的具体历史模式"(L1 例外条款允许保留全文,属证据溯源),
+# 但每一项命中与否仍需 engine 实测,不得凭产品名直接断言存在。
+
+playbook: zhuyun-iam
+identity: "竹云 IAM"
+
+checks:
+  - id: oauth-redirect-bypass
+    why: "IAM 类产品 redirect_uri 白名单校验常有绕过"
+    how: "构造 redirect_uri 变体: 白名单域子路径、协议混淆、子域名前缀、@绕过、编码"
+    signal: "非白名单地址仍被接受跳转"
+
+  - id: saml-metadata-unauth
+    why: "SAML metadata / SSO 端点常未鉴权,泄露证书与配置"
+    how: "GET SAML metadata / SSO 描述端点"
+    signal: "匿名可读证书/端点配置"
+
+  - id: jwt-implementation
+    why: "JWT 实现缺陷是 IAM 高频洞"
+    how: "对签发的 token 试: alg=none、RS256->HS256 key confusion、弱密钥、算法未锁定"
+    signal: "篡改后的 token 被接受"
+
+  - id: password-reset-logic
+    why: "密码重置逻辑常有 token 可预测/验证码绕过/步骤跳过"
+    how: "走完整找回流程,检查 token 随机性、步骤能否跳过、验证码能否枚举"
+    signal: "可跳步或 token 可预测"
+
+  - id: qrcode-login-csrf
+    why: "扫码登录常可被攻击者生成 qrcode 诱导受害者扫码"
+    how: "分析 qrcode 生成与轮询绑定逻辑"
+    signal: "攻击者生成的 qrcode 被受害者扫码后攻击者获得会话"
+
+  - id: config-js-leak
+    why: "前端 config.js 常硬编码 secretKey / 内部地址"
+    how: "GET /static/config.js /env.js 等,回链 JS 挖掘产物"
+    signal: "含 secretKey / 内部域名(如 *.bamboocloud.com)"
+
+  - id: oidc-discovery-public
+    why: "OIDC discovery 公开会扩大攻击面,并暴露 implicit 流程是否未禁用"
+    how: "GET /.well-known/openid-configuration"
+    signal: "文档公开;response_type=token(implicit)仍可用则更严重"
+
+  - id: cors-inconsistent
+    why: "部分端点 CORS 配置不一致(ACAO:*)"
+    how: "带 Origin 头对多个端点发包,对比 Access-Control-Allow-Origin"
+    signal: "某端点返回 ACAO:* 或反射任意 Origin"

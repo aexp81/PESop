@@ -1,0 +1,66 @@
+# Playbook: Spring Boot (Java)
+# 触发: fingerprints.yaml -> spring-boot
+#
+# 核心认知(治 "打开是 Spring 报错页就收工" 这个头号错误):
+#   Spring Boot 默认错误页只说明 "当前请求没命中业务",不说明 "无攻击面"。
+#   必须继续:判响应来自哪层 -> 探路由/方法/CT 差异 -> 挖 actuator/文档 -> 建接口表。
+#
+# 每个 check 带 why(为什么测) + how(engine 怎么发) + signal(什么响应算命中)。
+# 命中后如何深钻见 escalate。schema 见 README。
+
+playbook: spring-boot
+identity: "Spring Boot (Java)"
+
+# 先回答:这个 Spring 报错页是根路径异常,还是所有路径异常? 请求进到哪一层了?
+recon_first:
+  - "对 / 和几个随机路径分别发包,对比 404/500/whitelabel 差异,判断异常范围"
+  - "对同一路径试 GET/POST/PUT/DELETE/OPTIONS,看 405/Allow 头 -> 路径是否存在、支持啥方法"
+  - "对同一路径试 Accept: application/json vs text/html,看错误体格式是否变(判 API vs 页面)"
+  - "看错误响应是否泄露: 类名/包名/SQL/内部路径/trace-id/下游服务名"
+
+checks:
+  - id: actuator-exposure
+    why: "Spring Boot Actuator 常被忘记关或鉴权不全,是最高频高价值暴露面"
+    how: "对下列端点逐个 GET 发包存证(engine/http_client.py)"
+    endpoints:
+      # 2.x/3.x 标准
+      - /actuator
+      - /actuator/health
+      - /actuator/env
+      - /actuator/beans
+      - /actuator/mappings   # ← 直接吐出全部路由,等于免费接口清单
+      - /actuator/configprops
+      - /actuator/heapdump   # ← 可下载堆转储,提内存中的凭证
+      - /actuator/threaddump
+      - /actuator/loggers
+      - /actuator/gateway/routes  # Spring Cloud Gateway 路由
+      - /actuator/httptrace  # 近期请求,可能含他人 token
+      # 1.x 遗留(无 /actuator 前缀)
+      - /env
+      - /health
+      - /beans
+      - /mappings
+      - /heapdump
+      - /jolokia/list        # Jolokia -> JMX -> 可能 RCE
+    signal: "200 且返回 JSON 结构(非 whitelabel);/env /heapdump 命中即高危"
+    escalate: "/env 找 spring.datasource / 密钥;/heapdump 下载后离线提凭证;/mappings 回灌接口表"
+
+  - id: api-docs-exposure
+    why: "Swagger/OpenAPI 泄露会直接给出全量接口+参数,免去 JS 挖掘"
+    how: "GET 下列文档端点"
+    endpoints:
+      - /swagger-ui.html
+      - /swagger-ui/
+      - /v2/api-docs
+      - /v3/api-docs
+      - /openapi.json
+    signal: "200 返回 swagger JSON / UI"
+    escalate: "解析出全部接口 -> 回灌接口表 -> 走分诊/FUZZ/越权"
+
+  - id: route-recovery-no-js
+    why: "纯 API / 无 SPA 时,接口不在 JS 里,靠路由探测和报错回填"
+    how: "结合 actuator/mappings、api-docs、错误信息里出现的 controller/字段名构造候选路径发包"
+    signal: "404->401(受保护接口) / 404->405(路径在方法不对) / 固定错误->参数校验错误(进业务链)"
+    escalate: "401/403 的接 shiro / spring-security playbook 做鉴权绕过"
+
+cve_note: "识别出具体 Spring Boot 版本后必须查 CVE(如 Spring4Shell CVE-2022-22965 需 war+特定条件),按 L1 反幻觉:编号可溯源、适用性落到实测特征,拿不准标 疑似·待核实"

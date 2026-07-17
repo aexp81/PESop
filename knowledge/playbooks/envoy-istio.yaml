@@ -1,0 +1,47 @@
+# Playbook: Envoy / Istio 服务网格网关
+# 触发: fingerprints.yaml -> istio-envoy
+#
+# 核心认知(来自 face-recognition-api.djicorp.com 实战,L3 沉淀):
+#   REST 路径全 403 ≠ 后端无暴露面。Envoy 的拦截规则常基于 Content-Type,
+#   用 application/grpc 可能直接穿透到后端 gRPC 服务。403 是信号不是终态。
+#
+# 走 Q1-Q5:Q1 已确认网关层=Envoy -> Q2 建 Envoy gRPC filter 模型 ->
+# Q3 假设"规则基于CT/gRPC绕过" -> Q4 变量隔离测CT变体 -> Q5 迭代切维度。
+
+playbook: envoy-istio
+identity: "Envoy / Istio 网关"
+
+checks:
+  - id: grpc-protocol-passthrough
+    why: "Envoy RBAC 常只拦 REST 的 Content-Type,gRPC 流量可能不受同一规则约束"
+    how: "对被 403 的 REST 端点,改 Content-Type: application/grpc 重发,对比状态"
+    signal: "REST+application/json -> 403,但 +application/grpc -> 200 或 grpc-status,即穿透成立"
+    escalate: "穿透后枚举 gRPC 服务名(见下)"
+
+  - id: content-type-rule-mapping
+    why: "先画出 Envoy 到底精确匹配什么 CT,才知道边界在哪"
+    how: "变量隔离:只改 Content-Type,逐个测下列变体"
+    variants:
+      - application/grpc
+      - application/grpc+proto
+      - application/grpc+json
+      - application/grpc-web
+      - "application/grpc; charset=utf-8"   # 带参数,常被规则漏掉或反而拦
+      - APPLICATION/GRPC                      # 大小写
+      - application/GRPC
+    signal: "记录每个变体的状态码,画出'哪些穿透哪些拦'的规则边界"
+
+  - id: grpc-service-enum
+    why: "穿透后需知道后端有哪些 gRPC 服务/方法"
+    how: "按公式构造路径 /{package}.{Service}/{Method} 发包"
+    formula: "package 从短到长: face -> face.v1 -> com.dji.face -> dji.face"
+    method_words: [Recognize, Detect, Verify, Register, Search, Auth, Health, List, Get, Query]
+    signal: "grpc-status:7(PERMISSION_DENIED)=方法存在但需认证; 12(UNIMPLEMENTED)=方法不存在"
+    caveat: "统一返回 grpc-status:7 时不能断定'所有方法都存在'(见 L3 已避免的误报),需区分"
+
+  - id: method-verb-bypass
+    why: "网关可能只对特定方法配 RBAC"
+    how: "对 application/grpc 试 GET/PUT/HEAD/OPTIONS,看是否有方法漏配"
+    signal: "某方法返回 200 而 POST 403"
+
+cross_layer_note: "Envoy 对 REST 严拦、gRPC 放行 本身就是逻辑漏洞(网关与后端信任边界不一致),即使最终需令牌,这个不一致也应作为 finding 记录"

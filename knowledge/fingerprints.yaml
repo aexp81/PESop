@@ -1,0 +1,108 @@
+# PESop 指纹库 —— 信号 → 产品身份 → 触发的 playbook
+#
+# 用途：AI 侦察时,把观测到的响应特征拿来这里匹配,得到:
+#   1. 这是什么(产品/框架/网关身份)
+#   2. 该加载哪个 playbook(knowledge/playbooks/<id>.yaml)去做针对性测试
+#
+# 这是 "指纹是攻击面切换触发器,不是记录字段" 的落地(见 L3 竹云IAM 教训)。
+# 识别出身份后必须立即加载对应 playbook,不加载 = 等于没识别出来。
+#
+# 只增不删。新目标暴露的新指纹,收尾时 append 到这里。
+# 每条 confidence: high/medium/low —— 单一信号一般只给 medium,多信号交叉才 high。
+
+fingerprints:
+
+  # ---------- 网关 / WAF 层 ----------
+  - id: istio-envoy
+    layer: gateway
+    signals:
+      - "响应头 server: istio-envoy"
+      - "响应体含 RBAC: access denied"
+    identity: "Envoy / Istio 服务网格网关"
+    confidence: medium
+    playbook: envoy-istio
+    note: "REST 全 403 时优先测 gRPC 协议穿透(见 playbook)"
+
+  - id: kong-gateway
+    layer: gateway
+    signals:
+      - "响应头 server: kong"
+      - "响应头含 X-Kong-*"
+    identity: "Kong API 网关"
+    confidence: high
+    playbook: kong-gateway
+
+  - id: aliyun-waf
+    layer: waf
+    signals:
+      - "cookie 含 acw_* (如 acw_tc)"
+    identity: "阿里云 WAF"
+    confidence: medium
+    playbook: null
+
+  - id: cloudflare
+    layer: waf
+    signals:
+      - "响应头 server: cloudflare"
+      - "响应头含 cf-ray / cf-cache-status"
+    identity: "Cloudflare WAF/CDN"
+    confidence: high
+    playbook: null
+
+  # ---------- 语言 / 框架层 ----------
+  - id: spring-boot
+    layer: framework
+    signals:
+      - "Whitelabel Error Page 错误页"
+      - '错误体 JSON 含 "timestamp"/"status"/"error"/"path" 五段结构'
+      - "响应头 X-Application-Context"
+    identity: "Spring Boot (Java)"
+    confidence: medium
+    playbook: spring-boot
+    note: "打开就是 Spring 报错页≠无攻击面,必走 playbook 的 actuator/路由探测"
+
+  - id: spring-security
+    layer: auth-framework
+    signals:
+      - "401 响应头 WWW-Authenticate 或跳转 /login"
+      - "cookie JSESSIONID + 表单登录页"
+    identity: "Spring Security (Java 鉴权)"
+    confidence: medium
+    playbook: spring-security
+
+  - id: shiro
+    layer: auth-framework
+    signals:
+      - "cookie 含 rememberMe (即使值为 deleteMe)"
+    identity: "Apache Shiro (Java 鉴权)"
+    confidence: high
+    playbook: shiro
+
+  - id: asp-net
+    layer: framework
+    signals:
+      - "响应头 X-AspNet-Version / X-AspNetMvc-Version / X-Powered-By: ASP.NET"
+    identity: "ASP.NET (.NET)"
+    confidence: high
+    playbook: null
+    note: "见 L3 repair.ryzerobotics 教训:优先找 /api/v1/ /guava/api/v1/ 路径"
+
+  # ---------- 身份 / SSO 层 ----------
+  - id: oauth-oidc
+    layer: identity
+    signals:
+      - "路径含 /oauth /sso /idp /iam /.well-known"
+      - "存在 /.well-known/openid-configuration 可访问"
+    identity: "OAuth2 / OIDC 身份体系(具体实现待进一步指纹)"
+    confidence: medium
+    playbook: oauth-sso
+    note: "必查标准端点区分具体实现(Keycloak/Dex/Hydra/Spring OAuth/竹云) 再查 CVE"
+
+  - id: zhuyun-iam
+    layer: identity
+    signals:
+      - "JS 版权声明含 竹云 / bamboocloud"
+      - "版本号形如 7.0.1.1-RELEASE"
+    identity: "竹云 IAM (商业 IAM 产品)"
+    confidence: high
+    playbook: zhuyun-iam

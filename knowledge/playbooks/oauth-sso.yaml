@@ -1,0 +1,51 @@
+# Playbook: OAuth2 / OIDC 身份体系(通用)
+# 触发: fingerprints.yaml -> oauth-oidc
+#
+# 核心认知:
+#   OAuth 测试不能只跑 redirect_uri/state/PKCE 几个协议检查。真正的高价值洞
+#   往往在"协议正确、但业务把某个字段当成错误的信任依据"。所以先建信任图,
+#   再验安全不变量,而不是套 payload 清单。
+
+playbook: oauth-sso
+identity: "OAuth2 / OIDC"
+
+# 第一步:先搞清具体实现,再查 CVE(不同实现漏洞完全不同)
+fingerprint_impl:
+  how: "对比标准端点响应,区分 Keycloak / Dex / ORY Hydra / Spring Security OAuth / 竹云等"
+  endpoints:
+    - /.well-known/openid-configuration
+    - /.well-known/oauth-authorization-server
+    - /oauth/token
+  note: "只识别'这是自建 SSO'不查具体实现 = 未完成"
+
+# 第二步:建信任图(谁签发token/谁校验/网关信任什么/后端信任什么)
+trust_map_questions:
+  - "授权码/PKCE/client_credentials 哪种流程?是否 OIDC?"
+  - "有几个 client_id? Web/移动/管理端是否共用 client?"
+  - "Access Token 是 JWT 还是 opaque? 谁签发、谁校验?"
+  - "token 里有哪些 iss/aud/azp/sub/scope/角色/租户声明?"
+  - "网关做了什么校验、后端又信任什么? 后端是否信任客户端可控的身份头?"
+
+# 第三步:验安全不变量(找违反证据,而非套 payload)
+invariants:
+  - id: redirect-uri-strict
+    check: "redirect_uri 是否精确匹配白名单(子路径/协议/子域/@/编码变体都试)"
+  - id: state-csrf
+    check: "state 是否生成、绑定会话、并验证(无 state 或不校验 = CSRF 登录劫持)"
+  - id: pkce-enforced
+    check: "PKCE 是否强制,能否降级绕过"
+  - id: code-binding
+    check: "授权码是否绑定 client+redirect_uri+会话+PKCE、单次使用、短有效期"
+  - id: token-audience
+    check: "签给 client A / API A 的 token,能否被 client B / API B 接受(aud/azp 校验)"
+    note: "这是最高频且易漏的 token 混用问题"
+  - id: token-signature
+    check: "iss/aud/exp/签名算法 是否严格校验; alg=none / RS256->HS256 是否可行"
+  - id: scope-enforced
+    check: "只读 scope 能否触发写操作"
+  - id: lifecycle
+    check: "改密/登出/禁用/降权后,旧 access/refresh token 是否仍有效; refresh 是否轮换、重放是否被发现"
+  - id: account-binding
+    check: "OAuth 身份如何映射本地账号(sub? 邮箱? 手机?);多 IdP 下账号是否可能被错误合并"
+
+cross_ref: "委托身份断言校验缺陷见 L2 HF-5;发现具体实现后查对应 playbook(如竹云->zhuyun-iam)"

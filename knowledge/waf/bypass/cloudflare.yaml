@@ -1,0 +1,29 @@
+# WAF 绕过手法: Cloudflare
+# 用途: engine/waf.py 识别到 cloudflare 后,发 payload 前按此包装/变形。
+# 只增不删,实战验证有效的新手法 reflow 回灌。
+
+waf: cloudflare
+
+techniques:
+  - id: origin-ip-direct
+    why: "找到源站真实IP直连,绕过CF边界"
+    how: "从历史DNS/证书透明日志/子域找源站IP,Host头指向目标直连源站IP"
+    note: "最彻底的绕过——不经过CF就没有WAF"
+
+  - id: payload-encoding
+    why: "CF 规则对编码变体覆盖不全"
+    how: "URL编码/双重编码/大小写混淆/注释插入/换行分割关键字"
+
+  - id: content-type-switch
+    why: "部分规则只对特定CT生效"
+    how: "改 Content-Type(json<->form<->multipart),或加 charset 参数"
+
+  - id: http-method-switch
+    why: "规则可能只覆盖常见方法"
+    how: "换 GET/POST/PUT,或用 X-HTTP-Method-Override"
+
+  - id: chunked-transfer
+    why: "分块传输可能绕过基于长度/整体匹配的规则"
+    how: "Transfer-Encoding: chunked 分块发送 payload"
+
+general_note: "以上均需实测验证是否绕过;绕过后仍要打真正的漏洞,WAF绕过只是前置工序"

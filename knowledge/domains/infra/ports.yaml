@@ -1,0 +1,54 @@
+# 域 infra · 端口→服务→漏洞类 映射
+#
+# 能力边界(b):纯 TCP 端口扫描能力待接入(受沙箱网络限制)。
+# 现阶段用法:
+#   1. 若外部已提供端口信息(nmap 结果/资产表),按此表判断每个端口对应服务与漏洞类,
+#      登记进 intel,能走 HTTP 的交给 middleware.yaml 打。
+#   2. reflow 可持续补充新端口→服务→漏洞类映射。
+#
+# 本文件是"知识映射表",不是探测器。探测器接入后读它做判定。
+
+playbook: infra-ports
+identity: "端口服务漏洞映射"
+
+# 端口 -> 常见服务 -> 漏洞类 -> 是否 HTTP 可达(决定现阶段能否直接打)
+port_map:
+  - port: 6379
+    service: Redis
+    vulns: [未授权访问, 写SSH key/计划任务RCE, 主从复制RCE]
+    http_reachable: false
+  - port: 9200
+    service: Elasticsearch
+    vulns: [未授权数据读取, CVE-2015-1427 Groovy RCE]
+    http_reachable: true
+    note: "9200 是 HTTP,可直接 GET /_cat/indices 试未授权"
+  - port: 27017
+    service: MongoDB
+    vulns: [未授权访问]
+    http_reachable: false
+  - port: 11211
+    service: Memcached
+    vulns: [未授权访问, 反射放大]
+    http_reachable: false
+  - port: 2375
+    service: Docker API
+    vulns: [未授权 API -> 容器逃逸/宿主RCE]
+    http_reachable: true
+  - port: 8080
+    service: 常见应用/Tomcat/Jenkins
+    vulns: [弱口令, 管理台暴露]
+    http_reachable: true
+  - port: 5601
+    service: Kibana
+    vulns: [未授权, 原型链污染RCE CVE-2019-7609]
+    http_reachable: true
+  - port: 8848
+    service: Nacos
+    vulns: [未授权API, 默认口令]
+    http_reachable: true
+  - port: 2181
+    service: Zookeeper
+    vulns: [未授权访问]
+    http_reachable: false
+
+usage_note: "http_reachable=true 的端口 -> 交 middleware.yaml 用 http_client 直接打;false 的 -> 登记 intel,待 TCP 探测能力接入"

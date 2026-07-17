@@ -43,7 +43,11 @@ _ENGINE_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.dirname(_ENGINE_DIR)
 KNOW_DIR = os.path.join(_PROJECT_ROOT, "knowledge")
 FINGERPRINTS = os.path.join(KNOW_DIR, "fingerprints.yaml")
-PLAYBOOK_DIR = os.path.join(KNOW_DIR, "playbooks")
+DOMAINS_DIR = os.path.join(KNOW_DIR, "domains")          # 三域 playbook 根
+WAF_FP = os.path.join(KNOW_DIR, "waf", "fingerprints.yaml")
+WAF_BYPASS_DIR = os.path.join(KNOW_DIR, "waf", "bypass")
+PAYLOADS_DIR = os.path.join(KNOW_DIR, "payloads")
+VALID_TAGS = ["infra", "framework", "application"]
 RUNS_ROOT = os.path.join(_PROJECT_ROOT, "runs")
 
 
@@ -57,29 +61,38 @@ def _require_yaml():
         sys.exit(2)
 
 
-def add_fingerprint(fid, layer, signals, identity, confidence, playbook, note=""):
+def add_fingerprint(fid, tag, signals, identity, confidence, playbook=None, note=""):
     yaml = _require_yaml()
+    if tag not in VALID_TAGS:
+        return {"ok": False, "reason": f"tag 必须是 {VALID_TAGS} 之一,收到 '{tag}'"}
     with open(FINGERPRINTS, encoding="utf-8") as f:
         data = yaml.safe_load(f)
     fps = data.setdefault("fingerprints", [])
     if any(x.get("id") == fid for x in fps):
         return {"ok": False, "reason": f"指纹 id '{fid}' 已存在,跳过(只增不删,不覆盖)"}
+    # playbook 未指定时按 tag 自动生成域内路径
+    if not playbook:
+        playbook = f"domains/{tag}/{fid}.yaml"
     entry = {
-        "id": fid, "layer": layer, "signals": signals,
+        "id": fid, "tag": tag, "signals": signals,
         "identity": identity, "confidence": confidence, "playbook": playbook,
     }
     if note:
         entry["note"] = note
     fps.append(entry)
     with open(FINGERPRINTS, "w", encoding="utf-8") as f:
-        f.write("# PESop 指纹库 —— 信号 -> 产品身份 -> 触发的 playbook（自动回灌维护,只增不删）\n\n")
+        f.write("# PESop 指纹库 —— 信号->身份->tag(打法域)+playbook（自动回灌维护,只增不删）\n\n")
         yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
     return {"ok": True, "added": entry}
 
 
-def add_check(playbook_id, check_id, why, how, signal, escalate="", endpoints=None):
+def add_check(tag, playbook_id, check_id, why, how, signal, escalate="", endpoints=None):
     yaml = _require_yaml()
-    path = os.path.join(PLAYBOOK_DIR, f"{playbook_id}.yaml")
+    if tag not in VALID_TAGS:
+        return {"ok": False, "reason": f"tag 必须是 {VALID_TAGS} 之一"}
+    domain_dir = os.path.join(DOMAINS_DIR, tag)
+    os.makedirs(domain_dir, exist_ok=True)
+    path = os.path.join(domain_dir, f"{playbook_id}.yaml")
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             data = yaml.safe_load(f) or {}
@@ -87,18 +100,79 @@ def add_check(playbook_id, check_id, why, how, signal, escalate="", endpoints=No
         data = {"playbook": playbook_id, "identity": playbook_id, "checks": []}
     checks = data.setdefault("checks", [])
     if any(c.get("id") == check_id for c in checks):
-        return {"ok": False, "reason": f"check id '{check_id}' 在 {playbook_id} 已存在,跳过"}
+        return {"ok": False, "reason": f"check id '{check_id}' 在 {tag}/{playbook_id} 已存在,跳过"}
     entry = {"id": check_id, "why": why, "how": how, "signal": signal}
     if endpoints:
         entry["endpoints"] = endpoints
     if escalate:
         entry["escalate"] = escalate
-    checks.append(entry)
     newfile = not os.path.exists(path)
+    checks.append(entry)
     with open(path, "w", encoding="utf-8") as f:
-        f.write(f"# Playbook: {data.get('identity', playbook_id)}（自动回灌维护,只增不删）\n\n")
+        f.write(f"# Playbook: {data.get('identity', playbook_id)} (tag={tag})（自动回灌维护,只增不删）\n\n")
         yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
     return {"ok": True, "added": entry, "new_playbook": newfile, "path": path}
+
+
+def add_waf(waf_id, signals=None, bypass_technique=None):
+    """回灌 WAF 指纹 和/或 绕过手法。"""
+    yaml = _require_yaml()
+    result = {"ok": True, "waf": waf_id, "actions": []}
+    # 1. 指纹
+    if signals:
+        with open(WAF_FP, encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {"wafs": []}
+        wafs = data.setdefault("wafs", [])
+        if any(w.get("id") == waf_id for w in wafs):
+            result["actions"].append(f"WAF指纹 '{waf_id}' 已存在,跳过")
+        else:
+            wafs.append({"id": waf_id, "signals": signals, "bypass": waf_id})
+            with open(WAF_FP, "w", encoding="utf-8") as f:
+                f.write("# WAF 识别指纹库（自动回灌维护,只增不删）\n\n")
+                yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False)
+            result["actions"].append(f"新增 WAF 指纹 '{waf_id}'")
+    # 2. 绕过手法
+    if bypass_technique:
+        os.makedirs(WAF_BYPASS_DIR, exist_ok=True)
+        bpath = os.path.join(WAF_BYPASS_DIR, f"{waf_id}.yaml")
+        if os.path.exists(bpath):
+            bdata = yaml.safe_load(open(bpath, encoding="utf-8")) or {}
+        else:
+            bdata = {"waf": waf_id, "techniques": []}
+        techs = bdata.setdefault("techniques", [])
+        tid = bypass_technique.get("id")
+        if any(t.get("id") == tid for t in techs):
+            result["actions"].append(f"绕过手法 '{tid}' 已存在,跳过")
+        else:
+            techs.append(bypass_technique)
+            with open(bpath, "w", encoding="utf-8") as f:
+                f.write(f"# WAF 绕过手法: {waf_id}（自动回灌维护,只增不删）\n\n")
+                yaml.safe_dump(bdata, f, allow_unicode=True, sort_keys=False)
+            result["actions"].append(f"新增绕过手法 '{tid}'")
+    if not result["actions"]:
+        result = {"ok": False, "reason": "需提供 --signal 或 --bypass-id/--bypass-how"}
+    return result
+
+
+def add_payload(group, payload, why=""):
+    """回灌绕过 payload 到 knowledge/payloads/auth-bypass.yaml 的指定组。"""
+    yaml = _require_yaml()
+    path = os.path.join(PAYLOADS_DIR, "auth-bypass.yaml")
+    if os.path.exists(path):
+        data = yaml.safe_load(open(path, encoding="utf-8")) or {}
+    else:
+        data = {"by_framework": {}}
+    bf = data.setdefault("by_framework", {})
+    grp = bf.setdefault(group, {"why": why, "payloads": []})
+    if isinstance(grp, dict):
+        pls = grp.setdefault("payloads", [])
+        if payload in pls:
+            return {"ok": True, "skipped": "payload 已存在,去重", "group": group}
+        pls.append(payload)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("# 鉴权绕过 payload 库（自动回灌维护,只增不删）\n\n")
+        yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False)
+    return {"ok": True, "added": payload, "group": group}
 
 
 def suggest(target):
@@ -121,20 +195,21 @@ def suggest(target):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="PESop 自动回灌(只增不删)")
+    ap = argparse.ArgumentParser(description="PESop 分层自动回灌(只增不删)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    fp = sub.add_parser("fingerprint", help="回灌新指纹到 fingerprints.yaml")
+    fp = sub.add_parser("fingerprint", help="回灌新指纹(带 tag 分域)")
     fp.add_argument("--id", required=True)
-    fp.add_argument("--layer", required=True)
+    fp.add_argument("--tag", required=True, choices=VALID_TAGS, help="打法域:infra/framework/application")
     fp.add_argument("--signal", action="append", default=[], required=True, help="可多次")
     fp.add_argument("--identity", required=True)
     fp.add_argument("--confidence", default="medium", choices=["high", "medium", "low"])
-    fp.add_argument("--playbook", default=None)
+    fp.add_argument("--playbook", default=None, help="不填按 tag 自动生成 domains/<tag>/<id>.yaml")
     fp.add_argument("--note", default="")
 
-    ck = sub.add_parser("check", help="回灌新 check 到 playbook")
-    ck.add_argument("--playbook", required=True)
+    ck = sub.add_parser("check", help="回灌新 check 到 domains/<tag>/ 下 playbook")
+    ck.add_argument("--tag", required=True, choices=VALID_TAGS)
+    ck.add_argument("--playbook", required=True, help="playbook 文件名(不含.yaml)")
     ck.add_argument("--check-id", required=True)
     ck.add_argument("--why", required=True)
     ck.add_argument("--how", required=True)
@@ -142,16 +217,35 @@ def main():
     ck.add_argument("--escalate", default="")
     ck.add_argument("--endpoint", action="append", default=[], help="可多次")
 
+    wf = sub.add_parser("waf", help="回灌 WAF 指纹和/或绕过手法")
+    wf.add_argument("--id", required=True, help="WAF id")
+    wf.add_argument("--signal", action="append", default=[], help="WAF识别信号,可多次")
+    wf.add_argument("--bypass-id", default=None, help="绕过手法 id")
+    wf.add_argument("--bypass-why", default="")
+    wf.add_argument("--bypass-how", default="")
+
+    pl = sub.add_parser("payload", help="回灌绕过 payload 到指定组")
+    pl.add_argument("--group", required=True, help="组名(如 shiro/spring-security/jwt/generic)")
+    pl.add_argument("--payload", required=True)
+    pl.add_argument("--why", default="")
+
     sg = sub.add_parser("suggest", help="从 run 产物提示可回灌线索")
     sg.add_argument("--target", required=True)
 
     args = ap.parse_args()
     if args.cmd == "fingerprint":
-        r = add_fingerprint(args.id, args.layer, args.signal, args.identity,
+        r = add_fingerprint(args.id, args.tag, args.signal, args.identity,
                             args.confidence, args.playbook, args.note)
     elif args.cmd == "check":
-        r = add_check(args.playbook, args.check_id, args.why, args.how,
+        r = add_check(args.tag, args.playbook, args.check_id, args.why, args.how,
                       args.signal, args.escalate, args.endpoint or None)
+    elif args.cmd == "waf":
+        bypass = None
+        if args.bypass_id:
+            bypass = {"id": args.bypass_id, "why": args.bypass_why, "how": args.bypass_how}
+        r = add_waf(args.id, args.signal or None, bypass)
+    elif args.cmd == "payload":
+        r = add_payload(args.group, args.payload, args.why)
     else:
         r = suggest(args.target)
     print(json.dumps(r, ensure_ascii=False, indent=2))

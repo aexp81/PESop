@@ -1,0 +1,41 @@
+# WAF 识别指纹库（横切维度三）
+#
+# WAF 不是攻击域,是"调节器":识别出有 WAF + 什么 WAF 后,所有域发 payload 前
+# 先经 engine/waf.py 按对应绕过手法包装。无 WAF 则直接上常规 payload。
+#
+# 只增不删,reflow 可持续补充新 WAF 指纹。
+
+wafs:
+  - id: cloudflare
+    signals:
+      - "server: cloudflare"
+      - "cf-ray"
+      - "cf-cache-status"
+      - "__cf_bm cookie"
+    bypass: cloudflare
+
+  - id: aliyun
+    signals:
+      - "acw_tc cookie"
+      - "acw_sc__ cookie"
+      - "server: tengine + 拦截页特征"
+    bypass: aliyun
+
+  - id: modsecurity
+    signals:
+      - "server: 含 mod_security / NOYB"
+      - "返回 406 Not Acceptable + 拦截页"
+      - "OWASP CRS 拦截特征"
+    bypass: modsecurity
+
+  - id: aws-waf
+    signals:
+      - "x-amzn-requestid + 403 拦截"
+      - "server: awselb + 特定拦截体"
+    bypass: null
+
+  - id: f5-bigip
+    signals:
+      - "BIGipServer cookie"
+      - "x-waf-event / TS cookie"
+    bypass: null

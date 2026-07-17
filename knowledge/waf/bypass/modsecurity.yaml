@@ -1,0 +1,18 @@
+# WAF 绕过手法: ModSecurity (OWASP CRS)
+waf: modsecurity
+
+techniques:
+  - id: crs-paranoia-gaps
+    why: "CRS 规则在低 paranoia level 有已知覆盖缺口"
+    how: "关键字大小写混淆、内联注释 /*!*/、等价函数替换"
+  - id: encoding-variants
+    why: "编码变体绕过正则"
+    how: "URL/HTML实体/Unicode编码,超长参数触发规则跳过"
+  - id: content-type-switch
+    why: "CRS 对非常规 CT 处理不一致"
+    how: "改 Content-Type,body 换 JSON/XML 结构"
+  - id: json-nesting
+    why: "深层嵌套JSON可能绕过body检测"
+    how: "把 payload 藏进深层嵌套/数组"
+
+general_note: "需实测验证;绕过后再打真正漏洞"

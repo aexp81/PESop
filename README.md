@@ -1,41 +1,41 @@
 # 人机协作渗透测试 SOP + 全自动执行工程
 
 > 长期迭代资产。仅用于授权范围内的安全评估。
-> 版本 v4.0 · 工程化重构：从「粘贴长 prompt 靠人审计」升级为
-> 「证据驱动 + 按需调取知识 + 越用越强」的可执行工程。
+> 版本 v5.0 · 三维架构：三打法域 + 情报库/WAF 两横切 + Q1-Q5 三档内核。
 
-## v4.0 做了什么（为什么改）
+## v5.0 架构（三维 + 贯穿内核）
 
-老版本是纯文档 SOP（L1/L2/L3），假设"人读 L1 建立判断力 + 人当导演逐条审计"。
-实际用法是"把项目 down 下来、给个网址、让 AI 全自动跑",于是:
-- 人不在回路 → 追问扳手/完成度自检退化成 **AI 自问自答、自己盖章**（谎报治不住）。
-- 沉淀是散文 → AI 每次要通读全部,**沉淀越多越拖累**,与"越用越强"相反。
+在 v4.0「证据驱动 + 按需调取 + 越用越强」基础上,把测试组织成**三个正交维度**:
 
-v4.0 针对性重构为工程,核心三招:
-
-1. **证据驱动**:所有发包走 `engine/http_client.py`,自动落盘 raw 请求/响应;
-   `engine/evidence.py` 强制"确认漏洞"必须挂真实 `evidence_id`,否则降级。
-   谎报（F2）从"靠自觉"变成"物理做不到"。
-2. **按需调取知识**:`engine/recon.py` 自动发探测包→匹配 `knowledge/` 指纹库→
-   告知该加载哪个 playbook;`engine/js_harvester.py` 全量挖 JS 接口/密钥。
-   AI 识别到什么才读什么,沉淀增长的是可精准检索的条目,**不是要通读的长文**。
-3. **越用越强 + 深度优先**:`engine/reflow.py` 把新指纹/新手法自动回灌进 knowledge
-   (只增不删,下次 recon 即可识别,飞轮闭环);`AGENT.md` 取代"粘 L2",强制显式
-   Q1-Q5 推理 + 火力集中 P0,让人从"AI 的执行思路和产出"就能一眼审出问题。
+- **维度一·三打法域(tag)**:按攻击面所处技术栈位置分诊,每域独立探测/漏洞/知识/打法
+  - `infra` 基础设施:端口/中间件未授权(反射档,确定性)
+  - `framework` 框架组件:框架/组件确定性攻击链(反射档,给全弹药——SpEL/Spring4Shell/log4j2/FastJSON/Actuator→Nacos→DB…)
+  - `application` 应用业务:接口/业务(建模档,发散,只给判据——未授权→绕过→FUZZ→越权/业务不变量)
+- **维度二·情报库 intel**:侦察不是"阶段"而是持续累积、所有域共享读写的情报。
+  一个域的产出(密钥/内网IP/session)写回 intel 成为另一域输入——**漏洞穿成链**。
+- **维度三·WAF 调节器**:横切。识别有无 WAF+什么 WAF→有则发 payload 前先取绕过手法;无则常规打。
+- **贯穿内核·Q1-Q5 三档**:反射档(infra/framework,指纹已定直接展开攻击链,不写作文)/
+  建模档(application,必须显式写 Q1-Q5 发散)/纠偏档(遇意外信号抢占修正模型)。
+  **核心原则:建模投入与不确定性成正比——确定性高的域少建模多打,低的域重建模。**
 
 ## 目录结构
 
 | 路径 | 作用 | 谁读 |
 | --- | --- | --- |
-| `AGENT.md` | **AI 唯一入口**:全自动执行契约(铁律/SOP loop/engine用法/回灌) | AI 每次读 |
+| `AGENT.md` | **AI 唯一入口**:三维架构执行契约(铁律/三档内核/SOP loop/分层回灌) | AI 每次读 |
 | `engine/http_client.py` | 统一发包+自动存证(curl 优先,python 兜底) | AI 调用 |
 | `engine/evidence.py` | 结构化证据台账(无真实证据不许 confirmed) | AI 调用 |
-| `engine/recon.py` | 指纹识别:发探测包→匹配指纹库→告知该加载哪个 playbook | AI 调用 |
-| `engine/js_harvester.py` | JS 全量拉取+接口/密钥/路由提取(对应 HF-2) | AI 调用 |
-| `engine/reflow.py` | 自动回灌:把新指纹/新手法 append 进 knowledge(只增不删+去重) | AI 调用 |
-| `knowledge/fingerprints.yaml` | 指纹信号 → 产品身份 → 触发哪个 playbook | AI 按需读 |
-| `knowledge/playbooks/*.yaml` | 按身份的攻击手册(spring-boot/security/shiro/envoy/kong/oauth/竹云) | AI 命中才读 |
-| `runs/<target>/` | 每次测试产物:证据/发现台账/报告(不进版本库) | AI 写,人看 |
+| `engine/recon.py` | 指纹识别→按 tag 分诊到三域 + 写 intel | AI 调用 |
+| `engine/intel.py` | 情报库:共享供料 + 跨域产物流动(漏洞穿成链) | AI 调用 |
+| `engine/waf.py` | WAF 横切调节器:识别 + 给绕过手法 | AI 调用 |
+| `engine/js_harvester.py` | (application域)JS 全量拉取+接口/密钥提取 | AI 调用 |
+| `engine/reflow.py` | 分层回灌:新指纹/链/WAF/payload 各归其位(只增不删+去重) | AI 调用 |
+| `knowledge/fingerprints.yaml` | 指纹→身份→tag(分诊域)+playbook | AI 按需读 |
+| `knowledge/domains/{infra,framework,application}/` | 三域 playbook(framework 含确定性攻击链 chains) | AI 命中才读 |
+| `knowledge/waf/` | WAF 识别指纹 + 各 WAF 绕过手法 | AI 命中才读 |
+| `knowledge/payloads/` | 鉴权绕过 payload 库(按框架身份分组) | AI 按需读 |
+| `knowledge/wordlists/` | TOP 路径字典(FUZZ 兜底) | AI 按需读 |
+| `runs/<target>/` | 每次产物:证据/intel情报/发现台账/报告(不进版本库) | AI 写,人看 |
 | `L1-methodology.md` | 方法论事实源(为什么这么做),F1-F5/四准则的推导 | 人(审计时) |
 | `L2-ai-prompt.md` | 老执行清单,现作 HF-1~7 细则参考,被 AGENT.md 引用 | 人/AI 查阅 |
 | `L3-knowledge.md` | 历史经验散文库,新知识优先结构化进 knowledge/ | 人 |
@@ -82,6 +82,7 @@ v4.0 针对性重构为工程,核心三招:
 | v4.0-1 | 2026-07-17 | **工程化重构·第一阶段(证据驱动地基)**:清理所有一次性目标产物;新增 engine/http_client(curl优先+python兜底,发包自动存证)、engine/evidence(无真实证据不许confirmed);新增 knowledge/ 指纹库+4样板playbook;新增 AGENT.md 作为AI全自动执行唯一入口,取代"粘贴L2";L1/L2/L3 保留为人读方法论事实源 |
 | v4.0-2 | 2026-07-17 | **第二阶段(能力补全)**:engine/recon(指纹识别→自动指向该加载的playbook,pyyaml优先内置解析兜底)、engine/js_harvester(JS全量拉取+接口/密钥/路由提取);回填 shiro/spring-security/kong-gateway,指纹引用零悬空(10指纹/7playbook) |
 | v4.0-3 | 2026-07-17 | **第三阶段(复利飞轮)**:engine/reflow(自动回灌新指纹/新check进knowledge,只增不删+去重+格式统一);闭环验证——回灌新指纹后 recon 可自动识别;AGENT.md/README 纳入 recon/js_harvester/reflow |
+| v5.0 | 2026-07-17 | **三维架构重构**:knowledge 按三打法域(infra/framework/application)重组,指纹加 tag 分诊字段;framework 域 playbook 补确定性攻击链 chains(SpEL/Spring4Shell/log4j2/FastJSON/Actuator→Nacos→DB);新增 engine/intel(情报库,共享供料+跨域产物流动,漏洞穿成链)、engine/waf(WAF横切:识别+绕过手法);新增 knowledge/waf、payloads、wordlists 资产;recon 改为按 tag 分诊到三域并写 intel;reflow 扩展为分层回灌(fingerprint/check/waf/payload);AGENT.md 重写为三维架构+Q1-Q5三档内核(反射档/建模档/纠偏档,建模投入与不确定性成正比) |
 
 ## 一句话
 

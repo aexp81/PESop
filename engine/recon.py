@@ -119,15 +119,16 @@ def _collect_features(target, probe_paths):
 # 从 signal 自然语言里抽出真正要匹配的关键 token(去掉"响应头""含"等描述词)
 _SIGNAL_KEYWORDS = {
     "istio-envoy": ["istio-envoy"],
-    "kong": ["x-kong", "server: kong"],
-    "aliyun-waf": ["acw_tc", "acw_"],
-    "cloudflare": ["cloudflare", "cf-ray"],
+    "kong-gateway": ["x-kong", "server: kong"],
     "spring-boot": ["whitelabel error page", '"timestamp"', "x-application-context"],
     "spring-security": ["www-authenticate", "jsessionid"],
     "shiro": ["remembeme", "rememberme", "deleteme"],
     "asp-net": ["x-aspnet-version", "x-aspnetmvc-version", "asp.net"],
     "oauth-oidc": ["/oauth", "/sso", "openid-configuration", ".well-known"],
     "zhuyun-iam": ["bamboocloud", "竹云"],
+    "druid-console": ["druid", "druidstatview"],
+    "nacos": ["nacos"],
+    # 注:WAF 类指纹(cloudflare/aliyun)已移至 knowledge/waf/,由 engine/waf.py 处理
 }
 
 
@@ -165,6 +166,7 @@ def match_fingerprints(features, fingerprints):
             hits.append({
                 "id": fid,
                 "identity": fp.get("identity"),
+                "tag": fp.get("tag"),
                 "layer": fp.get("layer"),
                 "confidence": fp.get("confidence"),
                 "playbook": fp.get("playbook"),
@@ -174,28 +176,63 @@ def match_fingerprints(features, fingerprints):
     return hits
 
 
-def recon(target, probe_paths=None):
+def recon(target, probe_paths=None, write_intel=True):
     probe_paths = probe_paths or ["/", "/api", "/actuator", "/login", "/.well-known/openid-configuration"]
     fingerprints = load_fingerprints()
     features, evidence_ids = _collect_features(target, probe_paths)
     hits = match_fingerprints(features, fingerprints)
 
-    playbooks_to_load = sorted({h["playbook"] for h in hits if h.get("playbook")})
-    if playbooks_to_load:
-        next_action = f"加载 playbook: {', '.join(playbooks_to_load)}"
+    # 按 tag(打法域)分诊:每个域收集各自命中的指纹和 playbook
+    TAGS = ["infra", "framework", "application"]
+    dispatch = {t: [h for h in hits if h.get("tag") == t] for t in TAGS}
+    untagged = [h for h in hits if h.get("tag") not in TAGS]
+
+    # 写入情报库(维度二:供后续所有域共享)
+    if write_intel:
+        try:
+            import intel as _intel
+            for h in hits:
+                _intel.add(target, "fingerprints", {
+                    "id": h["id"], "identity": h["identity"], "tag": h.get("tag"),
+                    "confidence": h.get("confidence"), "evidence_id": h.get("evidence_id"),
+                }, dedup_key="id")
+        except Exception as e:
+            untagged.append({"intel_write_error": str(e)})
+
+    # 生成分域行动建议(反射档 vs 建模档)
+    domain_actions = {}
+    for t in TAGS:
+        if not dispatch[t]:
+            continue
+        pbs = sorted({h["playbook"] for h in dispatch[t] if h.get("playbook")})
+        if t in ("infra", "framework"):
+            mode = "反射档:指纹已定,直接展开确定性攻击链/未授权,不必逐条写Q1-Q5"
+        else:
+            mode = "建模档:必须先写Q1-Q5+开发者共情,再发散测试"
+        domain_actions[t] = {
+            "hits": [h["id"] for h in dispatch[t]],
+            "playbooks": pbs,
+            "mode": mode,
+        }
+
+    if domain_actions:
+        order = [t for t in ["framework", "infra", "application"] if t in domain_actions]
+        next_action = (f"按域调度(优先级 framework/infra 反射档先打 → application 建模档): "
+                       f"{' , '.join(order)}")
     elif hits:
-        ids = ", ".join(h["id"] for h in hits)
-        next_action = (f"命中指纹 [{ids}] 但暂无对应 playbook -> 走 Q1-Q5 手工建模,"
-                       f"并考虑为其补建 knowledge/playbooks/")
+        next_action = (f"命中指纹但无 tag/playbook: {[h['id'] for h in hits]} "
+                       f"-> 走 Q1-Q5 手工建模并补建知识")
     else:
-        next_action = "无已知指纹命中 -> 走 Q1-Q5 手工建模,并把新指纹信号收尾回灌 fingerprints.yaml"
+        next_action = "无已知指纹命中 -> 走 Q1-Q5 手工建模,并把新指纹信号收尾 reflow 回灌"
+
     return {
         "target": target,
         "probed_paths": probe_paths,
         "evidence_ids": evidence_ids,
         "status_by_path": {f[0]: f[2] for f in features},
         "fingerprint_hits": hits,
-        "playbooks_to_load": playbooks_to_load,
+        "dispatch_by_tag": domain_actions,
+        "untagged_hits": untagged,
         "next_action": next_action,
     }
 

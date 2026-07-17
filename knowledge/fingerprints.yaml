@@ -1,85 +1,78 @@
-# PESop 指纹库 —— 信号 → 产品身份 → 触发的 playbook
+# PESop 指纹库 —— 信号 → 产品身份 → 打法域 + playbook
 #
-# 用途：AI 侦察时,把观测到的响应特征拿来这里匹配,得到:
-#   1. 这是什么(产品/框架/网关身份)
-#   2. 该加载哪个 playbook(knowledge/playbooks/<id>.yaml)去做针对性测试
+# 用途：AI 侦察时把观测特征拿来匹配,得到:
+#   1. identity: 这是什么(产品/框架/组件身份)
+#   2. tag:       归哪个打法域(infra/framework/application) —— 分诊路由标签,决定用哪套打法
+#   3. playbook: 该加载哪个 domains/<tag>/<id>.yaml
 #
-# 这是 "指纹是攻击面切换触发器,不是记录字段" 的落地(见 L3 竹云IAM 教训)。
-# 识别出身份后必须立即加载对应 playbook,不加载 = 等于没识别出来。
+# 三个打法域(tag 字段):
+#   infra        基础设施域:端口/服务/中间件未授权(反射档,确定性攻击)
+#   framework    框架组件域:语言框架/鉴权框架/组件(反射档,确定性攻击链,给全弹药)
+#   application  应用业务域:身份/接口/业务(建模档,发散,只给判据)
 #
-# 只增不删。新目标暴露的新指纹,收尾时 append 到这里。
-# 每条 confidence: high/medium/low —— 单一信号一般只给 medium,多信号交叉才 high。
+# 注:WAF 是横切"调节器",不是攻击域,其指纹在 knowledge/waf/fingerprints.yaml。
+#
+# 只增不删。新指纹收尾时 reflow 回灌。confidence: high/medium/low(单信号给medium,多信号交叉high)。
 
 fingerprints:
 
-  # ---------- 网关 / WAF 层 ----------
-  - id: istio-envoy
-    layer: gateway
-    signals:
-      - "响应头 server: istio-envoy"
-      - "响应体含 RBAC: access denied"
-    identity: "Envoy / Istio 服务网格网关"
-    confidence: medium
-    playbook: envoy-istio
-    note: "REST 全 403 时优先测 gRPC 协议穿透(见 playbook)"
-
-  - id: kong-gateway
-    layer: gateway
-    signals:
-      - "响应头 server: kong"
-      - "响应头含 X-Kong-*"
-    identity: "Kong API 网关"
-    confidence: high
-    playbook: kong-gateway
-
-  - id: aliyun-waf
-    layer: waf
-    signals:
-      - "cookie 含 acw_* (如 acw_tc)"
-    identity: "阿里云 WAF"
-    confidence: medium
-    playbook: null
-
-  - id: cloudflare
-    layer: waf
-    signals:
-      - "响应头 server: cloudflare"
-      - "响应头含 cf-ray / cf-cache-status"
-    identity: "Cloudflare WAF/CDN"
-    confidence: high
-    playbook: null
-
-  # ---------- 语言 / 框架层 ----------
+  # ========== 域 framework（框架组件,反射档,确定性攻击链）==========
   - id: spring-boot
-    layer: framework
+    tag: framework
+    layer: language-framework
     signals:
       - "Whitelabel Error Page 错误页"
       - '错误体 JSON 含 "timestamp"/"status"/"error"/"path" 五段结构'
       - "响应头 X-Application-Context"
+      - "favicon icon hash 命中 Spring 默认"
     identity: "Spring Boot (Java)"
     confidence: medium
-    playbook: spring-boot
-    note: "打开就是 Spring 报错页≠无攻击面,必走 playbook 的 actuator/路由探测"
+    playbook: domains/framework/spring-boot.yaml
+    note: "打开就是 Spring 报错页≠无攻击面;命中后展开确定性攻击链(SpEL/Spring4Shell/log4j2/FastJSON/Actuator链)"
 
   - id: spring-security
+    tag: framework
     layer: auth-framework
     signals:
       - "401 响应头 WWW-Authenticate 或跳转 /login"
       - "cookie JSESSIONID + 表单登录页"
     identity: "Spring Security (Java 鉴权)"
     confidence: medium
-    playbook: spring-security
+    playbook: domains/framework/spring-security.yaml
 
   - id: shiro
+    tag: framework
     layer: auth-framework
     signals:
       - "cookie 含 rememberMe (即使值为 deleteMe)"
     identity: "Apache Shiro (Java 鉴权)"
     confidence: high
-    playbook: shiro
+    playbook: domains/framework/shiro.yaml
+
+  - id: istio-envoy
+    tag: framework
+    layer: gateway
+    signals:
+      - "响应头 server: istio-envoy"
+      - "响应体含 RBAC: access denied"
+    identity: "Envoy / Istio 服务网格网关"
+    confidence: medium
+    playbook: domains/framework/envoy-istio.yaml
+    note: "REST 全 403 时优先测 gRPC 协议穿透"
+
+  - id: kong-gateway
+    tag: framework
+    layer: gateway
+    signals:
+      - "响应头 server: kong"
+      - "响应头含 X-Kong-*"
+    identity: "Kong API 网关"
+    confidence: high
+    playbook: domains/framework/kong-gateway.yaml
 
   - id: asp-net
-    layer: framework
+    tag: framework
+    layer: language-framework
     signals:
       - "响应头 X-AspNet-Version / X-AspNetMvc-Version / X-Powered-By: ASP.NET"
     identity: "ASP.NET (.NET)"
@@ -87,22 +80,47 @@ fingerprints:
     playbook: null
     note: "见 L3 repair.ryzerobotics 教训:优先找 /api/v1/ /guava/api/v1/ 路径"
 
-  # ---------- 身份 / SSO 层 ----------
+  # ========== 域 app（应用业务,建模档,发散,只给判据）==========
   - id: oauth-oidc
+    tag: application
     layer: identity
     signals:
       - "路径含 /oauth /sso /idp /iam /.well-known"
       - "存在 /.well-known/openid-configuration 可访问"
     identity: "OAuth2 / OIDC 身份体系(具体实现待进一步指纹)"
     confidence: medium
-    playbook: oauth-sso
+    playbook: domains/application/oauth-sso.yaml
     note: "必查标准端点区分具体实现(Keycloak/Dex/Hydra/Spring OAuth/竹云) 再查 CVE"
 
   - id: zhuyun-iam
+    tag: application
     layer: identity
     signals:
       - "JS 版权声明含 竹云 / bamboocloud"
       - "版本号形如 7.0.1.1-RELEASE"
     identity: "竹云 IAM (商业 IAM 产品)"
     confidence: high
-    playbook: zhuyun-iam
+    playbook: domains/application/zhuyun-iam.yaml
+
+  # ========== 域 infra（基础设施,反射档;探测先覆盖 HTTP 类中间件）==========
+  - id: druid-console
+    tag: infra
+    layer: middleware
+    signals:
+      - "路径 /druid/index.html 可访问"
+      - "响应含 Druid Stat / DruidStatView"
+    identity: "Alibaba Druid 监控台"
+    confidence: high
+    playbook: domains/infra/middleware.yaml
+    note: "未授权可获取 session/SQL监控 → 登录后台"
+
+  - id: nacos
+    tag: infra
+    layer: middleware
+    signals:
+      - "路径 /nacos/ 可访问"
+      - "响应含 Nacos"
+    identity: "Alibaba Nacos 注册/配置中心"
+    confidence: high
+    playbook: domains/infra/middleware.yaml
+    note: "默认口令/未授权 API → 接管配置 → 拿 DB/改配置(常由 Actuator 链引出)"

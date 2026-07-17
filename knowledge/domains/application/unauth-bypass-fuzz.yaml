@@ -1,0 +1,36 @@
+# 域 app · 未授权 → 权限绕过 → FUZZ（建模档,发散,只给判据不给案例）
+# 触发: 进入应用业务域,已由 js_harvester 挖出接口清单
+#
+# 这是你说的第2段流程的判据化。只给"该在哪警觉/该怎么推进"的判据,
+# 不给具体 payload 清单(具体 payload 在 knowledge/payloads/,且要结合业务发散)。
+#
+# 流程是递进的:未授权 → (无则)绕过 → (绕过缺参则)FUZZ,每步推到终态。
+
+playbook: app-unauth-bypass-fuzz
+identity: "应用接口:未授权/越权/绕过/FUZZ"
+
+flow:
+  - step: 1-未授权检测
+    judgment: "对每个接口去 token/session 直接调,判断是否本就无需鉴权"
+    to_terminal: "有未授权 → 记 finding(带证据);无 → 进第2步"
+
+  - step: 2-权限绕过
+    judgment: |
+      不是简单绕过。必须结合两个来源:
+      (a) 框架身份驱动:读 intel 里识别出的鉴权框架(Shiro/Spring Security),
+          去 domains/framework 对应 playbook 查该框架已知绕过模式;
+      (b) 积累的绕过 payload:knowledge/payloads/auth-bypass.yaml(XFF/路径/CT/方法/调试头)。
+      有 WAF 时,payload 先经 engine/waf.py 包装绕过。
+    to_terminal: "绕过成功 → 若接口报错缺参 → 进第3步;绕过失败 → 换维度(路径/方法/CT/协议)"
+
+  - step: 3-参数/接口FUZZ（合理范围内的发散）
+    judgment: |
+      发散必须由业务建模约束,不是无脑跑字典:
+      - 先建模:这是什么系统?若我是开发者,这个接口会设计哪些参数/兄弟接口?
+      - 由系统类型→常用功能→推理该有的参数名/接口(如订单系统推 orderId/status/amount)
+      - 标识符类参数(*_id/*_sn)按业务规律枚举,不只 id=1
+      - TOP 路径字典(knowledge/wordlists/)只作兜底,不作主力
+    to_terminal: "命中新参数/接口 → 回灌接口表重走;每条 payload 要能回答'为什么对它用这条'"
+
+cross_domain: "读 intel 里 framework 域识别的鉴权框架、infra 域拿到的 session/凭证;发现的新接口写回 intel"
+signal_note: "缺参数优先读接口报错回填参数名(错误驱动),报错不足才上 FUZZ 字典"

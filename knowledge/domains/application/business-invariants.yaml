@@ -1,0 +1,42 @@
+# 域 app · 业务逻辑不变量（建模档,只给判据不给案例）
+#
+# 业务漏洞是重要一环,但不能套通用清单。做法:先识别业务实体和"业务不变量"
+# (系统里永远应当成立的规则),再找违反不变量的证据。
+#
+# 每类只给"识别信号/该验什么",不给具体案例(具体案例回灌 L3,不进本文件)。
+
+playbook: app-business-invariants
+identity: "业务逻辑不变量"
+
+prerequisite: "先建业务模型:核心对象(用户/订单/租户/资金...) + 状态机 + 各角色应有能力"
+
+invariants:
+  - id: ownership
+    rule: "用户只能操作自己或被授权范围内的对象"
+    check_signal: "换用户/换租户不换对象,看能否读写他人对象(水平/跨租户越权)"
+
+  - id: privilege
+    rule: "低权角色不能执行高权操作"
+    check_signal: "低权 token 调管理/审批接口;前端隐藏的操作直接调"
+
+  - id: money-conservation
+    rule: "金额/数量不由客户端决定,退款不超实付,优惠不可复用"
+    check_signal: "改价格/数量/优惠码参数;重复提交退款;并发下突破次数/余额"
+
+  - id: state-machine
+    rule: "业务状态单向、不可跳步、终态不可逆改"
+    check_signal: "跳过审核直接支付;操作已关闭对象;用旧状态请求改新状态对象;并发窗口"
+
+  - id: multi-entry-consistency
+    rule: "同一业务逻辑的多个入口防护一致"
+    check_signal: "登录/验证码/找回/支付确认是否有多入口(Web/APP/旧接口/合作方),逐一核对限流/验证码/锁定是否都生效——只测一个入口就下结论=未完成"
+
+  - id: credential-strength-symmetry
+    rule: "长效凭证绑定强度不应弱于短效凭证"
+    check_signal: "remember-me/密码重置token/长期API密钥 vs session/一次性码,比对设备指纹/一次性/有效期/可枚举性是否对称"
+
+  - id: delegated-assertion
+    rule: "委托身份断言(OAuth/SAML/JWT)完整性校验完整"
+    check_signal: "签名算法锁定/签发方受众校验/一次性/防重放,而非只看'能否登录成功'(联动 domains/application/oauth-sso.yaml)"
+
+cross_domain: "读 intel 里的系统类型/接口清单/身份体系;确认的越权带副作用证据(改前改后状态对比)"

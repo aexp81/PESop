@@ -1,0 +1,38 @@
+# 域 infra · 中间件未授权（反射档,确定性攻击）
+# 触发: fingerprints.yaml -> druid-console / nacos 等
+#
+# 探测策略(按能力边界 b):先覆盖 HTTP 可达的中间件未授权/默认口令;
+# 纯 TCP 端口类(Redis/SSH)见 ports.yaml,探测能力待接入,现阶段靠 intel 情报登记。
+#
+# 灵魂:中间件漏洞可串成链——一个未授权入口往往牵出配置接管→DB→改配置。
+
+playbook: infra-middleware
+identity: "中间件未授权/默认口令"
+
+checks:
+  - id: druid-unauth
+    why: "Druid 监控台未授权可看 SQL/session,劫持 session 登录后台"
+    how: "GET /druid/index.html /druid/websession.html"
+    signal: "200 返回 Druid 监控界面 -> 未授权"
+    escalate: "websession 页劫持有效 session -> 登录后台;把拿到的 session 写入 intel 供 app 域复用"
+
+  - id: nacos-unauth
+    why: "Nacos 未授权/默认口令可接管全部配置,拿 DB 连接串、改配置"
+    how: "GET /nacos/;试默认 nacos/nacos;试未授权 API /nacos/v1/auth/users?pageNo=1"
+    signal: "配置列表可读/可写"
+    escalate: "读配置提 DB 连接串+密钥 → 写入 intel;此链常由 framework 域 Actuator 引出(见 actuator-chain)"
+
+  - id: http-middleware-console
+    why: "其它带 Web 控制台的中间件常暴露未授权面"
+    how: "探测常见控制台路径"
+    endpoints:
+      - /swagger-ui.html
+      - /eureka/
+      - /consul/
+      - /rabbitmq/
+      - /xxl-job-admin/
+      - /jenkins/
+    signal: "200 返回控制台/API"
+    escalate: "各自默认口令/未授权 API,拿到的凭证/地址写入 intel"
+
+cross_domain: "本域产出(session/DB串/密钥/内网地址)一律写入 intel,供 framework/application 域取用"

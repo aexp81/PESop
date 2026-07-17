@@ -1,0 +1,30 @@
+# TOP 通用路径字典 —— FUZZ 兜底（非主力,主力靠业务建模发散）
+# 用法:域 application 的 FUZZ 步骤,业务发散推导为主,本字典兜底补充。
+# 只增不删,实战高命中路径 reflow 追加。
+# 一行一条,# 开头为注释。
+robots.txt
+sitemap.xml
+.git/config
+.env
+.svn/entries
+.DS_Store
+backup.zip
+backup.sql
+www.zip
+api-docs
+swagger-ui.html
+v2/api-docs
+v3/api-docs
+actuator
+actuator/env
+actuator/heapdump
+druid/index.html
+nacos/
+admin
+manage
+console
+debug
+test
+info
+metrics
+health

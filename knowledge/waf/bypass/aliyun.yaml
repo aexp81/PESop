@@ -1,0 +1,18 @@
+# WAF 绕过手法: 阿里云 WAF
+waf: aliyun
+
+techniques:
+  - id: origin-ip-direct
+    why: "直连源站IP绕过云WAF"
+    how: "找源站真实IP(证书透明/历史解析/子域),Host指向目标直连"
+  - id: param-pollution
+    why: "阿里云WAF对参数污染/分割覆盖不全"
+    how: "重复参数、参数名大小写、+/空格变形、注释插入"
+  - id: encoding-variants
+    why: "编码变体绕过规则匹配"
+    how: "URL/Unicode/双重编码,分块传输"
+  - id: slow-rate
+    why: "规避频率类拦截"
+    how: "降低请求速率、随机UA/间隔(结合 http_client 限速)"
+
+general_note: "需实测验证;绕过后再打真正漏洞"

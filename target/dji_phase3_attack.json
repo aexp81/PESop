@@ -1,0 +1,189 @@
+{
+  "document_idor_confirmed": [
+    {
+      "url": "https://developer.dji.com/document/2103887e-6d62-4f52-b508-348e57f69244",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    },
+    {
+      "url": "https://developer.dji.com/document/32ae17fb-bfa0-4f18-9d12-7a95253ee4e4",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    },
+    {
+      "url": "https://developer.dji.com/document/26cd55ae-ef09-4463-b941-d6bb2bb98461",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    },
+    {
+      "url": "https://developer.dji.com/document/d0e1e15e-76de-439a-8e0c-a15e79085fb0",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    },
+    {
+      "url": "https://developer.dji.com/document/00000000-0000-0000-0000-000000000001",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    },
+    {
+      "url": "https://developer.dji.com/document/ffffffff-ffff-ffff-ffff-ffffffffffff",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    },
+    {
+      "url": "https://developer.dji.com/document/11111111-1111-1111-1111-111111111111",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    },
+    {
+      "url": "https://developer.dji.com/document/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "status": 200,
+      "body_length": 3000,
+      "is_spa_fallback": true
+    }
+  ],
+  "beacon_endpoint_analysis": {},
+  "oauth_client_id_enumeration": [
+    {
+      "client_id": "dji_sdk",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=dji_sdk&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "dji_sdk_web",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=dji_sdk_web&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "developer-website-fe",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=developer-website-fe&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "invalid_client",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=invalid_client&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "admin",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=admin&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "root",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=root&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "test",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=test&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "dji_mobile_sdk",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=dji_mobile_sdk&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "dji_onboard_sdk",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=dji_onboard_sdk&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    },
+    {
+      "client_id": "dji_payload_sdk",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=dji_payload_sdk&redirect_uri=https://developer.dji.com",
+      "body_length": 0,
+      "response_group": "302:0:https://account.dji.com/login/oauth?response_type="
+    }
+  ],
+  "api_structure_deduced": [],
+  "oss_exposure": [],
+  "cve_matches": [
+    {
+      "component": "Tengine",
+      "cve": "CVE-2023-27524",
+      "description": "Apache Tengine/Aliyun Tengine - check version via headers",
+      "requires_verification": true
+    },
+    {
+      "component": "Angular",
+      "cve": "CVE-2023-26117",
+      "description": "Angular < 15.2.9 - Prototype pollution in merge()",
+      "requires_verification": true
+    },
+    {
+      "component": "Angular",
+      "cve": "CVE-2023-26118",
+      "description": "Angular < 16.2.12 - Prototype pollution in clone()",
+      "requires_verification": true
+    },
+    {
+      "component": "Angular",
+      "cve": "CVE-2024-21490",
+      "description": "Angular < 17.3.0 - ReDoS via URL matching",
+      "requires_verification": true
+    },
+    {
+      "component": "Axios",
+      "cve": "CVE-2023-45857",
+      "description": "Axios < 1.6.0 - XS-Leak via server-side request forgery",
+      "requires_verification": true
+    },
+    {
+      "component": "Axios",
+      "cve": "CVE-2024-39338",
+      "description": "Axios < 1.7.4 - SSRF via URL parsing bypass",
+      "requires_verification": true
+    },
+    {
+      "component": "Webpack",
+      "cve": "CVE-2023-28154",
+      "description": "Webpack < 5.76.0 - ReDoS via devtool source map regex",
+      "requires_verification": true
+    },
+    {
+      "component": "Kong API Gateway",
+      "cve": "CVE-2024-27288",
+      "description": "Kong < 3.6.0 - Authentication bypass via path traversal",
+      "requires_verification": true
+    }
+  ],
+  "cors_findings": [
+    {
+      "domain": "terra-1-g.djicdn.com",
+      "severity": "medium",
+      "finding": "Wildcard CORS"
+    },
+    {
+      "domain": "www.dji.com",
+      "severity": "low",
+      "finding": "Specific CORS: https://store.dji.com"
+    }
+  ]
+}

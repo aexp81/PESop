@@ -1,0 +1,142 @@
+{
+  "care_audit_effect": {
+    "before": {
+      "id": "fe6c27b0-af83-456c-85b2-629f8e99b983",
+      "status": 1,
+      "statusName": "已提交",
+      "handleComment": "attacker approve"
+    },
+    "approve_call": {
+      "http": 200,
+      "app": "200",
+      "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:23\",\"isSuccess\":true,\"code\":200}"
+    },
+    "mid": {
+      "status": 1,
+      "statusName": "已提交",
+      "handleComment": "attacker approve 1"
+    },
+    "reject_call": {
+      "http": 200,
+      "app": "200",
+      "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:24\",\"isSuccess\":true,\"code\":200}"
+    },
+    "after": {
+      "status": 2,
+      "statusName": "已通过",
+      "handleComment": "attacker reject 2"
+    }
+  },
+  "third_audit_effect": {
+    "before": {
+      "id": "fe6c27b0-af83-456c-85b2-629f8e99b983",
+      "status": 2,
+      "statusName": "已通过",
+      "handleComment": "attacker reject 2"
+    },
+    "approve_call": {
+      "http": 200,
+      "app": "200",
+      "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:28\",\"isSuccess\":true,\"code\":200}"
+    },
+    "after": {
+      "status": 1,
+      "statusName": "已提交",
+      "handleComment": "third attacker approve"
+    }
+  },
+  "activation_effect": {
+    "before": {
+      "id": "d4778873-60d8-44df-a394-523485fbef93",
+      "activationStatus": 0,
+      "useStatus": "已使用",
+      "isUse": 1,
+      "cancelReason": "attacker-cancel",
+      "lastModificationTime": "2026-07-09 16:36:47"
+    },
+    "op_call": {
+      "http": 200,
+      "app": "200",
+      "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:40\",\"isSuccess\":true,\"code\":200}"
+    },
+    "after": {
+      "id": "d4778873-60d8-44df-a394-523485fbef93",
+      "activationStatus": 0,
+      "useStatus": "已使用",
+      "isUse": 1,
+      "cancelReason": "attacker-cancel-effect",
+      "lastModificationTime": "2026-07-09 16:38:40"
+    }
+  },
+  "actpush_effect": {
+    "before": {
+      "id": "816a30ca-2f5f-4705-9314-84ce0397be4d",
+      "pushStatus": 0,
+      "status": 0,
+      "remark": "Requestid 【99d5d4d85aba4319b7c9a615a4999415】 网关返回报错, 返回【{\"code\":404,\"message\":\"您所要查询的数据不存在 detail:该SN不属于任何快照 [invoke_id: 76383ed2ff9049c29e80efd2b601394e] \",\"data\":{}}】 入参 【sn=1581F5YH17835183KT1g】",
+      "lastModificationTime": "2026-07-08T21:45:36.5"
+    },
+    "void_call": {
+      "http": 200,
+      "app": "200",
+      "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:52\",\"isSuccess\":true,\"code\":200}"
+    },
+    "after_void": {
+      "id": "816a30ca-2f5f-4705-9314-84ce0397be4d",
+      "pushStatus": 3,
+      "status": 0,
+      "remark": "attacker void effect",
+      "lastModificationTime": "2026-07-09T16:38:52.64"
+    },
+    "delete_call": {
+      "http": 200,
+      "app": "200",
+      "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:54\",\"isSuccess\":true,\"code\":200}"
+    },
+    "after_delete_exists": false
+  },
+  "repair_top3_sequence": [
+    {
+      "insuranceId": "bdbb4417-bb25-4831-905d-9b2d41f6fffb",
+      "repairId": "95e94248-493b-4495-1236-08dedd6d606c",
+      "confirm_first": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:56\",\"isSuccess\":true,\"code\":200}"
+      },
+      "review_second": {
+        "http": 200,
+        "app": "10003",
+        "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09"
+      }
+    },
+    {
+      "insuranceId": "95545573-955d-47cd-8d6c-326976b65154",
+      "repairId": "36835605-479d-41fc-9d7a-08dedd6c96c4",
+      "confirm_first": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:57\",\"isSuccess\":true,\"code\":200}"
+      },
+      "review_second": {
+        "http": 200,
+        "app": "10003",
+        "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09"
+      }
+    },
+    {
+      "insuranceId": "287e2cf1-c400-4b3b-939b-ad3009199e94",
+      "repairId": "d0ad579f-a325-4d78-9d79-08dedd6c96c4",
+      "confirm_first": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:38:57\",\"isSuccess\":true,\"code\":200}"
+      },
+      "review_second": {
+        "http": 200,
+        "app": "10003",
+        "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09"
+      }
+    }
+  ]
+}

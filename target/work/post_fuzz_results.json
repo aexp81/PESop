@@ -1,0 +1,499 @@
+[
+  {
+    "endpoint": "/api/v1/Common/QueryWhiteList",
+    "baseline": {
+      "mutation": "baseline",
+      "http": 200,
+      "app_code": "200",
+      "time": 0.561,
+      "body": "{\"message\":null,\"value\":null,\"timestamp\":\"07/09/2026 16:01:32\",\"isSuccess\":true,\"code\":200}"
+    },
+    "results": [
+      {
+        "mutation": "baseline",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.561,
+        "body": "{\"message\":null,\"value\":null,\"timestamp\":\"07/09/2026 16:01:32\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "quote",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.247,
+        "body": "{\"message\":null,\"value\":null,\"timestamp\":\"07/09/2026 16:01:32\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "dquote",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.335,
+        "body": "{\"message\":null,\"value\":null,\"timestamp\":\"07/09/2026 16:01:32\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "sqli_or",
+        "http": 405,
+        "app_code": null,
+        "time": 0.092,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "sqli_union",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.255,
+        "body": "{\"message\":null,\"value\":null,\"timestamp\":\"07/09/2026 16:01:33\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "xss",
+        "http": 405,
+        "app_code": null,
+        "time": 0.071,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "path",
+        "http": 405,
+        "app_code": null,
+        "time": 0.078,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "nullbyte",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.186,
+        "body": "{\"message\":null,\"value\":null,\"timestamp\":\"07/09/2026 16:01:33\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "long",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.688,
+        "body": "{\"message\":null,\"value\":null,\"timestamp\":\"07/09/2026 16:01:34\",\"isSuccess\":true,\"code\":200}"
+      }
+    ],
+    "anomalies": [
+      "HTTP 200 -> 405 @ sqli_or",
+      "app_code 200 -> None @ sqli_or",
+      "HTTP 200 -> 405 @ xss",
+      "app_code 200 -> None @ xss",
+      "HTTP 200 -> 405 @ path",
+      "app_code 200 -> None @ path"
+    ]
+  },
+  {
+    "endpoint": "/api/v1/CommonAPI/InsuranceQuery",
+    "baseline": {
+      "mutation": "baseline",
+      "http": 200,
+      "app_code": "400001",
+      "time": 0.299,
+      "body": "{\"isSuccess\":false,\"code\":400001,\"message\":\"{\\\"Code\\\":400001,\\\"Chinese\\\":\\\"机身SN和云台SN至少一个不为空 机身SN和云台SN至少一个不为空\\\",\\\"English\\\":\\\"SNIsNUll 机身SN和云台SN至少一个不为空\\\"}\",\"value\":\"机身SN和云台SN至少一个不为空\",\"timestamp\":\"07/09/2026 16:01:34\"}"
+    },
+    "results": [
+      {
+        "mutation": "baseline",
+        "http": 200,
+        "app_code": "400001",
+        "time": 0.299,
+        "body": "{\"isSuccess\":false,\"code\":400001,\"message\":\"{\\\"Code\\\":400001,\\\"Chinese\\\":\\\"机身SN和云台SN至少一个不为空 机身SN和云台SN至少一个不为空\\\",\\\"English\\\":\\\"SNIsNUll 机身SN和云台SN至少一个不为空\\\"}\",\"value\":\"机身SN和云台SN至少一个不为空\",\"timestamp\":\"07/09/2026 16:01:34\"}"
+      },
+      {
+        "mutation": "quote",
+        "http": 200,
+        "app_code": "400001",
+        "time": 0.182,
+        "body": "{\"isSuccess\":false,\"code\":400001,\"message\":\"{\\\"Code\\\":400001,\\\"Chinese\\\":\\\"机身SN和云台SN至少一个不为空 机身SN和云台SN至少一个不为空\\\",\\\"English\\\":\\\"SNIsNUll 机身SN和云台SN至少一个不为空\\\"}\",\"value\":\"机身SN和云台SN至少一个不为空\",\"timestamp\":\"07/09/2026 16:01:34\"}"
+      },
+      {
+        "mutation": "dquote",
+        "http": 200,
+        "app_code": "400001",
+        "time": 0.158,
+        "body": "{\"isSuccess\":false,\"code\":400001,\"message\":\"{\\\"Code\\\":400001,\\\"Chinese\\\":\\\"机身SN和云台SN至少一个不为空 机身SN和云台SN至少一个不为空\\\",\\\"English\\\":\\\"SNIsNUll 机身SN和云台SN至少一个不为空\\\"}\",\"value\":\"机身SN和云台SN至少一个不为空\",\"timestamp\":\"07/09/2026 16:01:34\"}"
+      },
+      {
+        "mutation": "sqli_or",
+        "http": 405,
+        "app_code": null,
+        "time": 0.064,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "sqli_union",
+        "http": 200,
+        "app_code": "10003",
+        "time": 0.168,
+        "body": "{\"IsSuccess\":false,\"Code\":10003,\"Message\":\"The field currency must be a string with a maximum length of 10.\"}"
+      },
+      {
+        "mutation": "xss",
+        "http": 405,
+        "app_code": null,
+        "time": 0.072,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "path",
+        "http": 405,
+        "app_code": null,
+        "time": 0.064,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "nullbyte",
+        "http": 200,
+        "app_code": "400001",
+        "time": 0.275,
+        "body": "{\"isSuccess\":false,\"code\":400001,\"message\":\"{\\\"Code\\\":400001,\\\"Chinese\\\":\\\"机身SN和云台SN至少一个不为空 机身SN和云台SN至少一个不为空\\\",\\\"English\\\":\\\"SNIsNUll 机身SN和云台SN至少一个不为空\\\"}\",\"value\":\"机身SN和云台SN至少一个不为空\",\"timestamp\":\"07/09/2026 16:01:35\"}"
+      },
+      {
+        "mutation": "long",
+        "http": 200,
+        "app_code": "10003",
+        "time": 0.675,
+        "body": "{\"IsSuccess\":false,\"Code\":10003,\"Message\":\"The field currency must be a string with a maximum length of 10.\"}"
+      }
+    ],
+    "anomalies": [
+      "HTTP 200 -> 405 @ sqli_or",
+      "app_code 400001 -> None @ sqli_or",
+      "app_code 400001 -> 10003 @ sqli_union",
+      "HTTP 200 -> 405 @ xss",
+      "app_code 400001 -> None @ xss",
+      "HTTP 200 -> 405 @ path",
+      "app_code 400001 -> None @ path",
+      "app_code 400001 -> 10003 @ long"
+    ]
+  },
+  {
+    "endpoint": "/api/v1/DJICare/QueryCare",
+    "baseline": {
+      "mutation": "baseline",
+      "http": 200,
+      "app_code": "200",
+      "time": 0.394,
+      "body": "{\"message\":null,\"value\":[{\"mainSn\":\"test\",\"status\":0,\"craftSn\":\"\",\"cameraSn\":\"\",\"activeDay\":null,\"newProduct\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":null,\"isWarranties\":false},\"renewal\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":n"
+    },
+    "results": [
+      {
+        "mutation": "baseline",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.394,
+        "body": "{\"message\":null,\"value\":[{\"mainSn\":\"test\",\"status\":0,\"craftSn\":\"\",\"cameraSn\":\"\",\"activeDay\":null,\"newProduct\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":null,\"isWarranties\":false},\"renewal\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":n"
+      },
+      {
+        "mutation": "quote",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.792,
+        "body": "{\"message\":null,\"value\":[{\"mainSn\":\"test'\",\"status\":0,\"craftSn\":\"\",\"cameraSn\":\"\",\"activeDay\":null,\"newProduct\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":null,\"isWarranties\":false},\"renewal\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":"
+      },
+      {
+        "mutation": "dquote",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.637,
+        "body": "{\"message\":null,\"value\":[{\"mainSn\":\"test\\\"\",\"status\":0,\"craftSn\":\"\",\"cameraSn\":\"\",\"activeDay\":null,\"newProduct\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":null,\"isWarranties\":false},\"renewal\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\""
+      },
+      {
+        "mutation": "sqli_or",
+        "http": 405,
+        "app_code": null,
+        "time": 0.078,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "sqli_union",
+        "http": 200,
+        "app_code": "10011",
+        "time": 0.288,
+        "body": "{\"isSuccess\":false,\"code\":10011,\"message\":\"{\\\"Code\\\":10011,\\\"Chinese\\\":\\\"网关接口无响应\\\",\\\"English\\\":\\\"The Gateway isn't respond\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:38\"}"
+      },
+      {
+        "mutation": "xss",
+        "http": 405,
+        "app_code": null,
+        "time": 0.08,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "path",
+        "http": 405,
+        "app_code": null,
+        "time": 0.067,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "nullbyte",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.443,
+        "body": "{\"message\":null,\"value\":[{\"mainSn\":\"test\\\\u0000\",\"status\":0,\"craftSn\":\"\",\"cameraSn\":\"\",\"activeDay\":null,\"newProduct\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\",\"ids\":null,\"isWarranties\":false},\"renewal\":{\"canBuy\":false,\"buyBeginTime\":\"\",\"buyEndTime\":\"\","
+      },
+      {
+        "mutation": "long",
+        "http": 200,
+        "app_code": "10011",
+        "time": 1.539,
+        "body": "{\"isSuccess\":false,\"code\":10011,\"message\":\"{\\\"Code\\\":10011,\\\"Chinese\\\":\\\"网关接口无响应\\\",\\\"English\\\":\\\"The Gateway isn't respond\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:40\"}"
+      }
+    ],
+    "anomalies": [
+      "HTTP 200 -> 405 @ sqli_or",
+      "app_code 200 -> None @ sqli_or",
+      "app_code 200 -> 10011 @ sqli_union",
+      "HTTP 200 -> 405 @ xss",
+      "app_code 200 -> None @ xss",
+      "HTTP 200 -> 405 @ path",
+      "app_code 200 -> None @ path",
+      "app_code 200 -> 10011 @ long"
+    ]
+  },
+  {
+    "endpoint": "/api/v1/UseDJICare/SearchCareForSelf",
+    "baseline": {
+      "mutation": "baseline",
+      "http": 200,
+      "app_code": "200",
+      "time": 0.291,
+      "body": "{\"message\":null,\"value\":[{\"productSN\":\"test\",\"isCare\":false,\"canJumpRefresh\":false,\"result\":0,\"typeCode\":-1,\"hasFlyLose\":false,\"remainingTimes\":null,\"flyLoseClatime\":null}],\"timestamp\":\"07/09/2026 16:01:40\",\"isSuccess\":true,\"code\":200}"
+    },
+    "results": [
+      {
+        "mutation": "baseline",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.291,
+        "body": "{\"message\":null,\"value\":[{\"productSN\":\"test\",\"isCare\":false,\"canJumpRefresh\":false,\"result\":0,\"typeCode\":-1,\"hasFlyLose\":false,\"remainingTimes\":null,\"flyLoseClatime\":null}],\"timestamp\":\"07/09/2026 16:01:40\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "quote",
+        "http": 200,
+        "app_code": "200",
+        "time": 1.226,
+        "body": "{\"message\":null,\"value\":[{\"productSN\":\"test'\",\"isCare\":false,\"canJumpRefresh\":false,\"result\":0,\"typeCode\":-1,\"hasFlyLose\":false,\"remainingTimes\":null,\"flyLoseClatime\":null}],\"timestamp\":\"07/09/2026 16:01:41\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "dquote",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.88,
+        "body": "{\"message\":null,\"value\":[{\"productSN\":\"test\\\"\",\"isCare\":false,\"canJumpRefresh\":false,\"result\":0,\"typeCode\":-1,\"hasFlyLose\":false,\"remainingTimes\":null,\"flyLoseClatime\":null}],\"timestamp\":\"07/09/2026 16:01:42\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "sqli_or",
+        "http": 405,
+        "app_code": null,
+        "time": 0.065,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "sqli_union",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.484,
+        "body": "{\"message\":null,\"value\":[{\"productSN\":\"' UNION SELECT 1--\",\"isCare\":false,\"canJumpRefresh\":false,\"result\":0,\"typeCode\":-1,\"hasFlyLose\":false,\"remainingTimes\":null,\"flyLoseClatime\":null}],\"timestamp\":\"07/09/2026 16:01:43\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "xss",
+        "http": 405,
+        "app_code": null,
+        "time": 0.082,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "path",
+        "http": 405,
+        "app_code": null,
+        "time": 0.07,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "nullbyte",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.465,
+        "body": "{\"message\":null,\"value\":[{\"productSN\":\"test\\\\u0000\",\"isCare\":false,\"canJumpRefresh\":false,\"result\":0,\"typeCode\":-1,\"hasFlyLose\":false,\"remainingTimes\":null,\"flyLoseClatime\":null}],\"timestamp\":\"07/09/2026 16:01:43\",\"isSuccess\":true,\"code\":200}"
+      },
+      {
+        "mutation": "long",
+        "http": 500,
+        "app_code": "500",
+        "time": 1.295,
+        "body": "{\"isSuccess\":false,\"code\":500,\"message\":\"{\\\"Code\\\":500,\\\"Chinese\\\":\\\"内部错误！\\\",\\\"English\\\":\\\"System Error!\\\"}\",\"value\":{},\"timestamp\":\"07/09/2026 16:01:44\"}"
+      }
+    ],
+    "anomalies": [
+      "HTTP 200 -> 405 @ sqli_or",
+      "app_code 200 -> None @ sqli_or",
+      "HTTP 200 -> 405 @ xss",
+      "app_code 200 -> None @ xss",
+      "HTTP 200 -> 405 @ path",
+      "app_code 200 -> None @ path",
+      "HTTP 200 -> 500 @ long",
+      "app_code 200 -> 500 @ long"
+    ]
+  },
+  {
+    "endpoint": "/api/v1/Insurance/SearchEnterpriseShieldPlus",
+    "baseline": {
+      "mutation": "baseline",
+      "http": 200,
+      "app_code": "202507",
+      "time": 0.277,
+      "body": "{\"isSuccess\":false,\"code\":202507,\"message\":\"{\\\"Code\\\":202507,\\\"Chinese\\\":\\\"错误的协议号！\\\",\\\"English\\\":\\\"错误的协议号！\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:45\"}"
+    },
+    "results": [
+      {
+        "mutation": "baseline",
+        "http": 200,
+        "app_code": "202507",
+        "time": 0.277,
+        "body": "{\"isSuccess\":false,\"code\":202507,\"message\":\"{\\\"Code\\\":202507,\\\"Chinese\\\":\\\"错误的协议号！\\\",\\\"English\\\":\\\"错误的协议号！\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:45\"}"
+      },
+      {
+        "mutation": "quote",
+        "http": 200,
+        "app_code": "202507",
+        "time": 0.152,
+        "body": "{\"isSuccess\":false,\"code\":202507,\"message\":\"{\\\"Code\\\":202507,\\\"Chinese\\\":\\\"错误的协议号！\\\",\\\"English\\\":\\\"错误的协议号！\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:45\"}"
+      },
+      {
+        "mutation": "dquote",
+        "http": 200,
+        "app_code": "202507",
+        "time": 0.174,
+        "body": "{\"isSuccess\":false,\"code\":202507,\"message\":\"{\\\"Code\\\":202507,\\\"Chinese\\\":\\\"错误的协议号！\\\",\\\"English\\\":\\\"错误的协议号！\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:45\"}"
+      },
+      {
+        "mutation": "sqli_or",
+        "http": 405,
+        "app_code": null,
+        "time": 0.07,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "sqli_union",
+        "http": 200,
+        "app_code": "202507",
+        "time": 0.267,
+        "body": "{\"isSuccess\":false,\"code\":202507,\"message\":\"{\\\"Code\\\":202507,\\\"Chinese\\\":\\\"错误的协议号！\\\",\\\"English\\\":\\\"错误的协议号！\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:46\"}"
+      },
+      {
+        "mutation": "xss",
+        "http": 405,
+        "app_code": null,
+        "time": 0.065,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "path",
+        "http": 405,
+        "app_code": null,
+        "time": 0.073,
+        "body": "<!DOCTYPE html><html lang=\"zh-cn\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"/><title>405</title><style>html,body,div,a,h2,p{margin:0;padding:0}a{text-decoration:none;color:#3b6e"
+      },
+      {
+        "mutation": "nullbyte",
+        "http": 200,
+        "app_code": "202507",
+        "time": 0.36,
+        "body": "{\"isSuccess\":false,\"code\":202507,\"message\":\"{\\\"Code\\\":202507,\\\"Chinese\\\":\\\"错误的协议号！\\\",\\\"English\\\":\\\"错误的协议号！\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:46\"}"
+      },
+      {
+        "mutation": "long",
+        "http": 200,
+        "app_code": "202507",
+        "time": 0.508,
+        "body": "{\"isSuccess\":false,\"code\":202507,\"message\":\"{\\\"Code\\\":202507,\\\"Chinese\\\":\\\"错误的协议号！\\\",\\\"English\\\":\\\"错误的协议号！\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:01:47\"}"
+      }
+    ],
+    "anomalies": [
+      "HTTP 200 -> 405 @ sqli_or",
+      "app_code 202507 -> None @ sqli_or",
+      "HTTP 200 -> 405 @ xss",
+      "app_code 202507 -> None @ xss",
+      "HTTP 200 -> 405 @ path",
+      "app_code 202507 -> None @ path"
+    ]
+  },
+  {
+    "endpoint": "/api/v1/Common/BatchQueryCurrentMoney",
+    "baseline": {
+      "mutation": "baseline",
+      "http": 200,
+      "app_code": "200",
+      "time": 0.387,
+      "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+    },
+    "results": [
+      {
+        "mutation": "baseline",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.387,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "quote",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.193,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "dquote",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.27,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "sqli_or",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.331,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "sqli_union",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.271,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "xss",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.17,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "path",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.259,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "nullbyte",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.172,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      },
+      {
+        "mutation": "long",
+        "http": 200,
+        "app_code": "200",
+        "time": 0.174,
+        "body": "{\"message\":null,\"value\":[{\"id\":null,\"insuranceId\":\"00000000-0000-0000-0000-000000000000\",\"currentMoney\":null,\"currentCNYMoney\":null,\"currentAccidentMoney\":null,\"currentAccidentCNYMoney\":null,\"creationTime\":\"0001-01-01T00:00:00\",\"virtualClatime\":null,\"money\":nu"
+      }
+    ],
+    "anomalies": []
+  }
+]

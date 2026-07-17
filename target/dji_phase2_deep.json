@@ -1,0 +1,126 @@
+{
+  "timestamp": "2026-07-17T01:44:45Z",
+  "document_idor": [
+    {
+      "url": "https://developer.dji.com/document/2103887e-6d62-4f52-b508-348e57f69244",
+      "uuid": "2103887e-6d62-4f52-b508-348e57f69244",
+      "status": 200,
+      "has_content": true,
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr>\n  <head>\n    <title>DJI Developer</title><meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\"><meta data-n-head=\"ssr\" name=\"keywords\" content=\"dji, developer, sdk, mobile sdk, guidance sdk, onbo"
+    },
+    {
+      "url": "https://developer.dji.com/document/32ae17fb-bfa0-4f18-9d12-7a95253ee4e4",
+      "uuid": "32ae17fb-bfa0-4f18-9d12-7a95253ee4e4",
+      "status": 200,
+      "has_content": true,
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr>\n  <head>\n    <title>DJI Developer</title><meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\"><meta data-n-head=\"ssr\" name=\"keywords\" content=\"dji, developer, sdk, mobile sdk, guidance sdk, onbo"
+    },
+    {
+      "url": "https://developer.dji.com/document/26cd55ae-ef09-4463-b941-d6bb2bb98461",
+      "uuid": "26cd55ae-ef09-4463-b941-d6bb2bb98461",
+      "status": 200,
+      "has_content": true,
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr>\n  <head>\n    <title>DJI Developer</title><meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\"><meta data-n-head=\"ssr\" name=\"keywords\" content=\"dji, developer, sdk, mobile sdk, guidance sdk, onbo"
+    },
+    {
+      "url": "https://developer.dji.com/document/d0e1e15e-76de-439a-8e0c-a15e79085fb0",
+      "uuid": "d0e1e15e-76de-439a-8e0c-a15e79085fb0",
+      "status": 200,
+      "has_content": true,
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr>\n  <head>\n    <title>DJI Developer</title><meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\"><meta data-n-head=\"ssr\" name=\"keywords\" content=\"dji, developer, sdk, mobile sdk, guidance sdk, onbo"
+    },
+    {
+      "url": "https://developer.dji.com/document/00000000-0000-0000-0000-000000000001",
+      "uuid": "00000000-0000-0000-0000-000000000001",
+      "status": 200,
+      "has_content": true,
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr>\n  <head>\n    <title>DJI Developer</title><meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\"><meta data-n-head=\"ssr\" name=\"keywords\" content=\"dji, developer, sdk, mobile sdk, guidance sdk, onbo"
+    },
+    {
+      "url": "https://developer.dji.com/document/00000000-0000-0000-0000-000000000000",
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "status": 200,
+      "has_content": true,
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr>\n  <head>\n    <title>DJI Developer</title><meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\"><meta data-n-head=\"ssr\" name=\"keywords\" content=\"dji, developer, sdk, mobile sdk, guidance sdk, onbo"
+    },
+    {
+      "url": "https://developer.dji.com/document/ffffffff-ffff-ffff-ffff-ffffffffffff",
+      "uuid": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+      "status": 200,
+      "has_content": true,
+      "body_preview": "<!doctype html>\n<html data-n-head-ssr>\n  <head>\n    <title>DJI Developer</title><meta data-n-head=\"ssr\" charset=\"utf-8\"><meta data-n-head=\"ssr\" content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\"><meta data-n-head=\"ssr\" name=\"keywords\" content=\"dji, developer, sdk, mobile sdk, guidance sdk, onbo"
+    }
+  ],
+  "oauth_deep": [
+    {
+      "test": "Open Redirect",
+      "url": "https://account.dji.com/oauth/authorize?response_type=code&client_id=test&redire",
+      "status": 405,
+      "location": "N/A",
+      "body": "<!doctypehtml><html lang=\"zh-cn\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"><title>405</title><style>a,body,div,h2,html,p{m"
+    },
+    {
+      "test": "XSS via redirect_uri",
+      "url": "https://account.dji.com/oauth/authorize?response_type=code&client_id=test&redire",
+      "status": 405,
+      "location": "N/A",
+      "body": "<!doctypehtml><html lang=\"zh-cn\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"><title>405</title><style>a,body,div,h2,html,p{m"
+    },
+    {
+      "test": "Missing state/CSRF",
+      "url": "https://account.dji.com/oauth/authorize?response_type=code&client_id=test&redire",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=test&redirect_uri=https://developer.dji.com",
+      "body": ""
+    },
+    {
+      "test": "Invalid client_id",
+      "url": "https://account.dji.com/oauth/authorize?response_type=code&client_id=invalid_cli",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=invalid_client&redirect_uri=https://developer.dji.com",
+      "body": ""
+    },
+    {
+      "test": "Valid client_id",
+      "url": "https://account.dji.com/oauth/authorize?response_type=code&client_id=dji_sdk&red",
+      "status": 302,
+      "location": "https://account.dji.com/login/oauth?response_type=code&client_id=dji_sdk&redirect_uri=https://developer.dji.com",
+      "body": ""
+    },
+    {
+      "test": "OAuth login with backUrl",
+      "url": "https://account.dji.com/login/oauth?appId=dji_sdk&backUrl=https://developer.dji.",
+      "status": 200,
+      "location": "N/A",
+      "body": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"/><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1\"/><m"
+    },
+    {
+      "test": "Open redirect in login",
+      "url": "https://account.dji.com/login?appId=dji_sdk&backUrl=https://evil.com",
+      "status": 405,
+      "location": "N/A",
+      "body": "<!doctypehtml><html lang=\"zh-cn\"><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge,chrome=1\"><meta name=\"data-spm\"content=\"a3c0e\"><title>405</title><style>a,body,div,h2,html,p{m"
+    },
+    {
+      "test": "Token endpoint unauthorized",
+      "url": "https://account.dji.com/oauth/token",
+      "status": 401,
+      "location": "N/A",
+      "body": "{\"code\":707,\"message\":\"errorCode: 401, error Path: /oauth/token\",\"data\":null}"
+    },
+    {
+      "test": "Client credentials grant",
+      "url": "https://account.dji.com/oauth/token?grant_type=client_credentials",
+      "status": 401,
+      "location": "N/A",
+      "body": "{\"code\":707,\"message\":\"errorCode: 401, error Path: /oauth/token\",\"data\":null}"
+    },
+    {
+      "test": "Auth code exchange",
+      "url": "https://account.dji.com/oauth/token?grant_type=authorization_code&code=test&redi",
+      "status": 401,
+      "location": "N/A",
+      "body": "{\"code\":707,\"message\":\"errorCode: 401, error Path: /oauth/token\",\"data\":null}"
+    }
+  ]
+}

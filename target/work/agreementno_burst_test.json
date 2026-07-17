@@ -1,0 +1,83 @@
+{
+  "summary": {
+    "runs": 10,
+    "all_http_200": true,
+    "all_success_true": true,
+    "generated_total": 10000,
+    "generated_unique": 10000,
+    "duplicates": 0,
+    "avg_sec": 0.349
+  },
+  "runs": [
+    {
+      "i": 0,
+      "http": 200,
+      "sec": 0.405,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 1,
+      "http": 200,
+      "sec": 0.299,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 2,
+      "http": 200,
+      "sec": 0.366,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 3,
+      "http": 200,
+      "sec": 0.387,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 4,
+      "http": 200,
+      "sec": 0.322,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 5,
+      "http": 200,
+      "sec": 0.52,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 6,
+      "http": 200,
+      "sec": 0.329,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 7,
+      "http": 200,
+      "sec": 0.283,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 8,
+      "http": 200,
+      "sec": 0.286,
+      "ok": true,
+      "count": 1000
+    },
+    {
+      "i": 9,
+      "http": 200,
+      "sec": 0.296,
+      "ok": true,
+      "count": 1000
+    }
+  ]
+}

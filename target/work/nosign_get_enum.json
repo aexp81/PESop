@@ -1,0 +1,412 @@
+[
+  {
+    "path": "/api/v1/Activation/VerifyActiveCodeForSupport?code=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:44\"}"
+  },
+  {
+    "path": "/api/v1/ActivationManager/ActivationProductType?companyId=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:45\"}"
+  },
+  {
+    "path": "/api/v1/ActPushInsuranceInfo/GetSuitInsuranceList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:45\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/InsuranceNameSelected?typeCode=1",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:45\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/CurrencySelected?insuranceName=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:46\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/ProductLevelComboxData",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:46\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/InsuranceCompanyList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:46\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/GetTotalAuditSnInfoById?id=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:47\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/LoadRightsDescription",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:47\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/LoadEnum",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:47\"}"
+  },
+  {
+    "path": "/api/v1/BaseConfig/LoadRoList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:47\"}"
+  },
+  {
+    "path": "/api/v1/Common/SnSearch",
+    "http": 200,
+    "body": "{\"main_sn\":\"\",\"gimbal_sn\":\"\",\"actived_at\":\"\",\"product_name\":\"\",\"eanCode\":\"\",\"k3Number\":\"\",\"main_sn_existing\":false,\"gimbal_sn_existing\":false,\"hwid_existing\":false,\"hwid_sn\":null,\"hasSn\":false}"
+  },
+  {
+    "path": "/api/v1/Common/ValidateMachineSNCode?sn=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:48\"}"
+  },
+  {
+    "path": "/api/v1/Common/PullCustomizedLabelHead",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:48\"}"
+  },
+  {
+    "path": "/api/v1/Common/CheckSnConfigBlackList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:48\"}"
+  },
+  {
+    "path": "/api/v1/Common/CommonDtsTask?task=0",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:49\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/InsuranceQuery?productName=test&craftSn=test&cameraSn=test&queryType=1&countryIso=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:49\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/OrderPolling",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:49\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/OrderPollingExt",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:50\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/CheckPushInsurance",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:50\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/CertNoCheckInsurance?certNo=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:50\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/GetAllInsuranceTypes",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:50\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/SetCareOverTime",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:50\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/SendOverTimeInsuranceMsg",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:51\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/SearchSnConfigBySn?sn=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:51\"}"
+  },
+  {
+    "path": "/api/v1/CommonAPI/GetCareAirTypeList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:51\"}"
+  },
+  {
+    "path": "/api/v1/CustomerService/RefreshActivePushSNList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:51\"}"
+  },
+  {
+    "path": "/api/v1/CustomerService/AnalysisCertiNumber?sign=test",
+    "http": 200,
+    "body": "{\"isSuccess\":false,\"code\":100007,\"message\":\"{\\\"Code\\\":100007,\\\"Chinese\\\":\\\"签名错误\\\",\\\"English\\\":\\\"SignError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 15:50:52\"}"
+  },
+  {
+    "path": "/api/v1/DevOps/GeneratAgreementNo?count=1",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:52\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/LoadServiceEmail",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:52\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/ResendServiceEmail?id=00000000-0000-0000-0000-000000000000&userId=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:52\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/PremiumChecking",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:53\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/ExecutePush",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:53\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/CheckActiveBroadUserInfo",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:53\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/CheckUploadSn?sn=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:53\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/ModifEventRetry",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:54\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/ActiveBroadGetUserInfo",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:54\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/PushActUserInfoToCarePool",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:54\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/EventRetry",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:54\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/PullPassiveOrders",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:55\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/PushPassiveOrders",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:55\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/RetryInsuranceUpdateState",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:55\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/PreDelayMarginChargeJob",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:55\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/CreatePromptJob",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:55\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/RetryExcutePromptJob",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:56\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/RetryPushReCloudFailRecord",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:56\"}"
+  },
+  {
+    "path": "/api/v1/DJICare/RefundCancelTask",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:56\"}"
+  },
+  {
+    "path": "/api/v1/FlyLose/GetSingleTotalAuthenticationInfo?id=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:56\"}"
+  },
+  {
+    "path": "/api/v1/Health/Check",
+    "http": 200,
+    "body": "\"ok,now:07/09/2026 15:50:56\""
+  },
+  {
+    "path": "/api/v1/Health/Error",
+    "http": 500,
+    "body": "{\"isSuccess\":false,\"code\":500,\"message\":\"{\\\"Code\\\":500,\\\"Chinese\\\":\\\"内部错误！\\\",\\\"English\\\":\\\"System Error!\\\"}\",\"value\":{},\"timestamp\":\"07/09/2026 15:50:57\"}"
+  },
+  {
+    "path": "/api/v1/Health/HeartCheckBeforeStart",
+    "http": 200,
+    "body": ""
+  },
+  {
+    "path": "/api/v1/Insurance/LoadInsuranceSlavePlus?id=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:57\"}"
+  },
+  {
+    "path": "/api/v1/Insurance/SearchInsuranceSlave?id=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:57\"}"
+  },
+  {
+    "path": "/api/v1/InsuranceType/LoadThreeInsurance",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:58\"}"
+  },
+  {
+    "path": "/api/v1/InsuranceType/LoadRelationProductType?currencyAbbreviation=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:58\"}"
+  },
+  {
+    "path": "/api/v1/Level/ComboxData",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:58\"}"
+  },
+  {
+    "path": "/api/v1/LifeCover/BalanceQuery?CombinNo=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:58\"}"
+  },
+  {
+    "path": "/api/v1/MaintenanceCodeManager/LoadProductTypeCombox",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:59\"}"
+  },
+  {
+    "path": "/api/v1/MaintenanceCodeManager/GetMaintenanceReportFileUrl?recordId=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:59\"}"
+  },
+  {
+    "path": "/api/v1/MaintenanceCodeManager/UpdateMaintenanceCodeStatus",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:50:59\"}"
+  },
+  {
+    "path": "/api/v1/PreLicensing/LoadPreLicensingSettingRule",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:00\"}"
+  },
+  {
+    "path": "/api/v1/PushInfoConfig/GetInsuranceTypeByCode?type=1",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:00\"}"
+  },
+  {
+    "path": "/api/v1/PushInfoConfig/GetWhiteListPushCombox",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:00\"}"
+  },
+  {
+    "path": "/api/v1/PushInfoConfig/ServiceAgreementPreview?id=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:00\"}"
+  },
+  {
+    "path": "/api/v1/PushInfoConfig/GetPushTypeCode",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:00\"}"
+  },
+  {
+    "path": "/api/v1/PushInfoConfig/GetPushConfigLanguage",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:01\"}"
+  },
+  {
+    "path": "/api/v1/PushInfoConfig/GetPushApp",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:01\"}"
+  },
+  {
+    "path": "/api/v1/ServiceAgreement/ServiceAgreementPreview?id=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:02\"}"
+  },
+  {
+    "path": "/api/v1/SuitCare/InsuredByQueue",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:02\"}"
+  },
+  {
+    "path": "/swagger/api-docs",
+    "http": 200,
+    "body": "{\"openapi\":\"3.0.1\",\"info\":{\"title\":\"vasc-api\",\"version\":\"v6.5.0\"},\"paths\":{\"/api/v1/Activation/VerifyActiveCodeForSupport\":{\"get\":{\"tags\":[\"Activation\"],\"summary\":\"Support验证 Care 激活码\",\"parameters\":[{\"name\":\"code\",\"in\":\"q"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/InsuranceNameSelected?typeCode=1",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:08\"}"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/CurrencySelected?insuranceName=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:08\"}"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/ProductLevelComboxData",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:08\"}"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/InsuranceCompanyList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:08\"}"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/GetTotalAuditSnInfoById?id=00000000-0000-0000-0000-000000000000",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:09\"}"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/LoadRightsDescription",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:09\"}"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/LoadEnum",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:09\"}"
+  },
+  {
+    "path": "/api/v1/ThirdInsurance/LoadRoList",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:09\"}"
+  },
+  {
+    "path": "/api/v1/UseDJICare/FindInsByCertNo?certNo=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:10\"}"
+  },
+  {
+    "path": "/api/v1/UseDJICare/GetHistory?Email=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:10\"}"
+  },
+  {
+    "path": "/api/v1/UseDJICare/GetAgreementHtml?Id=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:10\"}"
+  },
+  {
+    "path": "/api/v1/UseDJICare/ShieldPlusOriginalNoDetailsQuery?djiNo=test",
+    "http": 401,
+    "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 15:51:10\"}"
+  }
+]

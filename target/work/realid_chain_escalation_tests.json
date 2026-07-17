@@ -1,0 +1,768 @@
+{
+  "list_push": {
+    "http": 200,
+    "app": "200",
+    "row_count": 20,
+    "first_row_keys": [
+      "id",
+      "orderId",
+      "insuranceType",
+      "beneficiaryType",
+      "isSuccess",
+      "errorMsg",
+      "wrapCount",
+      "pushSource",
+      "djiNo",
+      "activeTime",
+      "customer",
+      "countryCode",
+      "remark",
+      "isAppend",
+      "typeCode",
+      "applyPolicyReason",
+      "orignalId",
+      "actPushInsuranceId",
+      "factoryCode",
+      "certiType",
+      "certiNumber",
+      "customerName",
+      "customerPhone",
+      "customerPhoneCurrent",
+      "customerBirthday",
+      "customerEmail",
+      "customerEmailCurrent",
+      "agentEmail",
+      "currentAgentEmail",
+      "creator",
+      "creatorName",
+      "creationTime",
+      "lastModificationTime",
+      "deletionTime",
+      "isDeleted"
+    ],
+    "first_row": {
+      "id": "bb48e86f-2267-45dd-8fcf-f5ec71a20a48",
+      "orderId": null,
+      "insuranceType": 0,
+      "beneficiaryType": 0,
+      "isSuccess": true,
+      "errorMsg": "",
+      "wrapCount": 1,
+      "pushSource": 2,
+      "djiNo": "E6D793930819D3B8",
+      "activeTime": "20260709",
+      "customer": "7857c706-6788-4917-9eec-1add302dacaf",
+      "countryCode": null,
+      "remark": "test",
+      "isAppend": false,
+      "typeCode": 1,
+      "applyPolicyReason": null,
+      "orignalId": null,
+      "actPushInsuranceId": null,
+      "factoryCode": "",
+      "certiType": "",
+      "certiNumber": "mNPLUcGhAKZkcTUJU6rCzO2MswvQP6YwiRBKPj8VPWI=",
+      "customerName": "t****",
+      "customerPhone": "131****2222",
+      "customerPhoneCurrent": "131****2222",
+      "customerBirthday": null,
+      "customerEmail": "****@qq.com",
+      "customerEmailCurrent": "****@qq.com",
+      "agentEmail": "",
+      "currentAgentEmail": "",
+      "creator": "e811615e-43d8-4a17-b556-5cbc23c52ea3",
+      "creatorName": null,
+      "creationTime": "2026-07-09 15:34:22",
+      "lastModificationTime": "2026-07-09 15:35:01",
+      "deletionTime": null,
+      "isDeleted": false
+    }
+  },
+  "list_jd": {
+    "http": 200,
+    "app": "200",
+    "row_count": 20,
+    "first_row_keys": [
+      "id",
+      "orderNo",
+      "serviceSkuCode",
+      "productSn",
+      "buyDate",
+      "status",
+      "wrapCount",
+      "errorMsg",
+      "comfirmStatus",
+      "comfirmErrorMsg",
+      "insuranceType",
+      "updateState",
+      "updateStateErrorMsg",
+      "updateValue",
+      "creationTime",
+      "lastModificationTime"
+    ],
+    "first_row": {
+      "id": "8571c88c-04eb-4a5c-b5fc-af7f50e36175",
+      "orderNo": "TESTJD2511270006",
+      "serviceSkuCode": "TESTSKU",
+      "productSn": "9KRXN9J00B13D5",
+      "buyDate": "2025-11-27T18:02:26.823",
+      "status": true,
+      "wrapCount": 1,
+      "errorMsg": null,
+      "comfirmStatus": 1,
+      "comfirmErrorMsg": null,
+      "insuranceType": 5,
+      "updateState": false,
+      "updateStateErrorMsg": null,
+      "updateValue": 1,
+      "creationTime": "2025-11-27T18:02:26.823",
+      "lastModificationTime": "2025-11-27T18:05:08.017"
+    }
+  },
+  "list_actpush": {
+    "http": 200,
+    "app": "200",
+    "row_count": 20,
+    "first_row_keys": [
+      "id",
+      "orderId",
+      "agentName",
+      "productNo",
+      "productType",
+      "craftSn",
+      "cameraSn",
+      "activeTime",
+      "isActive",
+      "pushSource",
+      "insuranceType",
+      "insuranceTime",
+      "pushStatus",
+      "remark",
+      "creationTime",
+      "lastModificationTime",
+      "userId",
+      "userName",
+      "userMobile",
+      "userEmail",
+      "certiNumber",
+      "certiType",
+      "beneficiaryType",
+      "status",
+      "userInfoUpdateTime",
+      "agentEmail",
+      "currencyAbbreviation",
+      "creator",
+      "modifier",
+      "creatorName",
+      "modifierName"
+    ],
+    "first_row": {
+      "id": "ace2dd9e-09b2-4b80-a4f3-fe20b75df86d",
+      "orderId": "1783568132874",
+      "agentName": "kenneth.xu",
+      "productNo": "WM16301",
+      "productType": "djiWM163",
+      "craftSn": "1581F5YH17835681UDes",
+      "cameraSn": "5YJ1783568Ih2L",
+      "activeTime": null,
+      "isActive": 0,
+      "pushSource": 0,
+      "insuranceType": null,
+      "insuranceTime": null,
+      "pushStatus": 0,
+      "remark": "Requestid 【c7636d94e84f4e56a1e3ba0f4d4950e9】 网关返回报错, 返回【{\"code\":404,\"message\":\"您所要查询的数据不存在 detail:该SN不属于任何快照 [invoke_id: 4230ccff76ae44518ca0ed2a29ffb92e] \",\"data\":{}}】 入参 【sn=1581F5YH17835681UDes】",
+      "creationTime": "2026-07-09T11:35:33.26",
+      "lastModificationTime": "2026-07-09T11:35:34.13",
+      "userId": null,
+      "userName": "",
+      "userMobile": null,
+      "userEmail": null,
+      "certiNumber": null,
+      "certiType": null,
+      "beneficiaryType": null,
+      "status": 0,
+      "userInfoUpdateTime": "2026-07-09T11:35:34.127",
+      "agentEmail": null,
+      "currencyAbbreviation": "CNY",
+      "creator": null,
+      "modifier": null,
+      "creatorName": null,
+      "modifierName": null
+    }
+  },
+  "list_activation": {
+    "http": 200,
+    "app": "200",
+    "row_count": 20,
+    "first_row_keys": [
+      "id",
+      "cardNumber",
+      "productType",
+      "insuranceTypeId",
+      "isUse",
+      "useStatus",
+      "useDate",
+      "createIp",
+      "userIp",
+      "activationStatus",
+      "applyReason",
+      "cancelReason",
+      "activationType",
+      "insuranceTypeName",
+      "rightType",
+      "craftSN",
+      "cameraSN",
+      "insuraceType",
+      "currencyAbbreviation",
+      "typeCode",
+      "creationTime",
+      "lastModificationTime",
+      "orderNo",
+      "creator",
+      "modifier",
+      "creatorName",
+      "modifierName"
+    ],
+    "first_row": {
+      "id": "d4778873-60d8-44df-a394-523485fbef93",
+      "cardNumber": "DJI8264216",
+      "productType": "djiHYJ_DSZ_100W",
+      "insuranceTypeId": "d6765693-d93f-4804-af39-ee6c06f62ecd",
+      "isUse": 1,
+      "useStatus": "已使用",
+      "useDate": "2026-07-09 15:03:37",
+      "createIp": "120.196.210.134",
+      "userIp": "",
+      "activationStatus": 1,
+      "applyReason": "旗舰店激活码申请",
+      "cancelReason": "",
+      "activationType": "1",
+      "insuranceTypeName": "众安三者险100w_test",
+      "rightType": 0,
+      "craftSN": "1581F7FVC265J00DGGUD",
+      "cameraSN": "7FTCP5900A6NS5",
+      "insuraceType": "1",
+      "currencyAbbreviation": "CNY",
+      "typeCode": 10,
+      "creationTime": "2026-07-09 14:35:46",
+      "lastModificationTime": "2026-07-09 15:03:37",
+      "orderNo": "",
+      "creator": null,
+      "modifier": null,
+      "creatorName": null,
+      "modifierName": null
+    }
+  },
+  "list_audit": {
+    "http": 200,
+    "app": "200",
+    "row_count": 20,
+    "first_row_keys": [
+      "id",
+      "email",
+      "cusName",
+      "airType",
+      "craftSN",
+      "cameraSN",
+      "videoLink",
+      "status",
+      "statusName",
+      "creationTime",
+      "lastModificationTime",
+      "deletionTime",
+      "isDeleted",
+      "customerLanguage",
+      "handleComment",
+      "mobile",
+      "creator",
+      "modifier",
+      "creatorName",
+      "modifierName"
+    ],
+    "first_row": {
+      "id": "fe6c27b0-af83-456c-85b2-629f8e99b983",
+      "email": "**@qq.com",
+      "cusName": "4*",
+      "airType": "DJI Air 3S",
+      "craftSN": "342424",
+      "cameraSN": "",
+      "videoLink": "34",
+      "status": 2,
+      "statusName": "已通过",
+      "creationTime": "2024-10-31 17:27:56",
+      "lastModificationTime": "2026-06-09 15:20:07",
+      "deletionTime": null,
+      "isDeleted": false,
+      "customerLanguage": "zh-CN",
+      "handleComment": "111",
+      "mobile": "",
+      "creator": null,
+      "modifier": "58747b50-64c1-481c-b2e6-425f3a5d7146",
+      "creatorName": null,
+      "modifierName": null
+    }
+  },
+  "list_audit_third": {
+    "http": 200,
+    "app": "200",
+    "row_count": 20,
+    "first_row_keys": [
+      "id",
+      "email",
+      "cusName",
+      "airType",
+      "craftSN",
+      "cameraSN",
+      "videoLink",
+      "status",
+      "statusName",
+      "creationTime",
+      "lastModificationTime",
+      "deletionTime",
+      "isDeleted",
+      "customerLanguage",
+      "handleComment",
+      "mobile",
+      "creator",
+      "modifier",
+      "creatorName",
+      "modifierName"
+    ],
+    "first_row": {
+      "id": "fe6c27b0-af83-456c-85b2-629f8e99b983",
+      "email": "**@qq.com",
+      "cusName": "4*",
+      "airType": "DJI Air 3S",
+      "craftSN": "342424",
+      "cameraSN": "",
+      "videoLink": "34",
+      "status": 2,
+      "statusName": "已通过",
+      "creationTime": "2024-10-31 17:27:56",
+      "lastModificationTime": "2026-06-09 15:20:07",
+      "deletionTime": null,
+      "isDeleted": false,
+      "customerLanguage": "zh-CN",
+      "handleComment": "111",
+      "mobile": "",
+      "creator": null,
+      "modifier": "58747b50-64c1-481c-b2e6-425f3a5d7146",
+      "creatorName": null,
+      "modifierName": "ag-test001"
+    }
+  },
+  "list_repair": {
+    "http": 200,
+    "app": "200",
+    "row_count": 20,
+    "first_row_keys": [
+      "caseNo",
+      "insuranceId",
+      "repairStatus",
+      "reportDate",
+      "accidentDate",
+      "lossCause",
+      "cusName",
+      "cusTelPhone",
+      "returnTime",
+      "returnNo",
+      "productName",
+      "failureReason",
+      "repairMode1",
+      "amt1",
+      "repairMode2",
+      "amt2",
+      "repairMode3",
+      "amt3",
+      "userAmt",
+      "repairAmt",
+      "costAmt",
+      "currentMoney",
+      "currentCNYMoney",
+      "currencyAbbreviation",
+      "craftSN",
+      "cameraSN",
+      "originCraftSN",
+      "originCameraSN",
+      "typeCode",
+      "money",
+      "cnyMoney",
+      "insuranceName",
+      "currentAccidentMoney",
+      "currentAccidentCNYMoney",
+      "certNo",
+      "currencyName",
+      "accidentCNYMoney",
+      "accidentMoney",
+      "creator",
+      "modifier",
+      "companyName",
+      "companyId",
+      "repairType",
+      "creationTime",
+      "lastModificationTime",
+      "deletionTime",
+      "isDeleted",
+      "id"
+    ],
+    "first_row": {
+      "caseNo": "IRC260709000003",
+      "insuranceId": "bdbb4417-bb25-4831-905d-9b2d41f6fffb",
+      "repairStatus": "1",
+      "reportDate": "2026-07-09T12:03:05",
+      "accidentDate": "2026-07-09T12:03:05",
+      "lossCause": "4",
+      "cusName": "t****",
+      "cusTelPhone": "150****3557",
+      "returnTime": "2026-07-09T12:04:36",
+      "returnNo": "UUZZROU9PE73N82GvQZe8Q==",
+      "productName": "djiT20_tcg",
+      "failureReason": "其它",
+      "repairMode1": "正常维修",
+      "amt1": 15.2,
+      "repairMode2": null,
+      "amt2": 20.0,
+      "repairMode3": null,
+      "amt3": null,
+      "userAmt": 2.8,
+      "repairAmt": 10.0,
+      "costAmt": 25.2,
+      "currentMoney": 27924.4,
+      "currentCNYMoney": 27924.4,
+      "currencyAbbreviation": "CNY",
+      "craftSN": "36RDH5B0019DHN",
+      "cameraSN": "36RDH5B0019DHN",
+      "originCraftSN": "36RDH5B0019DHN",
+      "originCameraSN": "36RDH5B0019DHN",
+      "typeCode": 3,
+      "money": 28000.0,
+      "cnyMoney": 28000.0,
+      "insuranceName": "T20套装财产险个人版",
+      "currentAccidentMoney": 1940.0,
+      "currentAccidentCNYMoney": 1940.0,
+      "certNo": "PI05523260701182628352",
+      "currencyName": "人民币",
+      "accidentCNYMoney": 2000.0,
+      "accidentMoney": 2000.0,
+      "creator": null,
+      "modifier": null,
+      "companyName": "众安",
+      "companyId": "38f2297e-c26e-4a30-8288-1be0002e54cf",
+      "repairType": 2,
+      "creationTime": "2026-07-09T12:04:36.7",
+      "lastModificationTime": "2026-07-09T12:04:38.427",
+      "deletionTime": null,
+      "isDeleted": false,
+      "id": "10f14906-fb6e-4799-9d7b-08dedd6c96c4"
+    }
+  },
+  "ops": [
+    {
+      "name": "push_complete_retry_realid",
+      "path": "/api/v1/PushInsurance/CompleteRetryPush",
+      "body": [
+        "bb48e86f-2267-45dd-8fcf-f5ec71a20a48"
+      ],
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:42\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "20302",
+        "body": "{\"isSuccess\":false,\"code\":20302,\"message\":\"{\\\"Code\\\":20302,\\\"Chinese\\\":\\\"推送成功的记录不能重新推送\\\",\\\"English\\\":\\\"Push Success Not Retry\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:36:42\"}"
+      }
+    },
+    {
+      "name": "push_update_realid",
+      "path": "/api/v1/PushInsurance/UpdateRecord",
+      "body": {
+        "id": "bb48e86f-2267-45dd-8fcf-f5ec71a20a48",
+        "remark": "attacker-update",
+        "customerName": "att",
+        "customerEmail": "att@att.com",
+        "customerPhone": "13800138000",
+        "agentEmail": "a@a.a",
+        "factoryCode": "X1"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:43\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "20302",
+        "body": "{\"isSuccess\":false,\"code\":20302,\"message\":\"{\\\"Code\\\":20302,\\\"Chinese\\\":\\\"推送成功的记录不能重新推送\\\",\\\"English\\\":\\\"Push Success Not Retry\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:36:43\"}"
+      }
+    },
+    {
+      "name": "push_deliver_realid",
+      "path": "/api/v1/PushInsurance/DeliverSn",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "id": "bb48e86f-2267-45dd-8fcf-f5ec71a20a48",
+        "remark": "attacker-deliver"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:43\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "10005",
+        "body": "{\"isSuccess\":false,\"code\":10005,\"message\":\"{\\\"Code\\\":10005,\\\"Chinese\\\":\\\"主键不存在\\\",\\\"English\\\":\\\"EntityNotFoundException\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:36:44\"}"
+      }
+    },
+    {
+      "name": "push_get_ext_realid",
+      "path": "/api/v1/PushInsurance/GetPushInsuranceExtList",
+      "body": {
+        "id": "bb48e86f-2267-45dd-8fcf-f5ec71a20a48"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:44\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":[{\"id\":\"7171f7f8-f0fc-4c0c-8a05-0af1f17da968\",\"orderId\":null,\"craftSn\":\"1581F9868N4K7M25K83F\",\"cameraSn\":\"8LRYQNCWAHZGWH\",\"beneficiaryType\":null,\"certiType\":null,\"certiNumber\":null,\"customerName\":"
+      }
+    },
+    {
+      "name": "jd_retry_realid",
+      "path": "/api/v1/JDOrder/RetryPush",
+      "body": {
+        "ids": [
+          "8571c88c-04eb-4a5c-b5fc-af7f50e36175"
+        ],
+        "paramOk": true
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:44\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:45\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "actpush_void_realid",
+      "path": "/api/v1/ActPushInsuranceInfo/ActPushInsuranceToVoid",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "id": "ace2dd9e-09b2-4b80-a4f3-fe20b75df86d",
+        "remark": "attacker void"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:45\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:45\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "actpush_delete_realid",
+      "path": "/api/v1/ActPushInsuranceInfo/Delete",
+      "body": {
+        "ids": [
+          "ace2dd9e-09b2-4b80-a4f3-fe20b75df86d"
+        ],
+        "paramOk": true
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:46\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:46\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "activation_operation_realid",
+      "path": "/api/v1/ActivationManager/ActivationOperation",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "id": "d4778873-60d8-44df-a394-523485fbef93",
+        "operaType": 1,
+        "cancelReason": "attacker-cancel"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:47\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:47\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "activation_unlock_realid",
+      "path": "/api/v1/ActivationManager/UnLockActivation",
+      "body": {
+        "ids": [
+          "d4778873-60d8-44df-a394-523485fbef93"
+        ],
+        "paramOk": true
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:47\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:47\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "careaudit_approve_realid",
+      "path": "/api/v1/BaseConfig/CareAuditSnAuditing",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "id": "fe6c27b0-af83-456c-85b2-629f8e99b983",
+        "craftSN": "x",
+        "cameraSN": "x",
+        "status": 1,
+        "handleComment": "attacker approve"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:48\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:48\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "careaudit_reject_realid",
+      "path": "/api/v1/BaseConfig/CareAuditSnAuditing",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "id": "fe6c27b0-af83-456c-85b2-629f8e99b983",
+        "craftSN": "x",
+        "cameraSN": "x",
+        "status": 2,
+        "handleComment": "attacker reject"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:48\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:48\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "careaudit3_approve_realid",
+      "path": "/api/v1/ThirdInsurance/CareAuditSnAuditing",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "id": "fe6c27b0-af83-456c-85b2-629f8e99b983",
+        "craftSN": "x",
+        "cameraSN": "x",
+        "status": 1,
+        "handleComment": "attacker approve"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:49\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:49\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "repair_confirm_first_realid",
+      "path": "/api/v1/Repair/RepairRebackConfirm",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "insuranceId": "bdbb4417-bb25-4831-905d-9b2d41f6fffb",
+        "repairId": "10f14906-fb6e-4799-9d7b-08dedd6c96c4"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:49\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "200",
+        "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:36:49\",\"isSuccess\":true,\"code\":200}"
+      }
+    },
+    {
+      "name": "repair_review_second_realid",
+      "path": "/api/v1/Repair/ReviewRepairReback",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "insuranceId": "bdbb4417-bb25-4831-905d-9b2d41f6fffb",
+        "repairId": "10f14906-fb6e-4799-9d7b-08dedd6c96c4"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:50\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "10003",
+        "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:36:50\"}"
+      }
+    },
+    {
+      "name": "repair_confirm_third_realid",
+      "path": "/api/v1/Repair/RepairRebackConfirm",
+      "body": {
+        "userId": "3b1f97bc-6912-49ca-aa0e-c01a3ac5dd31",
+        "userAd": "attacker",
+        "insuranceId": "bdbb4417-bb25-4831-905d-9b2d41f6fffb",
+        "repairId": "10f14906-fb6e-4799-9d7b-08dedd6c96c4"
+      },
+      "no_sign": {
+        "http": 401,
+        "app": "10001",
+        "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:36:50\"}"
+      },
+      "replay": {
+        "http": 200,
+        "app": "10003",
+        "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:36:50\"}"
+      }
+    }
+  ]
+}

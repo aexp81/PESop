@@ -1,0 +1,1891 @@
+{
+  "target": "developer.dji.com",
+  "methodology": "PESop HF-1 to HF-7",
+  "timestamp": "2026-07-17T01:42:50Z",
+  "api_endpoints": [
+    {
+      "url": "https://developer.dji.com/api/report/web",
+      "method": "GET",
+      "status": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "response_sample": "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title>DJI Developer</title><meta content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\" /><meta content=\"dji, developer, sdk, mobile sdk, guidance sdk, onboard sdk, documentation, api reference, drone\" name=\"keywords\" /><link href=\"//devcn.djicdn.com/images/favicon-ff3498d082.png\" rel=\"shortcut icon\" type=\"image/png\" /><link href=\"//devcn.djicdn.com/css/vendor-a6834158d3.css\" rel=\"stylesheet\" /><link href=\"//devcn.djicdn.com/css/app-f36153a4df"
+    },
+    {
+      "url": "https://store-api.dji.com/logger/beacon.gif",
+      "method": "GET",
+      "status": 204,
+      "content_type": "",
+      "response_sample": "",
+      "requires_auth": false
+    },
+    {
+      "url": "https://store-api.dji.com/health",
+      "method": "GET",
+      "status": 404,
+      "content_type": "application/json; charset=utf-8",
+      "response_sample": "{\"message\":\"no route and no API found with those values\"}\n"
+    },
+    {
+      "url": "https://account.dji.com/oauth/token",
+      "method": "GET",
+      "status": 401,
+      "content_type": "application/json;charset=utf-8",
+      "response_sample": "{\"code\":707,\"message\":\"errorCode: 401, error Path: /oauth/token\",\"data\":null}",
+      "requires_auth": true
+    },
+    {
+      "url": "https://account.dji.com/oauth/authorize",
+      "method": "GET",
+      "status": 302,
+      "content_type": "",
+      "response_sample": "",
+      "requires_auth": false
+    },
+    {
+      "url": "https://account.dji.com/.well-known/oauth-authorization-server",
+      "method": "GET",
+      "status": 404,
+      "content_type": "application/json;charset=utf-8",
+      "response_sample": "{\"code\":707,\"message\":\"errorCode: 404, error Path: /.well-known/oauth-authorization-server\",\"data\":null}"
+    },
+    {
+      "url": "https://account.dji.com/.well-known/openid-configuration",
+      "method": "GET",
+      "status": 404,
+      "content_type": "application/json;charset=utf-8",
+      "response_sample": "{\"code\":707,\"message\":\"errorCode: 404, error Path: /.well-known/openid-configuration\",\"data\":null}"
+    },
+    {
+      "url": "https://developer.dji.com/robots.txt",
+      "method": "GET",
+      "status": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "response_sample": "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title>DJI Developer</title><meta content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\" /><meta content=\"dji, developer, sdk, mobile sdk, guidance sdk, onboard sdk, documentation, api reference, drone\" name=\"keywords\" /><link href=\"//devcn.djicdn.com/images/favicon-ff3498d082.png\" rel=\"shortcut icon\" type=\"image/png\" /><link href=\"//devcn.djicdn.com/css/vendor-a6834158d3.css\" rel=\"stylesheet\" /><link href=\"//devcn.djicdn.com/css/app-f36153a4df"
+    },
+    {
+      "url": "https://developer.dji.com/sitemap.xml",
+      "method": "GET",
+      "status": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "response_sample": "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title>DJI Developer</title><meta content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\" /><meta content=\"dji, developer, sdk, mobile sdk, guidance sdk, onboard sdk, documentation, api reference, drone\" name=\"keywords\" /><link href=\"//devcn.djicdn.com/images/favicon-ff3498d082.png\" rel=\"shortcut icon\" type=\"image/png\" /><link href=\"//devcn.djicdn.com/css/vendor-a6834158d3.css\" rel=\"stylesheet\" /><link href=\"//devcn.djicdn.com/css/app-f36153a4df"
+    },
+    {
+      "url": "https://developer.dji.com/.env",
+      "method": "GET",
+      "status": 405,
+      "content_type": "text/html; charset=utf-8",
+      "response_sample": "<!DOCTYPE html>\n<html lang=\"zh-cn\">\n\n<head>\n  <meta charset=\"utf-8\">\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n  <meta name=\"data-spm\" content=\"a3c0e\" />\n  <title>405</title>\n  <style>\n    html,\n    body,\n    div,\n    a,\n    h2,\n    p {\n      margin: 0;\n      padding: 0;\n    }\n\n    a {\n      text-decoration: none;\n      color: #3b6ea3;\n    }\n\n    .container {\n      width: 1000px;\n      margin: auto;\n      color: #696969;\n    }\n\n    .header {\n      padding: 50px 0;\n    }\n\n ",
+      "requires_auth": false
+    },
+    {
+      "url": "https://developer.dji.com/.git/config",
+      "method": "GET",
+      "status": 403,
+      "content_type": "text/html; charset=utf-8",
+      "response_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Our Website is Busy</title>\n  <meta content=\"user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0\" name=\"viewport\">\n  <style type=\"text/css\">\n    body,div,img,p,ul,li,h2,header{\n      padding: 0;\n      margin: 0;\n      font-weight: normal;\n    }\n    header{\n      display: block;\n    }\n    body,html{\n\n      font-weight: 400;\n      font-size: 18px;\n      color: #333;\n    }\n    .container{\n      position",
+      "requires_auth": false
+    },
+    {
+      "url": "https://developer.dji.com/api/v1/",
+      "method": "GET",
+      "status": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "response_sample": "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title>DJI Developer</title><meta content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\" /><meta content=\"dji, developer, sdk, mobile sdk, guidance sdk, onboard sdk, documentation, api reference, drone\" name=\"keywords\" /><link href=\"//devcn.djicdn.com/images/favicon-ff3498d082.png\" rel=\"shortcut icon\" type=\"image/png\" /><link href=\"//devcn.djicdn.com/css/vendor-a6834158d3.css\" rel=\"stylesheet\" /><link href=\"//devcn.djicdn.com/css/app-f36153a4df"
+    },
+    {
+      "url": "https://developer.dji.com/api/v2/",
+      "method": "GET",
+      "status": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "response_sample": "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title>DJI Developer</title><meta content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\" /><meta content=\"dji, developer, sdk, mobile sdk, guidance sdk, onboard sdk, documentation, api reference, drone\" name=\"keywords\" /><link href=\"//devcn.djicdn.com/images/favicon-ff3498d082.png\" rel=\"shortcut icon\" type=\"image/png\" /><link href=\"//devcn.djicdn.com/css/vendor-a6834158d3.css\" rel=\"stylesheet\" /><link href=\"//devcn.djicdn.com/css/app-f36153a4df"
+    },
+    {
+      "url": "https://developer.dji.com/graphql",
+      "method": "GET",
+      "status": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "response_sample": "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title>DJI Developer</title><meta content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\" /><meta content=\"dji, developer, sdk, mobile sdk, guidance sdk, onboard sdk, documentation, api reference, drone\" name=\"keywords\" /><link href=\"//devcn.djicdn.com/images/favicon-ff3498d082.png\" rel=\"shortcut icon\" type=\"image/png\" /><link href=\"//devcn.djicdn.com/css/vendor-a6834158d3.css\" rel=\"stylesheet\" /><link href=\"//devcn.djicdn.com/css/app-f36153a4df"
+    },
+    {
+      "url": "https://developer.dji.com/rest/",
+      "method": "GET",
+      "status": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "response_sample": "<!DOCTYPE html><html><head><meta charset=\"utf-8\" /><title>DJI Developer</title><meta content=\"IE=edge,chrome=1\" http-equiv=\"X-UA-Compatible\" /><meta content=\"dji, developer, sdk, mobile sdk, guidance sdk, onboard sdk, documentation, api reference, drone\" name=\"keywords\" /><link href=\"//devcn.djicdn.com/images/favicon-ff3498d082.png\" rel=\"shortcut icon\" type=\"image/png\" /><link href=\"//devcn.djicdn.com/css/vendor-a6834158d3.css\" rel=\"stylesheet\" /><link href=\"//devcn.djicdn.com/css/app-f36153a4df"
+    }
+  ],
+  "security_issues": [
+    {
+      "type": "missing_security_header",
+      "header": "Strict-Transport-Security",
+      "severity": "low",
+      "domain": "developer.dji.com",
+      "description": "Missing Strict-Transport-Security header",
+      "impact": "Increased risk of certain attacks without Strict-Transport-Security"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Content-Security-Policy",
+      "severity": "low",
+      "domain": "developer.dji.com",
+      "description": "Missing Content-Security-Policy header",
+      "impact": "Increased risk of certain attacks without Content-Security-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Content-Type-Options",
+      "severity": "low",
+      "domain": "developer.dji.com",
+      "description": "Missing X-Content-Type-Options header",
+      "impact": "Increased risk of certain attacks without X-Content-Type-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Frame-Options",
+      "severity": "low",
+      "domain": "developer.dji.com",
+      "description": "Missing X-Frame-Options header",
+      "impact": "Increased risk of certain attacks without X-Frame-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-XSS-Protection",
+      "severity": "low",
+      "domain": "developer.dji.com",
+      "description": "Missing X-XSS-Protection header",
+      "impact": "Increased risk of certain attacks without X-XSS-Protection"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Referrer-Policy",
+      "severity": "low",
+      "domain": "developer.dji.com",
+      "description": "Missing Referrer-Policy header",
+      "impact": "Increased risk of certain attacks without Referrer-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Permissions-Policy",
+      "severity": "low",
+      "domain": "developer.dji.com",
+      "description": "Missing Permissions-Policy header",
+      "impact": "Increased risk of certain attacks without Permissions-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Strict-Transport-Security",
+      "severity": "low",
+      "domain": "store-api.dji.com",
+      "description": "Missing Strict-Transport-Security header",
+      "impact": "Increased risk of certain attacks without Strict-Transport-Security"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Content-Security-Policy",
+      "severity": "low",
+      "domain": "store-api.dji.com",
+      "description": "Missing Content-Security-Policy header",
+      "impact": "Increased risk of certain attacks without Content-Security-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Content-Type-Options",
+      "severity": "low",
+      "domain": "store-api.dji.com",
+      "description": "Missing X-Content-Type-Options header",
+      "impact": "Increased risk of certain attacks without X-Content-Type-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Frame-Options",
+      "severity": "low",
+      "domain": "store-api.dji.com",
+      "description": "Missing X-Frame-Options header",
+      "impact": "Increased risk of certain attacks without X-Frame-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-XSS-Protection",
+      "severity": "low",
+      "domain": "store-api.dji.com",
+      "description": "Missing X-XSS-Protection header",
+      "impact": "Increased risk of certain attacks without X-XSS-Protection"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Referrer-Policy",
+      "severity": "low",
+      "domain": "store-api.dji.com",
+      "description": "Missing Referrer-Policy header",
+      "impact": "Increased risk of certain attacks without Referrer-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Permissions-Policy",
+      "severity": "low",
+      "domain": "store-api.dji.com",
+      "description": "Missing Permissions-Policy header",
+      "impact": "Increased risk of certain attacks without Permissions-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Referrer-Policy",
+      "severity": "low",
+      "domain": "account.dji.com",
+      "description": "Missing Referrer-Policy header",
+      "impact": "Increased risk of certain attacks without Referrer-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Permissions-Policy",
+      "severity": "low",
+      "domain": "account.dji.com",
+      "description": "Missing Permissions-Policy header",
+      "impact": "Increased risk of certain attacks without Permissions-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Strict-Transport-Security",
+      "severity": "low",
+      "domain": "terra-1-g.djicdn.com",
+      "description": "Missing Strict-Transport-Security header",
+      "impact": "Increased risk of certain attacks without Strict-Transport-Security"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Content-Security-Policy",
+      "severity": "low",
+      "domain": "terra-1-g.djicdn.com",
+      "description": "Missing Content-Security-Policy header",
+      "impact": "Increased risk of certain attacks without Content-Security-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Content-Type-Options",
+      "severity": "low",
+      "domain": "terra-1-g.djicdn.com",
+      "description": "Missing X-Content-Type-Options header",
+      "impact": "Increased risk of certain attacks without X-Content-Type-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Frame-Options",
+      "severity": "low",
+      "domain": "terra-1-g.djicdn.com",
+      "description": "Missing X-Frame-Options header",
+      "impact": "Increased risk of certain attacks without X-Frame-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-XSS-Protection",
+      "severity": "low",
+      "domain": "terra-1-g.djicdn.com",
+      "description": "Missing X-XSS-Protection header",
+      "impact": "Increased risk of certain attacks without X-XSS-Protection"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Referrer-Policy",
+      "severity": "low",
+      "domain": "terra-1-g.djicdn.com",
+      "description": "Missing Referrer-Policy header",
+      "impact": "Increased risk of certain attacks without Referrer-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Permissions-Policy",
+      "severity": "low",
+      "domain": "terra-1-g.djicdn.com",
+      "description": "Missing Permissions-Policy header",
+      "impact": "Increased risk of certain attacks without Permissions-Policy"
+    },
+    {
+      "severity": "medium",
+      "type": "cors_wildcard",
+      "url": "https://terra-1-g.djicdn.com",
+      "description": "CORS allows all origins (*)",
+      "poc": "curl -H 'Origin: https://evil-attacker.com' -I https://terra-1-g.djicdn.com",
+      "impact": "Any website can make cross-origin requests to this endpoint"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Strict-Transport-Security",
+      "severity": "low",
+      "domain": "devcn.djicdn.com",
+      "description": "Missing Strict-Transport-Security header",
+      "impact": "Increased risk of certain attacks without Strict-Transport-Security"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Content-Security-Policy",
+      "severity": "low",
+      "domain": "devcn.djicdn.com",
+      "description": "Missing Content-Security-Policy header",
+      "impact": "Increased risk of certain attacks without Content-Security-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Content-Type-Options",
+      "severity": "low",
+      "domain": "devcn.djicdn.com",
+      "description": "Missing X-Content-Type-Options header",
+      "impact": "Increased risk of certain attacks without X-Content-Type-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-Frame-Options",
+      "severity": "low",
+      "domain": "devcn.djicdn.com",
+      "description": "Missing X-Frame-Options header",
+      "impact": "Increased risk of certain attacks without X-Frame-Options"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "X-XSS-Protection",
+      "severity": "low",
+      "domain": "devcn.djicdn.com",
+      "description": "Missing X-XSS-Protection header",
+      "impact": "Increased risk of certain attacks without X-XSS-Protection"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Referrer-Policy",
+      "severity": "low",
+      "domain": "devcn.djicdn.com",
+      "description": "Missing Referrer-Policy header",
+      "impact": "Increased risk of certain attacks without Referrer-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Permissions-Policy",
+      "severity": "low",
+      "domain": "devcn.djicdn.com",
+      "description": "Missing Permissions-Policy header",
+      "impact": "Increased risk of certain attacks without Permissions-Policy"
+    },
+    {
+      "severity": "medium",
+      "type": "cors_wildcard",
+      "url": "https://devcn.djicdn.com",
+      "description": "CORS allows all origins (*)",
+      "poc": "curl -H 'Origin: https://evil-attacker.com' -I https://devcn.djicdn.com",
+      "impact": "Any website can make cross-origin requests to this endpoint"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Referrer-Policy",
+      "severity": "low",
+      "domain": "www.dji.com",
+      "description": "Missing Referrer-Policy header",
+      "impact": "Increased risk of certain attacks without Referrer-Policy"
+    },
+    {
+      "type": "missing_security_header",
+      "header": "Permissions-Policy",
+      "severity": "low",
+      "domain": "www.dji.com",
+      "description": "Missing Permissions-Policy header",
+      "impact": "Increased risk of certain attacks without Permissions-Policy"
+    },
+    {
+      "severity": "high",
+      "type": "cors_credentials",
+      "url": "https://www.dji.com",
+      "description": "CORS with credentials and arbitrary/reflected origin",
+      "poc": "curl -H 'Origin: https://evil-attacker.com' -H 'Cookie: ...' https://www.dji.com",
+      "impact": "Cookie-based session hijacking via cross-origin requests"
+    }
+  ],
+  "infrastructure": {
+    "domains": {
+      "developer.dji.com": {
+        "domain": "developer.dji.com",
+        "status": 200,
+        "server": "Tengine",
+        "headers": {
+          "Server": "Tengine",
+          "Content-Type": "text/html; charset=UTF-8",
+          "Content-Length": "27208",
+          "Connection": "keep-alive",
+          "Set-Cookie": "acw_tc=78e9cf3017842525703337477e82fbb17798ec276674767f461f22667f;path=/;HttpOnly;Max-Age=1800",
+          "Date": "Fri, 17 Jul 2026 01:42:51 GMT",
+          "x-amz-id-2": "ACtxj4Ip3Hrn2fEVe7/MshUUXy5Vujrg1a2mmApDxtlH7Gg54/lzHpgrzLR6rqyJRAT8BAkuX97yOg7WyAJH++vv+bA6V1fc",
+          "x-amz-request-id": "H9VB7CY6BVVQQRP1",
+          "Cache-Control": "no-cache",
+          "Last-Modified": "Mon, 13 Jul 2026 07:06:42 GMT",
+          "x-amz-version-id": "ZzeOiN7opu51.hwehfx7aj6pzaG.CgeA",
+          "ETag": "\"af1e1a7ab9dbae6fec9d2996f27a071b\"",
+          "Via": "nw, ens-cache6.l2us4[372,0], cache10.l2et15-7[887,0], cache28.cn7715[1146,0]",
+          "Timing-Allow-Origin": "*",
+          "EagleId": "78e9cf3017842525703337477e"
+        },
+        "ip": "120.233.45.172"
+      },
+      "store-api.dji.com": {
+        "domain": "store-api.dji.com",
+        "status": 404,
+        "server": "Tengine",
+        "headers": {
+          "Server": "Tengine",
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": "58",
+          "Connection": "keep-alive",
+          "Date": "Fri, 17 Jul 2026 01:42:52 GMT",
+          "Set-Cookie": "acw_tc=76b20f4e17842525729294971e92a911c3d6314ff8b19d52a0050a0ec47d8a;path=/;HttpOnly;Max-Age=1800",
+          "x-nw-cluster-name": "hz-prod",
+          "x-nw-response-type": "nw_short_circuit",
+          "x-alicdn-da-ups-status": "endOs,0,404",
+          "Via": "cache9.l2eu95-4[37,0], cache24.cn9525[136,0]",
+          "Timing-Allow-Origin": "*",
+          "EagleId": "78e8622c17842525728362090e"
+        },
+        "ip": "120.232.98.91"
+      },
+      "account.dji.com": {
+        "domain": "account.dji.com",
+        "status": 200,
+        "server": "Tengine",
+        "headers": {
+          "Server": "Tengine",
+          "Content-Type": "text/html;charset=utf-8",
+          "Content-Length": "14116",
+          "Connection": "keep-alive",
+          "Date": "Fri, 17 Jul 2026 01:42:53 GMT",
+          "Set-Cookie": "acw_tc=781bad4417842525733015597ec14b1edfb051c8e475f531df6774a8090545;path=/;HttpOnly;Max-Age=1800",
+          "Vary": "Accept-Encoding",
+          "X-Content-Type-Options": "nosniff",
+          "X-XSS-Protection": "1; mode=block",
+          "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0",
+          "X-Frame-Options": "DENY",
+          "X-Kong-Upstream-Latency": "17",
+          "X-Kong-Proxy-Latency": "1",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Content-Security-Policy": "frame-ancestors app-h5.dji.com test-app-h5.dbeta.me repair.dji.com service.dji.com findspot.dji.com",
+          "Via": "nw, cache19.l2eu95-2[52,0], cache5.cn9525[172,0]",
+          "Timing-Allow-Origin": "*",
+          "EagleId": "78e8621917842525732298678e"
+        },
+        "ip": "120.232.98.89",
+        "OAuth server metadata": {
+          "url": "https://account.dji.com/.well-known/oauth-authorization-server",
+          "status": 404,
+          "headers": {
+            "Server": "Tengine",
+            "Content-Type": "application/json;charset=utf-8",
+            "Transfer-Encoding": "chunked",
+            "Connection": "keep-alive",
+            "Date": "Fri, 17 Jul 2026 01:43:24 GMT",
+            "Set-Cookie": "acw_tc=781bad4417842526046145846ec139457b46a02ba09276649cbd680bf261b2;path=/;HttpOnly;Max-Age=1800",
+            "X-Content-Type-Options": "nosniff",
+            "X-XSS-Protection": "1; mode=block",
+            "Pragma": "no-cache",
+            "X-Frame-Options": "DENY",
+            "X-Kong-Upstream-Latency": "32",
+            "X-Kong-Proxy-Latency": "0",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Content-Security-Policy": "frame-ancestors app-h5.dji.com test-app-h5.dbeta.me repair.dji.com service.dji.com findspot.dji.com",
+            "x-nw-trace-id": "c1488811fa0bc1de",
+            "x-nw-cluster-name": "hz-prod",
+            "x-nw-response-type": "ki_upstream_response",
+            "Via": "nw, cache12.l2eu95-3[51,0], cache13.cn9525[148,0]",
+            "x-alicdn-da-ups-status": "endOs,0,404",
+            "Timing-Allow-Origin": "*",
+            "EagleId": "78e8622117842526045202836e"
+          },
+          "body_preview": "{\"code\":707,\"message\":\"errorCode: 404, error Path: /.well-known/oauth-authorization-server\",\"data\":null}"
+        },
+        "OpenID configuration": {
+          "url": "https://account.dji.com/.well-known/openid-configuration",
+          "status": 404,
+          "headers": {
+            "Server": "Tengine",
+            "Content-Type": "application/json;charset=utf-8",
+            "Transfer-Encoding": "chunked",
+            "Connection": "keep-alive",
+            "Date": "Fri, 17 Jul 2026 01:43:24 GMT",
+            "Set-Cookie": "acw_tc=76b20f5317842526047625300e5010121003d09c4df08af8f789ded08b53e5;path=/;HttpOnly;Max-Age=1800",
+            "X-Content-Type-Options": "nosniff",
+            "X-XSS-Protection": "1; mode=block",
+            "Pragma": "no-cache",
+            "X-Frame-Options": "DENY",
+            "X-Kong-Upstream-Latency": "41",
+            "X-Kong-Proxy-Latency": "1",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Content-Security-Policy": "frame-ancestors app-h5.dji.com test-app-h5.dbeta.me repair.dji.com service.dji.com findspot.dji.com",
+            "x-nw-trace-id": "babd6859a50f16ad",
+            "x-nw-cluster-name": "hz-prod",
+            "x-nw-response-type": "ki_upstream_response",
+            "Via": "nw, cache19.l2eu95-3[70,0], cache18.cn9525[96,0]",
+            "x-alicdn-da-ups-status": "endOs,0,404",
+            "Timing-Allow-Origin": "*",
+            "EagleId": "78e8622617842526047414566e"
+          },
+          "body_preview": "{\"code\":707,\"message\":\"errorCode: 404, error Path: /.well-known/openid-configuration\",\"data\":null}"
+        },
+        "OAuth authorize endpoint": {
+          "url": "https://account.dji.com/oauth/authorize",
+          "status": 302,
+          "headers": {
+            "Server": "Tengine",
+            "Content-Length": "0",
+            "Connection": "keep-alive",
+            "Date": "Fri, 17 Jul 2026 01:43:24 GMT",
+            "Set-Cookie": "acw_tc=76b20f8b17842526049216674e3df213b5db1d4afe20da32e5af603663e7ce;path=/;HttpOnly;Max-Age=1800",
+            "X-Content-Type-Options": "nosniff",
+            "X-XSS-Protection": "1; mode=block",
+            "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+            "X-Frame-Options": "DENY",
+            "Location": "https://account.dji.com/login/oauth?null",
+            "X-Kong-Upstream-Latency": "24",
+            "X-Kong-Proxy-Latency": "1",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Content-Security-Policy": "frame-ancestors app-h5.dji.com test-app-h5.dbeta.me repair.dji.com service.dji.com findspot.dji.com",
+            "Via": "nw, cache60.l2eu95-3[42,0], cache26.cn9525[69,0]",
+            "Timing-Allow-Origin": "*",
+            "EagleId": "78e8622e17842526049084168e"
+          },
+          "body_preview": ""
+        },
+        "OAuth token endpoint": {
+          "url": "https://account.dji.com/oauth/token",
+          "status": 401,
+          "headers": {
+            "Server": "Tengine",
+            "Content-Type": "application/json;charset=utf-8",
+            "Transfer-Encoding": "chunked",
+            "Connection": "keep-alive",
+            "Date": "Fri, 17 Jul 2026 01:43:25 GMT",
+            "Set-Cookie": "SESSION=8c094b89-f093-40ca-99c4-d8462941800e;Path=/;HttpOnly",
+            "WWW-Authenticate": "Basic realm=\"oauth2/client\"",
+            "X-Content-Type-Options": "nosniff",
+            "X-XSS-Protection": "1; mode=block",
+            "Pragma": "no-cache",
+            "X-Frame-Options": "DENY",
+            "X-Kong-Upstream-Latency": "33",
+            "X-Kong-Proxy-Latency": "0",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Content-Security-Policy": "frame-ancestors app-h5.dji.com test-app-h5.dbeta.me repair.dji.com service.dji.com findspot.dji.com",
+            "x-nw-trace-id": "2a4a3affe6608e6f",
+            "x-nw-cluster-name": "hz-prod",
+            "x-nw-response-type": "ki_upstream_response",
+            "Via": "nw, cache3.l2eu95-3[68,0], cache1.cn9525[167,0]",
+            "x-alicdn-da-ups-status": "endOs,0,401",
+            "Timing-Allow-Origin": "*",
+            "EagleId": "78e8621517842526050381083e"
+          },
+          "body_preview": "{\"code\":707,\"message\":\"errorCode: 401, error Path: /oauth/token\",\"data\":null}"
+        },
+        "OAuth revoke endpoint": {
+          "url": "https://account.dji.com/oauth/revoke",
+          "status": 404,
+          "headers": {
+            "Server": "Tengine",
+            "Content-Type": "application/json;charset=utf-8",
+            "Transfer-Encoding": "chunked",
+            "Connection": "keep-alive",
+            "Date": "Fri, 17 Jul 2026 01:43:25 GMT",
+            "Set-Cookie": "acw_tc=76b20f7817842526052944482e80f1df6e8b58aa9a9924065807f3f3a3649f;path=/;HttpOnly;Max-Age=1800",
+            "X-Content-Type-Options": "nosniff",
+            "X-XSS-Protection": "1; mode=block",
+            "Pragma": "no-cache",
+            "X-Frame-Options": "DENY",
+            "X-Kong-Upstream-Latency": "34",
+            "X-Kong-Proxy-Latency": "1",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Content-Security-Policy": "frame-ancestors app-h5.dji.com test-app-h5.dbeta.me repair.dji.com service.dji.com findspot.dji.com",
+            "x-nw-trace-id": "ceb041ff47723d29",
+            "x-nw-cluster-name": "hz-prod",
+            "x-nw-response-type": "ki_upstream_response",
+            "Via": "nw, cache22.l2eu95-3[67,0], cache6.cn9525[100,0]",
+            "x-alicdn-da-ups-status": "endOs,0,404",
+            "Timing-Allow-Origin": "*",
+            "EagleId": "78e8621a17842526052754806e"
+          },
+          "body_preview": "{\"code\":707,\"message\":\"errorCode: 404, error Path: /oauth/revoke\",\"data\":null}"
+        }
+      },
+      "terra-1-g.djicdn.com": {
+        "domain": "terra-1-g.djicdn.com",
+        "status": 403,
+        "server": "AliyunOSS",
+        "headers": {
+          "Server": "AliyunOSS",
+          "Date": "Fri, 17 Jul 2026 01:42:54 GMT",
+          "Content-Type": "application/xml",
+          "x-oss-request-id": "6A59889E7F54503532AF8254",
+          "x-oss-server-time": "0",
+          "x-oss-ec": "0003-00000905",
+          "Age": "0",
+          "Content-Length": "385",
+          "Connection": "keep-alive",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "*",
+          "Access-Control-Allow-Headers": "*",
+          "EO-LOG-UUID": "11519817571421037586",
+          "EO-Cache-Status": "MISS",
+          "Content-Identifier": "eocontent-3lpvmq14gb62"
+        },
+        "ip": "120.240.156.130"
+      },
+      "devcn.djicdn.com": {
+        "domain": "devcn.djicdn.com",
+        "status": 403,
+        "server": "Tengine",
+        "headers": {
+          "Server": "Tengine",
+          "Content-Type": "application/xml",
+          "Content-Length": "345",
+          "Connection": "keep-alive",
+          "Date": "Fri, 17 Jul 2026 01:42:54 GMT",
+          "x-oss-request-id": "6A59889EB2401033384B550E",
+          "x-oss-cdn-auth": "success",
+          "x-oss-server-time": "4",
+          "x-oss-ec": "0003-00000905",
+          "Via": "cache30.l2cn2627[82,82,403-1280,M], cache8.l2cn2627[84,0], cache19.cn9584[154,154,403-1280,M], cache7.cn9584[160,0]",
+          "Ali-Swift-Global-Savetime": "1784252574",
+          "X-Cache": "MISS TCP_MISS dirn:-2:-2",
+          "X-Swift-Error": "orig response 4XX error",
+          "X-Swift-SaveTime": "Fri, 17 Jul 2026 01:42:54 GMT",
+          "X-Swift-CacheTime": "0",
+          "Timing-Allow-Origin": "*",
+          "EagleId": "78f1e59b17842525745122297e"
+        },
+        "ip": "120.241.229.147"
+      },
+      "www.dji.com": {
+        "domain": "www.dji.com",
+        "status": 302,
+        "server": "Tengine",
+        "headers": {
+          "Server": "Tengine",
+          "Content-Type": "text/html",
+          "Transfer-Encoding": "chunked",
+          "Connection": "keep-alive",
+          "Date": "Fri, 17 Jul 2026 01:42:55 GMT",
+          "Set-Cookie": "lang=zh-CN; path=/; domain=.dji.com; max-age=2592000",
+          "X-Frame-Options": "DENY",
+          "Location": "https://www.dji.com/cn",
+          "Content-Security-Policy": "frame-ancestors 'self' http://*.dji.com https://*.dji.com",
+          "Access-Control-Allow-Origin": "https://store.dji.com",
+          "Access-Control-Allow-Method": "POST, OPTIONS, GET",
+          "Access-Control-Allow-Headers": "Method, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Cache-Control, Lang, Pragma, Access-Control-Allow-Origin, Date, date",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Expose-Headers": "Date",
+          "X-Kong-Upstream-Latency": "3",
+          "X-Kong-Proxy-Latency": "0",
+          "x-via": "a",
+          "X-XSS-Protection": "1; mode=block",
+          "X-Content-Type-Options": "nosniff",
+          "Strict-Transport-Security": "max-age=31536000; includeSubdomains",
+          "Via": "nw, cache14.l2eu95-3[37,0], cache7.cn9525[67,0]",
+          "server-timing": "cdn-cache;desc=MISS,edge;dur=30,origin;dur=37",
+          "Timing-Allow-Origin": "*",
+          "EagleId": "78e8621b17842525752821147e"
+        },
+        "ip": "120.232.98.89"
+      }
+    },
+    "cdns": {},
+    "servers": [],
+    "backend_urls": [
+      "https://account.dji.com/login?appId=dji_sdk&backUrl=https%3A%2F%2Fdeveloper.dji.com%2Fuser&locale=",
+      "https://account.dji.com/register?appId=dji_sdk&backUrl=https%3A%2F%2Fdeveloper.dji.com%2Fuser&locale=en_US",
+      "https://account.dji.com/reset",
+      "https://developer.dji.com/doc/cloud-api-tutorial/en/",
+      "https://developer.dji.com/doc/edge-sdk-tutorial/en/",
+      "https://developer.dji.com/doc/mobile-sdk-tutorial/en/",
+      "https://developer.dji.com/doc/payload-sdk-tutorial/en/",
+      "https://www.dji.com/policy",
+      "https://www.dji.com/products/enterprise#enterprise-accessories",
+      "https://developer.dji.com/doc/payload-sdk-api-reference/en/",
+      "https://enterprise.dji.com/ecosystem",
+      "https://developer.dji.com/doc/edge-sdk-iot-tutorial/",
+      "https://enterprise-insights.dji.com/cn/blog/ecosystem-tutorial/",
+      "http://developer.dji.com/policies/developer/",
+      "http://developer.dji.com/policies/eula/",
+      "http://developer.dji.com/policies/terms/",
+      "http://s.dji.com/hX2F6xiZ",
+      "http://www.dji.com/",
+      "http://www.dji.com/cn",
+      "http://www.dji.com/cn/policy",
+      "http://www.dji.com/cn/product/inspire-1",
+      "http://www.dji.com/cn/product/phantom-3",
+      "http://www.dji.com/cn/terms",
+      "http://www.dji.com/policy",
+      "http://www.dji.com/product/inspire-1",
+      "http://www.dji.com/product/phantom-3",
+      "http://www.dji.com/terms",
+      "https://bbs.dji.com/forum-79-1.html?from=developer",
+      "https://developer.dji.com/",
+      "https://developer.dji.com/ai-developer",
+      "https://developer.dji.com/cn/",
+      "https://developer.dji.com/cn/</a>查阅最新的协议版本。</p>\\n",
+      "https://developer.dji.com/cn/document/26cd55ae-ef09-4463-b941-d6bb2bb98461",
+      "https://developer.dji.com/cn/document/d0e1e15e-76de-439a-8e0c-a15e79085fb0",
+      "https://developer.dji.com/cn/mobile-sdk/documentation/application-development-workflow/workflow-deploy.html#MFI-Authorization",
+      "https://developer.dji.com/cn/mobile-sdk/downloads",
+      "https://developer.dji.com/cn/mobile-sdk/），（b）",
+      "https://developer.dji.com/cn/onboard-sdk/",
+      "https://developer.dji.com/cn/payload-sdk/",
+      "https://developer.dji.com/cn/payload-sdk/documentation/guide/hardware.html",
+      "https://developer.dji.com/cn/policies/developer/",
+      "https://developer.dji.com/cn/policies/export",
+      "https://developer.dji.com/cn/policies/flight_record",
+      "https://developer.dji.com/cn/ux-sdk/），",
+      "https://developer.dji.com/cn/windows-sdk/",
+      "https://developer.dji.com/doc/cloud-api-tutorial/cn/",
+      "https://developer.dji.com/doc/edge-sdk-api-reference/cn/",
+      "https://developer.dji.com/doc/edge-sdk-api-reference/en/",
+      "https://developer.dji.com/doc/edge-sdk-tutorial/cn/",
+      "https://developer.dji.com/doc/mobile-sdk-tutorial/cn/",
+      "https://developer.dji.com/doc/payload-sdk-api-reference/cn/",
+      "https://developer.dji.com/doc/payload-sdk-api-reference/v2/cn/",
+      "https://developer.dji.com/doc/payload-sdk-api-reference/v2/en/",
+      "https://developer.dji.com/doc/payload-sdk-tutorial/cn/",
+      "https://developer.dji.com/doc/terra_api_tutorial/cn/",
+      "https://developer.dji.com/doc/terra_api_tutorial/cn/api/terra/",
+      "https://developer.dji.com/doc/terra_api_tutorial/en/",
+      "https://developer.dji.com/doc/terra_api_tutorial/en/api/terra/",
+      "https://developer.dji.com/document/2103887e-6d62-4f52-b508-348e57f69244",
+      "https://developer.dji.com/document/32ae17fb-bfa0-4f18-9d12-7a95253ee4e4",
+      "https://developer.dji.com/mobile-sdk/",
+      "https://developer.dji.com/mobile-sdk/documentation/application-development-workflow/workflow-deploy.html#MFI-Authorization",
+      "https://developer.dji.com/mobile-sdk/documentation/introduction/ux_sdk_introduction.html",
+      "https://developer.dji.com/mobile-sdk/downloads",
+      "https://developer.dji.com/onboard-sdk/",
+      "https://developer.dji.com/payload-sdk/",
+      "https://developer.dji.com/payload-sdk/documentation/guide/hardware.html",
+      "https://developer.dji.com/policies/developer/;",
+      "https://developer.dji.com/policies/eula/",
+      "https://developer.dji.com/policies/export",
+      "https://developer.dji.com/policies/flight_record",
+      "https://developer.dji.com/policies/terms/",
+      "https://developer.dji.com/policies/terms/</a>",
+      "https://developer.dji.com/user/membership/",
+      "https://developer.dji.com/ux-sdk/",
+      "https://developer.dji.com/windows-sdk/",
+      "https://enterprise.dji.com/cn/ecosystem",
+      "https://enterprise.dji.com/modify#contact",
+      "https://fh.dji.com/user-manual/cn/custom-development/open-api/api-introduction.html",
+      "https://fh.dji.com/user-manual/cn/organization-management/algorithm-management.html",
+      "https://fh.dji.com/user-manual/cn/release-notes/release-notes-private.html",
+      "https://fh.dji.com/user-manual/en/custom-development/open-api/api-introduction.html",
+      "https://fh.dji.com/user-manual/en/organization-management/algorithm-management.html",
+      "https://fh.dji.com/user-manual/en/release-notes/release-notes-private.html",
+      "https://forum.dji.com/forum-139-1.html?from=developer",
+      "https://s.dji.com/2VR2zVvq",
+      "https://s.dji.com/IJBI3FBu",
+      "https://s.dji.com/JnNmVZv6",
+      "https://s.dji.com/UReE3rMu",
+      "https://s.dji.com/fMIJfibU",
+      "https://s.dji.com/jjNAeEv6",
+      "https://s.dji.com/nVJfijz7",
+      "https://s.dji.com/uEReMA2z",
+      "https://s.dji.com/zjj7Ify7",
+      "https://statistical-report.djiservice.org",
+      "https://store.dji.com",
+      "https://store.dji.com/cn",
+      "https://store.dji.com/cn/product/4g-private-server-deployment-license",
+      "https://store.dji.com/cn/product/4g-private-server-upgrade-license",
+      "https://store.dji.com/cn/product/dji-skyport-adapter-set-v2",
+      "https://store.dji.com/cn/product/dji-x-port",
+      "https://store.dji.com/product/dji-skyport-adapter-set",
+      "https://store.dji.com/product/dji-x-port",
+      "https://terra-1-g.djicdn.com/71a7d383e71a4fb8887a310eb746b47f/apply/DJI_Developer_Website_Registration_Form.xlsx",
+      "https://terra-1-g.djicdn.com/71a7d383e71a4fb8887a310eb746b47f/apply/大疆开发者网站注册信息填写表格（中文）.xlsx",
+      "https://terra-1-g.djicdn.com/84f990b0bbd145e6a3930de0c55d3b2b/ai_open_platform/%E6%99%BA%E8%83%BD%E7%AE%97%E5%8A%9B%E5%BC%80%E6%94%BE%E5%BC%80%E5%8F%91%E8%80%85%E7%AB%AF%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E-20251211.pdf",
+      "https://terra-1-g.djicdn.com/84f990b0bbd145e6a3930de0c55d3b2b/ai_open_platform/0313-ailink/ai-link-introducition-cn.mp4",
+      "https://terra-1-g.djicdn.com/84f990b0bbd145e6a3930de0c55d3b2b/ai_open_platform/0313-ailink/ai-link-introducition-en.mp4",
+      "https://terra-1-g.djicdn.com/84f990b0bbd145e6a3930de0c55d3b2b/ai_open_platform/AI%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E6%95%99%E7%A8%8B%E8%A7%86%E9%A2%91-CN.mp4",
+      "https://terra-1-g.djicdn.com/84f990b0bbd145e6a3930de0c55d3b2b/ai_open_platform/AI%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E6%95%99%E7%A8%8B%E8%A7%86%E9%A2%91-EN.mp4",
+      "https://terra-1-g.djicdn.com/84f990b0bbd145e6a3930de0c55d3b2b/ai_open_platform/Instructions%20for%20AI%20Developers-20251211.pdf",
+      "https://terra-1-g.djicdn.com/fee90c2e03e04e8da67ea6f56365fc76/SDK%20%E6%96%87%E6%A1%A3/private-fh2/%E5%A4%A7%E7%96%86%E5%8F%B8%E7%A9%BA%202%20%E7%A7%81%E6%9C%89%E7%89%88%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C.pdf",
+      "https://terra-1-g.djicdn.com/fee90c2e03e04e8da67ea6f56365fc76/SDK%20%E6%96%87%E6%A1%A3/private-fh2/%E5%A4%A7%E7%96%86%E5%8F%B8%E7%A9%BA2%E4%B8%80%E4%BD%93%E6%9C%BA_%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C_cn.pdf",
+      "https://terra-1-g.djicdn.com/fee90c2e03e04e8da67ea6f56365fc76/SDK%20%E6%96%87%E6%A1%A3/private-fh2/%E5%A4%A7%E7%96%86%E8%AE%BE%E5%A4%87%E5%9B%BA%E4%BB%B6%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E.pdf",
+      "https://terra-1-g.djicdn.com/fee90c2e03e04e8da67ea6f56365fc76/SDK%20%E6%96%87%E6%A1%A3/private-fh2/DJI%20FlightHub%202%20AIO_User%20Manual_en.pdf",
+      "https://terra-1-g.djicdn.com/fee90c2e03e04e8da67ea6f56365fc76/SDK%20%E6%96%87%E6%A1%A3/private-fh2/v1.5/%E5%A4%A7%E7%96%86%E5%8F%B8%E7%A9%BA%202%20%E7%A7%81%E6%9C%89%E7%89%88%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C.pdf",
+      "https://terra-1-g.djicdn.com/fee90c2e03e04e8da67ea6f56365fc76/SDK%20%E6%96%87%E6%A1%A3/private-fh2/v1.5/FlightHub%202%20On-Premises%20Version%20Deployment%20Manual.pdf",
+      "https://www.dji.com",
+      "https://www.dji.com/cn/matrice-300",
+      "https://www.dji.com/cn/mavic-2-enterprise",
+      "https://www.dji.com/cn/policy",
+      "https://www.dji.com/cn/policy</a>.</p>\\n",
+      "https://www.dji.com/cn/products/enterprise#enterprise-accessories",
+      "https://www.dji.com/matrice-300",
+      "https://www.dji.com/mavic-2-enterprise",
+      "https://www.djivideos.com/video_play/3b7b0411-37ff-4323-b4a5-04756db05b8b",
+      "https://www.djivideos.com/video_play/3c79dee1-0ec1-4169-a0e4-726053aaf9c1",
+      "https://store-api.dji.com/logger/beacon.gif",
+      "https://www.dji.com/policy?from=scio#12",
+      "https://store.dji.com/cn/product/dji-flighthub-2?vid=141774"
+    ],
+    "terraform_findings": [
+      {
+        "url": "https://terra-1-g.djicdn.com/robots.txt",
+        "status": 200,
+        "content_type": "text/plain",
+        "body_preview": "User-agent: *\nDisallow: /\n"
+      }
+    ]
+  },
+  "hardcoded_secrets": [
+    {
+      "type": "Secret Key",
+      "value": "Communication Key",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Access Token",
+      "value": "Send Token",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Access Token",
+      "value": "Verification Token",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Access Token",
+      "value": "Invalid Token",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Access Token",
+      "value": "User login credential.",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Password",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Confirm Password",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Forgot your password?",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Please input your password to delete your application",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Please input your password to initiate the developer account deletion process. A...",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Reset Password",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Current Password",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "New Password",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Change Password",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Account number or password you entered is incorrect, please enter again.",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Your password must be a combination of 8-20 alphanumeric characters.",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "Passwords do not match.",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "确认密码",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "忘记密码？",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "请在下框中输入密码 便于在删除应用前核对您的身份",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "请在下框中输入密码 随后会有一封带有密钥的邮件发送到您的邮箱用来进行删除的下一步",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "修改密码",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "当前密码",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "重复密码",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "邮箱地址或密码错误",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "密码必须由8-20个字符组成",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "Password",
+      "value": "密码不匹配",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "type": "App/Client ID",
+      "value": "developer-website-fe",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    }
+  ],
+  "js_assets": [
+    {
+      "url": "https://devcn.djicdn.com/0477e1233ec3aad4a62d.js",
+      "size": 207858,
+      "status": 200
+    },
+    {
+      "url": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js",
+      "size": 45387,
+      "status": 200
+    },
+    {
+      "url": "https://devcn.djicdn.com/6234c74e951b75aabce2.js",
+      "size": 19312,
+      "status": 200
+    },
+    {
+      "url": "https://devcn.djicdn.com/6582635b332975c1f2c5.js",
+      "size": 18450,
+      "status": 200
+    },
+    {
+      "url": "https://devcn.djicdn.com/757058a2ace13b9258c9.js",
+      "size": 8758,
+      "status": 200
+    },
+    {
+      "url": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js",
+      "size": 1122923,
+      "status": 200
+    },
+    {
+      "url": "https://devcn.djicdn.com/c448dccdf6c530953a2f.js",
+      "size": 2197238,
+      "status": 200
+    },
+    {
+      "url": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js",
+      "size": 82906,
+      "status": 200
+    }
+  ],
+  "attack_tree": {
+    "entry_points": [
+      {
+        "type": "cors_credentials",
+        "description": "CORS with credentials and arbitrary/reflected origin",
+        "poc": "curl -H 'Origin: https://evil-attacker.com' -H 'Cookie: ...' https://www.dji.com"
+      }
+    ],
+    "escalation_paths": [],
+    "high_value_targets": [],
+    "attack_chains": [
+      {
+        "name": "API Key Leak through CORS",
+        "severity": "high",
+        "steps": [
+          "Hardcoded API keys found in JS: ['Communication Key', 'Send Token', 'Verification Token']",
+          "CORS allows cross-origin requests",
+          "Attacker's website can extract keys and access backend APIs",
+          "Potential data exfiltration and unauthorized operations"
+        ],
+        "conditions": [
+          "Exposed API keys in client-side code",
+          "Permissive CORS policy"
+        ]
+      },
+      {
+        "name": "Unauthenticated Internal API Access",
+        "severity": "high",
+        "steps": [
+          "Internal URLs found: []",
+          "Unauthenticated endpoints: ['https://store-api.dji.com/logger/beacon.gif', 'https://account.dji.com/oauth/authorize', 'https://developer.dji.com/.env']",
+          "Direct access to internal APIs without authentication",
+          "Potential information disclosure and privilege escalation"
+        ],
+        "conditions": [
+          "Leaked internal URLs",
+          "Missing authentication on sensitive endpoints"
+        ]
+      }
+    ]
+  },
+  "http_security_headers": {
+    "developer.dji.com": {
+      "Strict-Transport-Security": "Missing Strict-Transport-Security header",
+      "Content-Security-Policy": "Missing Content-Security-Policy header",
+      "X-Content-Type-Options": "Missing X-Content-Type-Options header",
+      "X-Frame-Options": "Missing X-Frame-Options header",
+      "X-XSS-Protection": "Missing X-XSS-Protection header",
+      "Referrer-Policy": "Missing Referrer-Policy header",
+      "Permissions-Policy": "Missing Permissions-Policy header"
+    },
+    "store-api.dji.com": {
+      "Strict-Transport-Security": "Missing Strict-Transport-Security header",
+      "Content-Security-Policy": "Missing Content-Security-Policy header",
+      "X-Content-Type-Options": "Missing X-Content-Type-Options header",
+      "X-Frame-Options": "Missing X-Frame-Options header",
+      "X-XSS-Protection": "Missing X-XSS-Protection header",
+      "Referrer-Policy": "Missing Referrer-Policy header",
+      "Permissions-Policy": "Missing Permissions-Policy header"
+    },
+    "account.dji.com": {
+      "Referrer-Policy": "Missing Referrer-Policy header",
+      "Permissions-Policy": "Missing Permissions-Policy header"
+    },
+    "terra-1-g.djicdn.com": {
+      "Strict-Transport-Security": "Missing Strict-Transport-Security header",
+      "Content-Security-Policy": "Missing Content-Security-Policy header",
+      "X-Content-Type-Options": "Missing X-Content-Type-Options header",
+      "X-Frame-Options": "Missing X-Frame-Options header",
+      "X-XSS-Protection": "Missing X-XSS-Protection header",
+      "Referrer-Policy": "Missing Referrer-Policy header",
+      "Permissions-Policy": "Missing Permissions-Policy header"
+    },
+    "devcn.djicdn.com": {
+      "Strict-Transport-Security": "Missing Strict-Transport-Security header",
+      "Content-Security-Policy": "Missing Content-Security-Policy header",
+      "X-Content-Type-Options": "Missing X-Content-Type-Options header",
+      "X-Frame-Options": "Missing X-Frame-Options header",
+      "X-XSS-Protection": "Missing X-XSS-Protection header",
+      "Referrer-Policy": "Missing Referrer-Policy header",
+      "Permissions-Policy": "Missing Permissions-Policy header"
+    },
+    "www.dji.com": {
+      "Referrer-Policy": "Missing Referrer-Policy header",
+      "Permissions-Policy": "Missing Permissions-Policy header"
+    }
+  },
+  "cors_findings": [
+    {
+      "severity": "medium",
+      "type": "cors_wildcard",
+      "url": "https://terra-1-g.djicdn.com",
+      "description": "CORS allows all origins (*)",
+      "poc": "curl -H 'Origin: https://evil-attacker.com' -I https://terra-1-g.djicdn.com",
+      "impact": "Any website can make cross-origin requests to this endpoint"
+    },
+    {
+      "severity": "medium",
+      "type": "cors_wildcard",
+      "url": "https://devcn.djicdn.com",
+      "description": "CORS allows all origins (*)",
+      "poc": "curl -H 'Origin: https://evil-attacker.com' -I https://devcn.djicdn.com",
+      "impact": "Any website can make cross-origin requests to this endpoint"
+    },
+    {
+      "severity": "high",
+      "type": "cors_credentials",
+      "url": "https://www.dji.com",
+      "description": "CORS with credentials and arbitrary/reflected origin",
+      "poc": "curl -H 'Origin: https://evil-attacker.com' -H 'Cookie: ...' https://www.dji.com",
+      "impact": "Cookie-based session hijacking via cross-origin requests"
+    }
+  ],
+  "routes_found": [
+    {
+      "route": "hash",
+      "source": "https://devcn.djicdn.com/0477e1233ec3aad4a62d.js"
+    },
+    {
+      "route": "+path),r.isString(o)&&f.push(",
+      "source": "https://devcn.djicdn.com/0477e1233ec3aad4a62d.js"
+    },
+    {
+      "route": "+r.path}if(r.expires){if(",
+      "source": "https://devcn.djicdn.com/0477e1233ec3aad4a62d.js"
+    },
+    {
+      "route": "/ux-sdk",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/ux-sdk/support",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/api-reference-v5/android-api/index.html",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/onboard-sdk/downloads",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/ux-sdk/downloads",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/windows-sdk/support",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/windows-sdk/downloads",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/windows-sdk",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/onboard-sdk/support",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/onboard-sdk",
+      "source": "https://devcn.djicdn.com/49e6f51690b6c76b6638.js"
+    },
+    {
+      "route": "/mobile-sdk",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/ux-sdk",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/innovation-contest",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/edge-sdk",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/onboard-sdk/downloads",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/ux-sdk/downloads",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/windows-sdk/downloads",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/cloud-api",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/windows-sdk",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/onboard-sdk",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/payload-sdk",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/mobile-sdk-v4/downloads",
+      "source": "https://devcn.djicdn.com/6234c74e951b75aabce2.js"
+    },
+    {
+      "route": "/document/",
+      "source": "https://devcn.djicdn.com/6582635b332975c1f2c5.js"
+    },
+    {
+      "route": "/ai-inside",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/cookie-list/CookieListPage",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/:sdk/documentation/*",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types/map-config",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/payload-sdk-authentication",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/resources",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "types",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "download",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/document",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/edge-sdk-v2",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/cookie-list/types",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types/draw-output",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/Step",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/apply",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "record",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "shortlisted-constants",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/document/:uid",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cookie-list",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/resources/",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "free",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/innovation-contest-register",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/VideoPlayer",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/:sdk",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "private",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "tool",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/terra-api-console",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/:sdk/downloads",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/cookie-list",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/onboard-sdk",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/cookie-list/components/CookieCategorySection",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cookie-list/components/CookieTable",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types/draw-output",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "distribution",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "apply",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/apply",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/search/?q=",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "elevation",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/policies/:policy?",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "create",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/ecosystem",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "detail",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/windows-sdk",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/components/elevation-sidebar",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/search",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/policies/:policy?",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/ai-inside",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "data/faq-types",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/components/address-search",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/ux-sdk",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "utils",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "hardware-upgrade",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types/interfaces",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "hardware-tool",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/user",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/mobile-sdk",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "links",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/components/elevation-dialog",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/:sdk/downloads",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/ai-developer",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "landing",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/cookie-list/constants",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/ShortlistedCard",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/components/failure-dialog",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types/map-style",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/document",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/:sdk/documentation",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/components/elevation-dialog",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types/map-style",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/policies/terms",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cookie-list/components/CookieCategorySection",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/LikeButton",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types/geo",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/components/failure-dialog",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/document/:uid",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types/map-events",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types/constans",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/MobileHeader",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/:sdk/documentation",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "constans",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "hardware-download",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/Faq",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types/map-events",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/payload-sdk-authentication",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/components/address-search",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "upgrade",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/innovation-contest",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/terra-api-console",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/innovation-contest-shortlisted",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "data/overview-types",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types/interfaces",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/ShortlistedFilter",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/active-code",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "data/overview-data",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/innovation-contest-register",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/collection_list",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cloud-api",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/collection_list",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "model",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "combination",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/ai-developer",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/ecosystem",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cookie-list/types",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/components/micro-map",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "overview",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/innovation-contest",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/components/micro-map",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "hardware-elevation",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/flighthub-api",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/active-code",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/:sdk/documentation/*",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/ShortlistedDetailModal",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/ContestTerms",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/GetModelModal",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cookie-list/CookieListPage",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/innovation-contest-shortlisted",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "data/faq-data",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/types/map-config",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/cookie-list/components/CookieTable",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types/geo",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "server",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/payload-sdk",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/elevation-data/components/elevation-sidebar",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/:sdk",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/search",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "components/FingerPrintFileUpload",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "hardware-license",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "detail/:id?",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "constants",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/resources",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cookie-list/constants",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "/cn/elevation-data/types/constans",
+      "source": "https://devcn.djicdn.com/7f7d741d7a8cb943fba3.js"
+    },
+    {
+      "route": "+(path||",
+      "source": "https://devcn.djicdn.com/c448dccdf6c530953a2f.js"
+    },
+    {
+      "route": "+(i||",
+      "source": "https://devcn.djicdn.com/c448dccdf6c530953a2f.js"
+    },
+    {
+      "route": ".",
+      "source": "https://devcn.djicdn.com/c448dccdf6c530953a2f.js"
+    },
+    {
+      "route": "/ux-sdk",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/onboard-sdk/documentation/development-workflow/environment-setup.html#ubuntu-linux",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/ux-sdk/support",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/products#!/onboard",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/api-reference-v5/android-api/index.html",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/products#!/windows",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/onboard-sdk/downloads",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/ux-sdk/downloads",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/windows-sdk/support",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/windows-sdk/downloads",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/products#!/mobile",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/windows-sdk",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/onboard-sdk/documentation/development-workflow/environment-setup.html#linux-with-ros",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/payload-sdk/apply",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/onboard-sdk/support",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/onboard-sdk",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "/onboard-sdk/documentation/development-workflow/environment-setup.html#stm32",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    },
+    {
+      "route": "sikong.overview.business.highlight-title",
+      "source": "https://devcn.djicdn.com/ee644d4eae1fced9004d.js"
+    }
+  ],
+  "error_leaks": [
+    {
+      "url": "https://account.dji.com/oauth/token",
+      "method": "GET",
+      "evidence": "{\"code\":707,\"message\":\"errorCode: 401, error Path: /oauth/token\",\"data\":null}",
+      "severity": "medium"
+    }
+  ],
+  "tech_stack": {
+    "frontend_framework": "Angular",
+    "bundler": "Webpack",
+    "http_client": "Axios"
+  },
+  "execution_time_seconds": 39.42766356468201,
+  "summary": {
+    "total_api_endpoints": 15,
+    "total_security_issues": 35,
+    "total_hardcoded_secrets": 28,
+    "total_routes_found": 183,
+    "total_js_files_analyzed": 8,
+    "critical_issues": 0,
+    "high_issues": 1,
+    "medium_issues": 2,
+    "low_issues": 32
+  }
+}

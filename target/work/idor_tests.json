@@ -1,0 +1,566 @@
+{
+  "ids": [
+    "00000000-0000-0000-0000-000000000000",
+    "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978",
+    "bcc99b26-4122-4ece-8285-e1c13d987196",
+    "11111111-1111-1111-1111-111111111111"
+  ],
+  "get_tests": [
+    {
+      "endpoint": "/api/v1/BaseConfig/GetTotalAuditSnInfoById",
+      "param": "id",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 2.454,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:04\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.454,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:05\"}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.192,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:05\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.289,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:05\"}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.256,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:06\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.388,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:06\"}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.319,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:06\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.281,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:07\"}"
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/FlyLose/GetSingleTotalAuthenticationInfo",
+      "param": "id",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.269,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:07\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.164,
+            "body": "{\"message\":null,\"value\":{\"id\":\"00000000-0000-0000-0000-000000000000\",\"account\":null,\"craftSn\":null,\"repeaterSn\":null,\"customerPhone\":null,\"stopReason\":null,\"productType\":null,\"caseNo\":null,\"status\":0,\"creationTime\":\"0001-01-01 00:00:00\",\"la"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.185,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:07\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.17,
+            "body": "{\"message\":null,\"value\":{\"id\":\"00000000-0000-0000-0000-000000000000\",\"account\":null,\"craftSn\":null,\"repeaterSn\":null,\"customerPhone\":null,\"stopReason\":null,\"productType\":null,\"caseNo\":null,\"status\":0,\"creationTime\":\"0001-01-01 00:00:00\",\"la"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.241,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:08\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.266,
+            "body": "{\"message\":null,\"value\":{\"id\":\"00000000-0000-0000-0000-000000000000\",\"account\":null,\"craftSn\":null,\"repeaterSn\":null,\"customerPhone\":null,\"stopReason\":null,\"productType\":null,\"caseNo\":null,\"status\":0,\"creationTime\":\"0001-01-01 00:00:00\",\"la"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.169,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:08\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.178,
+            "body": "{\"message\":null,\"value\":{\"id\":\"00000000-0000-0000-0000-000000000000\",\"account\":null,\"craftSn\":null,\"repeaterSn\":null,\"customerPhone\":null,\"stopReason\":null,\"productType\":null,\"caseNo\":null,\"status\":0,\"creationTime\":\"0001-01-01 00:00:00\",\"la"
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/MaintenanceCodeManager/GetMaintenanceReportFileUrl",
+      "param": "recordId",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.19,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:08\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10010",
+            "sec": 0.276,
+            "body": "{\"isSuccess\":false,\"code\":10010,\"message\":\"{\\\"Code\\\":10010,\\\"Chinese\\\":\\\"参数不完整\\\",\\\"English\\\":\\\"ParamError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:09\"}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.36,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:09\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10010",
+            "sec": 0.247,
+            "body": "{\"isSuccess\":false,\"code\":10010,\"message\":\"{\\\"Code\\\":10010,\\\"Chinese\\\":\\\"参数不完整\\\",\\\"English\\\":\\\"ParamError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:09\"}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.183,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:10\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10010",
+            "sec": 0.21,
+            "body": "{\"isSuccess\":false,\"code\":10010,\"message\":\"{\\\"Code\\\":10010,\\\"Chinese\\\":\\\"参数不完整\\\",\\\"English\\\":\\\"ParamError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:10\"}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.158,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:10\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10010",
+            "sec": 0.195,
+            "body": "{\"isSuccess\":false,\"code\":10010,\"message\":\"{\\\"Code\\\":10010,\\\"Chinese\\\":\\\"参数不完整\\\",\\\"English\\\":\\\"ParamError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:10\"}"
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/PushInfoConfig/ServiceAgreementPreview",
+      "param": "id",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.179,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:10\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.17,
+            "body": "{\"message\":null,\"value\":{\"htmlContent\":null},\"timestamp\":\"07/09/2026 16:05:10\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.19,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:11\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.192,
+            "body": "{\"message\":null,\"value\":{\"htmlContent\":null},\"timestamp\":\"07/09/2026 16:05:11\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.289,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:11\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.18,
+            "body": "{\"message\":null,\"value\":{\"htmlContent\":null},\"timestamp\":\"07/09/2026 16:05:11\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.334,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:12\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.222,
+            "body": "{\"message\":null,\"value\":{\"htmlContent\":null},\"timestamp\":\"07/09/2026 16:05:12\",\"isSuccess\":true,\"code\":200}"
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/ServiceAgreement/ServiceAgreementPreview",
+      "param": "id",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.385,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:12\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "20402",
+            "sec": 0.379,
+            "body": "{\"isSuccess\":false,\"code\":20402,\"message\":\"{\\\"Code\\\":20402,\\\"Chinese\\\":\\\"服务模板不存在或状态已变更\\\",\\\"English\\\":\\\"Service agreement is not exist or status invalid.\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:13\"}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.163,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:13\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "20402",
+            "sec": 0.19,
+            "body": "{\"isSuccess\":false,\"code\":20402,\"message\":\"{\\\"Code\\\":20402,\\\"Chinese\\\":\\\"服务模板不存在或状态已变更\\\",\\\"English\\\":\\\"Service agreement is not exist or status invalid.\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:13\"}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.387,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:13\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "20402",
+            "sec": 0.26,
+            "body": "{\"isSuccess\":false,\"code\":20402,\"message\":\"{\\\"Code\\\":20402,\\\"Chinese\\\":\\\"服务模板不存在或状态已变更\\\",\\\"English\\\":\\\"Service agreement is not exist or status invalid.\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:14\"}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.306,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:14\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "20402",
+            "sec": 0.288,
+            "body": "{\"isSuccess\":false,\"code\":20402,\"message\":\"{\\\"Code\\\":20402,\\\"Chinese\\\":\\\"服务模板不存在或状态已变更\\\",\\\"English\\\":\\\"Service agreement is not exist or status invalid.\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:14\"}"
+          }
+        }
+      }
+    }
+  ],
+  "post_tests": [
+    {
+      "endpoint": "/api/v1/ActPushInsuranceInfo/Delete",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.275,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:14\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.195,
+            "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:05:15\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.177,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:15\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.278,
+            "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:05:15\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.357,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:15\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.172,
+            "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:05:16\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.168,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:16\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.29,
+            "body": "{\"message\":null,\"value\":true,\"timestamp\":\"07/09/2026 16:05:16\",\"isSuccess\":true,\"code\":200}"
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/RigthsMap/Delete",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.264,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:16\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10016",
+            "sec": 0.24,
+            "body": "{\"isSuccess\":false,\"code\":10016,\"message\":\"{\\\"Code\\\":10016,\\\"Chinese\\\":\\\"已存在相同配置\\\",\\\"English\\\":\\\"EntityIsExist\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:17\"}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.164,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:17\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10016",
+            "sec": 0.17,
+            "body": "{\"isSuccess\":false,\"code\":10016,\"message\":\"{\\\"Code\\\":10016,\\\"Chinese\\\":\\\"已存在相同配置\\\",\\\"English\\\":\\\"EntityIsExist\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:17\"}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.269,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:17\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10016",
+            "sec": 0.274,
+            "body": "{\"isSuccess\":false,\"code\":10016,\"message\":\"{\\\"Code\\\":10016,\\\"Chinese\\\":\\\"已存在相同配置\\\",\\\"English\\\":\\\"EntityIsExist\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:17\"}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.175,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:18\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10016",
+            "sec": 0.168,
+            "body": "{\"isSuccess\":false,\"code\":10016,\"message\":\"{\\\"Code\\\":10016,\\\"Chinese\\\":\\\"已存在相同配置\\\",\\\"English\\\":\\\"EntityIsExist\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:18\"}"
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/ActivationManager/UnLockActivation",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.181,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:18\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.168,
+            "body": "{\"message\":null,\"value\":false,\"timestamp\":\"07/09/2026 16:05:18\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.171,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:18\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.183,
+            "body": "{\"message\":null,\"value\":false,\"timestamp\":\"07/09/2026 16:05:19\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.151,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:19\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.21,
+            "body": "{\"message\":null,\"value\":false,\"timestamp\":\"07/09/2026 16:05:19\",\"isSuccess\":true,\"code\":200}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.269,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:19\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "200",
+            "sec": 0.189,
+            "body": "{\"message\":null,\"value\":false,\"timestamp\":\"07/09/2026 16:05:19\",\"isSuccess\":true,\"code\":200}"
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/Insurance/ExitCarePlus",
+      "by_id": {
+        "00000000-0000-0000-0000-000000000000": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.163,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:20\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.175,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:20\"}"
+          }
+        },
+        "ef2a1e33-cb3a-44b0-9d64-1e9062bc3978": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.162,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:20\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.197,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:20\"}"
+          }
+        },
+        "bcc99b26-4122-4ece-8285-e1c13d987196": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.247,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:20\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.164,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:20\"}"
+          }
+        },
+        "11111111-1111-1111-1111-111111111111": {
+          "no_sign": {
+            "http": 401,
+            "app_code": "10001",
+            "sec": 0.279,
+            "body": "{\"isSuccess\":false,\"code\":10001,\"message\":\"{\\\"Code\\\":10001,\\\"Chinese\\\":\\\"无权限 ServiceAuthAttribute\\\",\\\"English\\\":\\\"NoAuth ServiceAuthAttribute\\\"}\",\"value\":\"ServiceAuthAttribute\",\"timestamp\":\"07/09/2026 16:05:21\"}"
+          },
+          "replay_sign": {
+            "http": 200,
+            "app_code": "10003",
+            "sec": 0.177,
+            "body": "{\"isSuccess\":false,\"code\":10003,\"message\":\"{\\\"Code\\\":10003,\\\"Chinese\\\":\\\"接口参数错误\\\",\\\"English\\\":\\\"ParError\\\"}\",\"value\":null,\"timestamp\":\"07/09/2026 16:05:21\"}"
+          }
+        }
+      }
+    }
+  ]
+}

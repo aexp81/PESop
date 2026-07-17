@@ -179,6 +179,19 @@ def harvest(target, html_path="/", max_js=100):
     }
     with open(os.path.join(tdir, "js_assets.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
+
+    # 产物自动流入 intel(修复审计 S2/M8:接口/密钥/内网域名自动进情报库,供各域取用)
+    try:
+        import intel as _intel
+        for p in out["aggregate"]["api_paths"]:
+            _intel.add(target, "endpoints", {"path": p, "method": "?", "source": "js"}, dedup_key="path")
+        for s in out["aggregate"]["secrets"]:
+            _intel.add(target, "secrets", {**s, "source": s.get("name", "js")}, dedup_key="value")
+        for h in out["aggregate"]["internal_hosts"]:
+            _intel.add(target, "hosts", h)
+        out["intel_synced"] = True
+    except Exception as e:
+        out["intel_sync_error"] = str(e)
     return out
 
 

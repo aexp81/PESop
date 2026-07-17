@@ -23,13 +23,14 @@
 | 路径 | 作用 | 谁读 |
 | --- | --- | --- |
 | `AGENT.md` | **AI 唯一入口**:三维架构执行契约(铁律/三档内核/SOP loop/分层回灌) | AI 每次读 |
+| `engine/run.py` | **编排器**:init(串waf+recon+写intel) / status(态势+下一步) / next | AI 流程入口 |
 | `engine/http_client.py` | 统一发包+自动存证(curl 优先,python 兜底) | AI 调用 |
-| `engine/evidence.py` | 结构化证据台账(无真实证据不许 confirmed) | AI 调用 |
-| `engine/recon.py` | 指纹识别→按 tag 分诊到三域 + 写 intel | AI 调用 |
-| `engine/intel.py` | 情报库:共享供料 + 跨域产物流动(漏洞穿成链) | AI 调用 |
-| `engine/waf.py` | WAF 横切调节器:识别 + 给绕过手法 | AI 调用 |
-| `engine/js_harvester.py` | (application域)JS 全量拉取+接口/密钥提取 | AI 调用 |
-| `engine/reflow.py` | 分层回灌:新指纹/链/WAF/payload 各归其位(只增不删+去重) | AI 调用 |
+| `engine/evidence.py` | 证据台账(无真实证据不许 confirmed) + report(聚合intel) | AI 调用 |
+| `engine/recon.py` | 指纹识别(纯读yaml的match)→按 tag 分诊 + 自动写 intel | AI 调用 |
+| `engine/intel.py` | 情报库:共享供料+跨域产物流动+Q1-Q5建模档(model) | AI 调用 |
+| `engine/waf.py` | WAF 横切调节器:识别(写intel) + 给绕过手法 | AI 调用 |
+| `engine/js_harvester.py` | (application域)JS 全量拉取+接口/密钥提取(自动写intel) | AI 调用 |
+| `engine/reflow.py` | 分层回灌:新指纹(带match)/链/WAF/payload(只增不删+去重) | AI 调用 |
 | `knowledge/fingerprints.yaml` | 指纹→身份→tag(分诊域)+playbook | AI 按需读 |
 | `knowledge/domains/{infra,framework,application}/` | 三域 playbook(framework 含确定性攻击链 chains) | AI 命中才读 |
 | `knowledge/waf/` | WAF 识别指纹 + 各 WAF 绕过手法 | AI 命中才读 |
@@ -83,6 +84,7 @@
 | v4.0-2 | 2026-07-17 | **第二阶段(能力补全)**:engine/recon(指纹识别→自动指向该加载的playbook,pyyaml优先内置解析兜底)、engine/js_harvester(JS全量拉取+接口/密钥/路由提取);回填 shiro/spring-security/kong-gateway,指纹引用零悬空(10指纹/7playbook) |
 | v4.0-3 | 2026-07-17 | **第三阶段(复利飞轮)**:engine/reflow(自动回灌新指纹/新check进knowledge,只增不删+去重+格式统一);闭环验证——回灌新指纹后 recon 可自动识别;AGENT.md/README 纳入 recon/js_harvester/reflow |
 | v5.0 | 2026-07-17 | **三维架构重构**:knowledge 按三打法域(infra/framework/application)重组,指纹加 tag 分诊字段;framework 域 playbook 补确定性攻击链 chains(SpEL/Spring4Shell/log4j2/FastJSON/Actuator→Nacos→DB);新增 engine/intel(情报库,共享供料+跨域产物流动,漏洞穿成链)、engine/waf(WAF横切:识别+绕过手法);新增 knowledge/waf、payloads、wordlists 资产;recon 改为按 tag 分诊到三域并写 intel;reflow 扩展为分层回灌(fingerprint/check/waf/payload);AGENT.md 重写为三维架构+Q1-Q5三档内核(反射档/建模档/纠偏档,建模投入与不确定性成正比) |
+| v5.1 | 2026-07-17 | **架构审计修复(P0/P1)**:①S1/M10 新增 engine/run.py 编排器(init 自动串 waf+recon+写intel,status 给态势+下一步建议,固化流程骨架不再靠AI自觉拼);②S2/M8 产物自动流动(js_harvester/recon/waf 产出自动写 intel,不再手工搬运);③M7 evidence report 聚合 findings+intel(两套存储打通);④O3 recon 改为纯读 yaml 的 match 字段(删硬编码 keywords,reflow 回灌带 match 即可被识别,飞轮不断);⑤O5 Q1-Q5 三档给落地载体(intel model 写建模产物,run.py status 检查 application 域是否已建模) |
 
 ## 一句话
 

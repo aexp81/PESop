@@ -74,59 +74,59 @@ Q1-Q5 定义:
 
 ```
 0 授权     复述边界与禁区
-1 情报初始化  engine/waf.py identify(判有无WAF) + engine/recon.py(指纹→按tag分诊+写intel)
-2 分诊     recon 输出 dispatch_by_tag:哪些指纹归 infra/framework/application
+1 情报就位  engine/run.py init(自动串 waf识别 + recon指纹分诊 + 写intel,一条命令完成)
+2 看态势    engine/run.py status(看 WAF/指纹分诊/接口/密钥/建模状态 + 下一步建议)
 3 framework域(反射档,优先,投产比最高):
      读intel指纹→加载domains/framework对应playbook→按chains展开确定性攻击链
      →有WAF则engine/waf.py advise拿绕过手法包装payload→http_client发包存证
-     →命中Actuator/heapdump提出的密钥/DB串/session→写回intel
+     →命中的密钥/DB串/session会经 intel 自动/手动沉淀,供别域取用
 4 infra域(反射档):
      读intel端口/中间件指纹→domains/infra打未授权→拿到的内网IP/凭证写回intel
 5 application域(建模档):
-     js_harvester挖接口写intel→写Q1-Q5→未授权→绕过(读payloads+waf.advise)
-     →FUZZ(业务发散+wordlists兜底)→越权/业务不变量(domains/application)
-6 收尾     evidence.py summary→写runs/<target>/report.md→reflow.py分层回灌新知识
+     js_harvester挖接口(自动写intel)→【必须先 intel.py model 填Q1-Q5】
+     →未授权→绕过(读payloads+waf.advise)→FUZZ(业务发散+wordlists兜底)→越权/业务不变量
+6 收尾     engine/evidence.py report(发现+情报聚合)→写runs/<target>/report.md→reflow分层回灌
 ```
 
-**调度原则:framework/infra(反射档)先起、投产比最高;application(建模档)接续。
-但不阻塞——发现任一域的高价值点立刻深钻到终态(铁律5)。**
-
-**穿成链的关键:所有域读写同一个 intel。** framework 域 Actuator 提出 Nacos 凭证→写 intel
-→infra 域读 intel 接管 Nacos 拿 DB;framework heapdump 出 OSS AK→写 intel→application
-域打对象存储。这就是"漏洞穿在一起"。
+**编排:step1-2 用 `run.py init/status` 固化,不必自己记工具顺序;随时 `run.py next`
+问下一步该干嘛。跨域产物(密钥/接口/内网IP)经 intel 流动——js_harvester/recon/waf
+的产出会自动写 intel;framework/infra 域手动打出的密钥用 `intel.py add` 沉淀。**
 
 ---
 
 ## 4. engine 用法速查
 
 ```
-# 情报初始化
+# —— 编排(推荐入口,固化流程骨架)——
+python engine/run.py init   --target https://t.com   # 情报就位:waf识别+recon分诊+写intel
+python engine/run.py status --target https://t.com   # 全局态势+下一步建议
+python engine/run.py next   --target https://t.com   # 只看下一步该干嘛
+
+# —— 单模块(需要精细控制时)——
 python engine/waf.py identify --target https://t.com        # 判WAF,写intel
 python engine/recon.py --target https://t.com               # 指纹分诊,写intel
-python engine/intel.py summary --target https://t.com        # 看情报库现状
+python engine/intel.py summary --target https://t.com        # 看情报库
 
-# framework/infra 域(反射档):读 recon 分诊结果→加载对应 domains/ playbook→发包
+# framework/infra 域(反射档):读分诊结果→加载对应 domains/ playbook→发包
 python engine/http_client.py --target https://t.com GET /actuator/env --note "framework:actuator"
-# 有WAF时先拿绕过手法
-python engine/waf.py advise --waf cloudflare
+python engine/waf.py advise --waf cloudflare                 # 有WAF先拿绕过手法
 
-# application 域(建模档)
-python engine/js_harvester.py --target https://t.com         # 挖接口/密钥
-# (先写Q1-Q5) 再发包测未授权/绕过/FUZZ/越权
+# application 域(建模档):挖接口→必须先建模→再测
+python engine/js_harvester.py --target https://t.com         # 挖接口/密钥(自动写intel)
+python engine/intel.py model --target https://t.com \
+    --q1 "订单系统" --q2 "若我开发会用..." --q3 "最可能越权/改价"   # 进application域前必填Q1-Q5
 
-# 跨域产物流动:任何域把产出写回 intel 供别域用
+# 跨域产物流动:手动打出的密钥/接口沉淀进 intel 供别域用
 python engine/intel.py add --target https://t.com --field secrets \
     --json '{"name":"NACOS_PWD","value":"...","source":"actuator/env"}' --dedup-key name
-python engine/intel.py add --target https://t.com --field endpoints \
-    --json '{"path":"/api/order","method":"POST","source":"js"}' --dedup-key path
 
 # 记发现(确认必挂真实 evidence_id)
 python engine/evidence.py add --target https://t.com \
-    --title "Actuator未授权→Nacos接管→DB" --severity critical --status confirmed \
-    --evidence ev-xxx --hypothesis "actuator/env泄露nacos凭证" --impact "拿DB/改配置"
+    --title "Actuator→Nacos接管→DB" --severity critical --status confirmed \
+    --evidence ev-xxx --hypothesis "..." --impact "拿DB/改配置"
 
 # 收尾
-python engine/evidence.py summary --target https://t.com
+python engine/evidence.py report --target https://t.com      # 发现+情报聚合(一处可见)
 python engine/reflow.py fingerprint/check/waf/payload ...    # 分层回灌(见第6节)
 ```
 

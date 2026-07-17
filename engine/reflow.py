@@ -61,10 +61,12 @@ def _require_yaml():
         sys.exit(2)
 
 
-def add_fingerprint(fid, tag, signals, identity, confidence, playbook=None, note=""):
+def add_fingerprint(fid, tag, signals, identity, confidence, playbook=None, note="", match=None):
     yaml = _require_yaml()
     if tag not in VALID_TAGS:
         return {"ok": False, "reason": f"tag 必须是 {VALID_TAGS} 之一,收到 '{tag}'"}
+    if not match:
+        return {"ok": False, "reason": "必须提供 --match(结构化匹配token),否则 recon 无法识别该指纹(修复O3的要求)"}
     with open(FINGERPRINTS, encoding="utf-8") as f:
         data = yaml.safe_load(f)
     fps = data.setdefault("fingerprints", [])
@@ -75,13 +77,15 @@ def add_fingerprint(fid, tag, signals, identity, confidence, playbook=None, note
         playbook = f"domains/{tag}/{fid}.yaml"
     entry = {
         "id": fid, "tag": tag, "signals": signals,
+        "match": [str(m).lower() for m in match],
         "identity": identity, "confidence": confidence, "playbook": playbook,
     }
     if note:
         entry["note"] = note
     fps.append(entry)
     with open(FINGERPRINTS, "w", encoding="utf-8") as f:
-        f.write("# PESop 指纹库 —— 信号->身份->tag(打法域)+playbook（自动回灌维护,只增不删）\n\n")
+        f.write("# PESop 指纹库 —— 信号->身份->tag(打法域)+playbook（自动回灌维护,只增不删）\n")
+        f.write("# match 字段是 recon 的匹配依据,回灌必带(修复O3:回灌即可被识别)\n\n")
         yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
     return {"ok": True, "added": entry}
 
@@ -198,10 +202,11 @@ def main():
     ap = argparse.ArgumentParser(description="PESop 分层自动回灌(只增不删)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    fp = sub.add_parser("fingerprint", help="回灌新指纹(带 tag 分域)")
+    fp = sub.add_parser("fingerprint", help="回灌新指纹(带 tag 分域 + match 匹配token)")
     fp.add_argument("--id", required=True)
     fp.add_argument("--tag", required=True, choices=VALID_TAGS, help="打法域:infra/framework/application")
-    fp.add_argument("--signal", action="append", default=[], required=True, help="可多次")
+    fp.add_argument("--signal", action="append", default=[], required=True, help="人读判据,可多次")
+    fp.add_argument("--match", action="append", default=[], required=True, help="recon匹配token(小写子串),可多次")
     fp.add_argument("--identity", required=True)
     fp.add_argument("--confidence", default="medium", choices=["high", "medium", "low"])
     fp.add_argument("--playbook", default=None, help="不填按 tag 自动生成 domains/<tag>/<id>.yaml")
@@ -235,7 +240,7 @@ def main():
     args = ap.parse_args()
     if args.cmd == "fingerprint":
         r = add_fingerprint(args.id, args.tag, args.signal, args.identity,
-                            args.confidence, args.playbook, args.note)
+                            args.confidence, args.playbook, args.note, args.match)
     elif args.cmd == "check":
         r = add_check(args.tag, args.playbook, args.check_id, args.why, args.how,
                       args.signal, args.escalate, args.endpoint or None)

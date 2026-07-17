@@ -114,52 +114,41 @@ def _collect_features(target, probe_paths):
 
 
 # --------------------------------------------------------------------------
-# 匹配:signal 里的关键词是否出现在任一探测特征里
+# 匹配:纯读 fingerprints.yaml 每条指纹的 match 字段(修复审计 O3)
 # --------------------------------------------------------------------------
-# 从 signal 自然语言里抽出真正要匹配的关键 token(去掉"响应头""含"等描述词)
-_SIGNAL_KEYWORDS = {
-    "istio-envoy": ["istio-envoy"],
-    "kong-gateway": ["x-kong", "server: kong"],
-    "spring-boot": ["whitelabel error page", '"timestamp"', "x-application-context"],
-    "spring-security": ["www-authenticate", "jsessionid"],
-    "shiro": ["remembeme", "rememberme", "deleteme"],
-    "asp-net": ["x-aspnet-version", "x-aspnetmvc-version", "asp.net"],
-    "oauth-oidc": ["/oauth", "/sso", "openid-configuration", ".well-known"],
-    "zhuyun-iam": ["bamboocloud", "竹云"],
-    "druid-console": ["druid", "druidstatview"],
-    "nacos": ["nacos"],
-    # 注:WAF 类指纹(cloudflare/aliyun)已移至 knowledge/waf/,由 engine/waf.py 处理
-}
+# recon 不再硬编码关键词。每条指纹自带 match:[token,...],recon 只读它。
+# 这样 reflow 回灌新指纹(带 match)后,recon 立即能识别 —— 飞轮不断。
+
+
+def _fp_match_tokens(fp):
+    """取一条指纹的匹配 token 列表:优先 match 字段;缺失则从 signals 抠引号内容兜底。"""
+    tokens = fp.get("match")
+    if tokens:
+        return [str(t).lower() for t in tokens]
+    # 兜底:老指纹没写 match 时,从 signals 的引号/反引号内容抠 token
+    toks = []
+    for sig in fp.get("signals", []):
+        for m in re.findall(r'"([^"]+)"|`([^`]+)`', sig):
+            tok = (m[0] or m[1]).lower()
+            if tok and len(tok) >= 3:
+                toks.append(tok)
+    return toks
 
 
 def match_fingerprints(features, fingerprints):
     """
-    返回命中列表:[{id, identity, confidence, playbook, matched_on, evidence_id}]
-    匹配用 _SIGNAL_KEYWORDS(比自然语言 signal 更可靠);
-    未在表里的新指纹条目,退回用其 signals 文本里的引号内容做子串匹配。
+    返回命中列表:[{id, identity, tag, confidence, playbook, matched_on, evidence_id}]
+    纯读每条指纹的 match 字段做子串匹配(命中任一 token 即算命中)。
     """
     hits = []
     all_text = " || ".join(f[3] for f in features)
     for fp in fingerprints:
         fid = fp.get("id")
-        keywords = _SIGNAL_KEYWORDS.get(fid)
         matched_kw = None
-        if keywords:
-            for kw in keywords:
-                if kw.lower() in all_text:
-                    matched_kw = kw
-                    break
-        else:
-            # 新增指纹兜底:用 signals 里出现的明显 token
-            for sig in fp.get("signals", []):
-                toks = re.findall(r'"([^"]+)"|`([^`]+)`', sig)
-                for t in toks:
-                    tok = (t[0] or t[1]).lower()
-                    if tok and len(tok) >= 3 and tok in all_text:
-                        matched_kw = tok
-                        break
-                if matched_kw:
-                    break
+        for kw in _fp_match_tokens(fp):
+            if kw in all_text:
+                matched_kw = kw
+                break
         if matched_kw:
             # 找出是哪个探测路径命中的,附上其证据
             ev = next((f[1] for f in features if matched_kw in f[3]), features[0][1] if features else None)

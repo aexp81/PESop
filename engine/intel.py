@@ -68,6 +68,7 @@ def load(target):
             "created": datetime.now(timezone.utc).astimezone().isoformat(),
             "waf": {"present": None, "id": None, "evidence_id": None},
             "system_type": None,
+            "modeling": None,   # Q1-Q5 建模档产物(进 application 域前必须填,修复O5)
             "fingerprints": [], "ports": [], "hosts": [],
             "endpoints": [], "secrets": [], "notes": [],
         }
@@ -120,12 +121,29 @@ def set_waf(target, present, waf_id=None, evidence_id=None):
     return {"ok": True, "waf": data["waf"]}
 
 
+def set_modeling(target, q1, q2, q3, q4="", q5=""):
+    """写入 application 域的 Q1-Q5 建模档产物(修复审计 O5:三档内核有落地载体)。
+    进 application 域测试前必须先填,run.py status 会检查有没有填。"""
+    data = load(target)
+    data["modeling"] = {
+        "Q1_what_system": q1,
+        "Q2_if_developer": q2,
+        "Q3_where_fails": q3,
+        "Q4_how_verify": q4,
+        "Q5_iterate": q5,
+        "filled_at": datetime.now(timezone.utc).astimezone().isoformat(),
+    }
+    save(target, data)
+    return {"ok": True, "modeling": data["modeling"]}
+
+
 def summary(target):
     d = load(target)
     return {
         "target": target,
         "waf": d["waf"],
         "system_type": d["system_type"],
+        "modeling_done": d.get("modeling") is not None,
         "fingerprints": [f.get("id") for f in d["fingerprints"]],
         "counts": {k: len(d[k]) for k in LIST_FIELDS},
         "secrets_names": [s.get("name") for s in d["secrets"] if isinstance(s, dict)],
@@ -150,6 +168,14 @@ def main():
     st.add_argument("--key", required=True)
     st.add_argument("--value", required=True)
 
+    md = sub.add_parser("model", help="写 Q1-Q5 建模档产物(进 application 域前必填)")
+    md.add_argument("--target", required=True)
+    md.add_argument("--q1", required=True, help="这是什么系统")
+    md.add_argument("--q2", required=True, help="若我是开发者会怎么建")
+    md.add_argument("--q3", required=True, help="最可能哪里失效(3-5假设)")
+    md.add_argument("--q4", default="", help="怎么验")
+    md.add_argument("--q5", default="", help="响应说明什么/怎么迭代")
+
     args = ap.parse_args()
     if args.cmd == "show":
         print(json.dumps(load(args.target), ensure_ascii=False, indent=2))
@@ -164,6 +190,9 @@ def main():
                          ensure_ascii=False, indent=2))
     elif args.cmd == "set":
         print(json.dumps(set_field(args.target, args.key, args.value),
+                         ensure_ascii=False, indent=2))
+    elif args.cmd == "model":
+        print(json.dumps(set_modeling(args.target, args.q1, args.q2, args.q3, args.q4, args.q5),
                          ensure_ascii=False, indent=2))
 
 

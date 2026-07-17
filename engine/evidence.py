@@ -156,6 +156,21 @@ def summary(target):
     }
 
 
+def report(target):
+    """收尾报告数据:发现台账 + intel 情报 聚合(修复审计 M7:两套存储打通,一处可见)。"""
+    data = {"findings_summary": summary(target),
+            "findings": list_findings(target)}
+    # 关联 intel 情报(同 runs/<target>/ 下)
+    try:
+        import sys, os as _os
+        sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+        import intel as _intel
+        data["intel"] = _intel.summary(target)
+    except Exception as e:
+        data["intel_error"] = str(e)
+    return data
+
+
 def main():
     ap = argparse.ArgumentParser(description="PESop 结构化证据台账")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -180,6 +195,9 @@ def main():
     m = sub.add_parser("summary", help="汇总")
     m.add_argument("--target", required=True)
 
+    rp = sub.add_parser("report", help="收尾报告:发现+情报聚合(打通evidence与intel)")
+    rp.add_argument("--target", required=True)
+
     args = ap.parse_args()
 
     if args.cmd == "add":
@@ -195,6 +213,8 @@ def main():
         print(json.dumps(r, ensure_ascii=False, indent=2) if r else "未找到")
     elif args.cmd == "summary":
         print(json.dumps(summary(args.target), ensure_ascii=False, indent=2))
+    elif args.cmd == "report":
+        print(json.dumps(report(args.target), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

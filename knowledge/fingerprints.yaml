@@ -1,22 +1,27 @@
 # PESop 指纹库 —— 信号 → 产品身份 → 打法域 + playbook
 #
-# 用途：AI 侦察时把观测特征拿来匹配,得到:
+# 用途：AI/recon 把观测特征拿来匹配,得到:
 #   1. identity: 这是什么(产品/框架/组件身份)
-#   2. tag:       归哪个打法域(infra/framework/application) —— 分诊路由标签,决定用哪套打法
+#   2. tag:       归哪个打法域(infra/framework/application) —— 分诊路由标签
 #   3. playbook: 该加载哪个 domains/<tag>/<id>.yaml
 #
-# 三个打法域(tag 字段):
-#   infra        基础设施域:端口/服务/中间件未授权(反射档,确定性攻击)
-#   framework    框架组件域:语言框架/鉴权框架/组件(反射档,确定性攻击链,给全弹药)
-#   application  应用业务域:身份/接口/业务(建模档,发散,只给判据)
+# 字段说明:
+#   signals: 给人读的自然语言判据(为什么这样识别)
+#   match:   给 recon 用的结构化匹配 token(小写子串,命中任一即算命中)
+#            —— recon 只读 match,不再硬编码关键词;reflow 回灌新指纹时必须带 match,
+#               这样"回灌即可被识别",飞轮不断(修复审计 O3)
 #
-# 注:WAF 是横切"调节器",不是攻击域,其指纹在 knowledge/waf/fingerprints.yaml。
+# 三个打法域(tag):
+#   infra        基础设施:端口/中间件未授权(反射档)
+#   framework    框架组件:框架/鉴权框架/组件(反射档,确定性攻击链)
+#   application  应用业务:身份/接口/业务(建模档,发散)
 #
-# 只增不删。新指纹收尾时 reflow 回灌。confidence: high/medium/low(单信号给medium,多信号交叉high)。
+# WAF 是横切"调节器",不是攻击域,其指纹在 knowledge/waf/fingerprints.yaml。
+# 只增不删,reflow 回灌。confidence: high/medium/low。
 
 fingerprints:
 
-  # ========== 域 framework（框架组件,反射档,确定性攻击链）==========
+  # ========== 域 framework ==========
   - id: spring-boot
     tag: framework
     layer: language-framework
@@ -24,11 +29,11 @@ fingerprints:
       - "Whitelabel Error Page 错误页"
       - '错误体 JSON 含 "timestamp"/"status"/"error"/"path" 五段结构'
       - "响应头 X-Application-Context"
-      - "favicon icon hash 命中 Spring 默认"
+    match: ["whitelabel error page", '"timestamp"', "x-application-context"]
     identity: "Spring Boot (Java)"
     confidence: medium
     playbook: domains/framework/spring-boot.yaml
-    note: "打开就是 Spring 报错页≠无攻击面;命中后展开确定性攻击链(SpEL/Spring4Shell/log4j2/FastJSON/Actuator链)"
+    note: "打开就是 Spring 报错页≠无攻击面;命中后展开确定性攻击链"
 
   - id: spring-security
     tag: framework
@@ -36,6 +41,7 @@ fingerprints:
     signals:
       - "401 响应头 WWW-Authenticate 或跳转 /login"
       - "cookie JSESSIONID + 表单登录页"
+    match: ["www-authenticate", "jsessionid"]
     identity: "Spring Security (Java 鉴权)"
     confidence: medium
     playbook: domains/framework/spring-security.yaml
@@ -45,6 +51,7 @@ fingerprints:
     layer: auth-framework
     signals:
       - "cookie 含 rememberMe (即使值为 deleteMe)"
+    match: ["rememberme", "deleteme"]
     identity: "Apache Shiro (Java 鉴权)"
     confidence: high
     playbook: domains/framework/shiro.yaml
@@ -55,6 +62,7 @@ fingerprints:
     signals:
       - "响应头 server: istio-envoy"
       - "响应体含 RBAC: access denied"
+    match: ["istio-envoy"]
     identity: "Envoy / Istio 服务网格网关"
     confidence: medium
     playbook: domains/framework/envoy-istio.yaml
@@ -66,6 +74,7 @@ fingerprints:
     signals:
       - "响应头 server: kong"
       - "响应头含 X-Kong-*"
+    match: ["x-kong", "server: kong"]
     identity: "Kong API 网关"
     confidence: high
     playbook: domains/framework/kong-gateway.yaml
@@ -75,18 +84,20 @@ fingerprints:
     layer: language-framework
     signals:
       - "响应头 X-AspNet-Version / X-AspNetMvc-Version / X-Powered-By: ASP.NET"
+    match: ["x-aspnet-version", "x-aspnetmvc-version", "asp.net"]
     identity: "ASP.NET (.NET)"
     confidence: high
     playbook: null
     note: "见 L3 repair.ryzerobotics 教训:优先找 /api/v1/ /guava/api/v1/ 路径"
 
-  # ========== 域 app（应用业务,建模档,发散,只给判据）==========
+  # ========== 域 application ==========
   - id: oauth-oidc
     tag: application
     layer: identity
     signals:
       - "路径含 /oauth /sso /idp /iam /.well-known"
       - "存在 /.well-known/openid-configuration 可访问"
+    match: ["openid-configuration", "/oauth", "/sso"]
     identity: "OAuth2 / OIDC 身份体系(具体实现待进一步指纹)"
     confidence: medium
     playbook: domains/application/oauth-sso.yaml
@@ -98,17 +109,19 @@ fingerprints:
     signals:
       - "JS 版权声明含 竹云 / bamboocloud"
       - "版本号形如 7.0.1.1-RELEASE"
+    match: ["bamboocloud", "竹云"]
     identity: "竹云 IAM (商业 IAM 产品)"
     confidence: high
     playbook: domains/application/zhuyun-iam.yaml
 
-  # ========== 域 infra（基础设施,反射档;探测先覆盖 HTTP 类中间件）==========
+  # ========== 域 infra ==========
   - id: druid-console
     tag: infra
     layer: middleware
     signals:
       - "路径 /druid/index.html 可访问"
       - "响应含 Druid Stat / DruidStatView"
+    match: ["druidstatview", "druid stat"]
     identity: "Alibaba Druid 监控台"
     confidence: high
     playbook: domains/infra/middleware.yaml
@@ -120,7 +133,8 @@ fingerprints:
     signals:
       - "路径 /nacos/ 可访问"
       - "响应含 Nacos"
+    match: ["nacos"]
     identity: "Alibaba Nacos 注册/配置中心"
     confidence: high
     playbook: domains/infra/middleware.yaml
-    note: "默认口令/未授权 API → 接管配置 → 拿 DB/改配置(常由 Actuator 链引出)"
+    note: "默认口令/未授权 API → 接管配置 → 拿 DB/改配置"

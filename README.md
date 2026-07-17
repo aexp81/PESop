@@ -13,12 +13,15 @@
 
 v4.0 针对性重构为工程,核心三招:
 
-1. **证据驱动**:所有发包走 `engine/`,自动落盘 raw 请求/响应;"确认漏洞"必须挂
-   真实 `evidence_id`,否则工具强制降级。谎报（F2）从"靠自觉"变成"物理做不到"。
-2. **按需调取知识**:`knowledge/` 把经验拆成指纹库 + playbook,AI 识别到什么才读
-   什么。沉淀增长的是可精准检索的条目,**不是要通读的长文**。
-3. **深度优先**:`AGENT.md` 取代"粘 L2",强制显式 Q1-Q5 推理 + 火力集中 P0,
-   让人从"AI 的执行思路和产出"就能一眼审出问题。
+1. **证据驱动**:所有发包走 `engine/http_client.py`,自动落盘 raw 请求/响应;
+   `engine/evidence.py` 强制"确认漏洞"必须挂真实 `evidence_id`,否则降级。
+   谎报（F2）从"靠自觉"变成"物理做不到"。
+2. **按需调取知识**:`engine/recon.py` 自动发探测包→匹配 `knowledge/` 指纹库→
+   告知该加载哪个 playbook;`engine/js_harvester.py` 全量挖 JS 接口/密钥。
+   AI 识别到什么才读什么,沉淀增长的是可精准检索的条目,**不是要通读的长文**。
+3. **越用越强 + 深度优先**:`engine/reflow.py` 把新指纹/新手法自动回灌进 knowledge
+   (只增不删,下次 recon 即可识别,飞轮闭环);`AGENT.md` 取代"粘 L2",强制显式
+   Q1-Q5 推理 + 火力集中 P0,让人从"AI 的执行思路和产出"就能一眼审出问题。
 
 ## 目录结构
 
@@ -41,17 +44,27 @@ v4.0 针对性重构为工程,核心三招:
 
 1. 把项目 down 到你的持久化环境(能真发包)。
 2. 给 AI 一个授权目标 + 让它读 `AGENT.md` 开工。
-3. AI 按 SOP loop 跑:侦察指纹 → 加载 playbook → Q1-Q5 建模 → 挖接口 → 分诊 →
-   P0 深钻(每步 engine 发包存证) → 越权/业务 → 收尾出报告 + 回灌知识。
+3. AI 按 SOP loop 跑,每步都有对应 engine 命令:
+   ```
+   侦察指纹   python engine/recon.py --target https://t.com
+   加载playbook  读 recon 提示的 knowledge/playbooks/<id>.yaml
+   建模       写出 Q1-Q5 + 开发者共情
+   挖接口     python engine/js_harvester.py --target https://t.com
+   深钻P0     python engine/http_client.py ...(每步发包自动存证)
+   记发现     python engine/evidence.py add ...(确认必挂真实 evidence_id)
+   收尾       python engine/evidence.py summary + 写报告 + engine/reflow.py 回灌
+   ```
 4. 你看 `runs/<target>/` 里的 Q1-Q5 推理、每个 finding 挂的 evidence_id、
    P0 是否钻穿——从执行思路和证据一眼审出跑偏。
 
 ## 迭代规则（复利飞轮,工程化版）
 
-- **runs/ 留具体数据,knowledge/ 留可复用判据**:每次收尾把新指纹/新手法 append
-  到 knowledge/(只增不删),把目标专属数据留在 runs/。
+- **runs/ 留具体数据,knowledge/ 留可复用判据**:每次收尾用 `engine/reflow.py` 把新
+  指纹/新手法 append 到 knowledge/(工具保证只增不删+去重+格式统一),目标专属数据留 runs/。
+- **飞轮已闭环**:reflow 回灌的新指纹,下次 `engine/recon.py` 就能自动识别——
+  沉淀越多,AI 单次任务反而越聚焦(按需调取,不通读)。
 - knowledge/ 里反复命中、验证稳定的模式,再提炼进 L1/L2(人做,打版本号)。
-- engine/ 能力缺口(如需 JS 全量提取器、recon 模块)按需扩充,保持零第三方依赖。
+- engine/ 保持零第三方依赖(pyyaml 可选,无则内置解析兜底),持久化环境到哪都能跑。
 
 ## 版本历史
 
@@ -66,7 +79,9 @@ v4.0 针对性重构为工程,核心三招:
 | v3.1 | 2026-07-08 | 对标资深渗透/赏金猎人补差距（Phase 1）：四项强制扩为五项（新增资产暴露面 OSS/MinIO）、准则一补 OOB 证据形式、新增「危害升级」小节、攻击面穷举补实时协议层（WebSocket/MQTT）、HF-4 扩写账号权限矩阵与交叉测试、HF-2 补 APK 静态提取分支；报告交付物质量/GraphQL 专项列为 Phase 2，未纳入本次 |
 | v3.2 | 2026-07-08 | 权限绕过项（五项强制第4项/HF-4）重写为四步递进序列：接口未授权→接口权限绕过→水平越权→垂直越权，前提为 HF-2+HF-3.1 产出的全量接口清单；②步新增「框架身份驱动绕过」（先识别鉴权框架身份再查该框架已知绕过模式，Java+Shiro/Java+Spring Security/PHP 给代表性历史模式锚点，非穷尽、非断言必中）；新增「错误驱动参数回填」（缺参数先按报错回填参数名，FUZZ 为次选）|
 | v3.3 | 2026-07-09 | 业务逻辑层穷举（HF-5）补四类识别信号：多入口防护不一致、状态机中间态被当终态（准则二反向应用于目标系统）、长效凭证签发强度弱于短效凭证、委托身份断言校验缺陷（挂准则三）；协作范式新增「触发器只给判据、不给案例」写法规范，约束此后新增识别类规则不得写成案例清单（已验证的具体历史模式/CVE 引用例外，那是证据溯源规范）|
-| v4.0 | 2026-07-17 | **工程化重构**：清理一次性目标产物;新增 engine/(curl优先+python兜底发包存证、无真实证据不许confirmed)、knowledge/(指纹库+按需调取的playbook)、runs/(证据台账);新增 AGENT.md 作为AI全自动执行唯一入口,取代"粘贴L2";把散文经验结构化为yaml,让沉淀越多单次任务越聚焦。L1/L2/L3 保留为人读方法论事实源 |
+| v4.0-1 | 2026-07-17 | **工程化重构·第一阶段(证据驱动地基)**:清理所有一次性目标产物;新增 engine/http_client(curl优先+python兜底,发包自动存证)、engine/evidence(无真实证据不许confirmed);新增 knowledge/ 指纹库+4样板playbook;新增 AGENT.md 作为AI全自动执行唯一入口,取代"粘贴L2";L1/L2/L3 保留为人读方法论事实源 |
+| v4.0-2 | 2026-07-17 | **第二阶段(能力补全)**:engine/recon(指纹识别→自动指向该加载的playbook,pyyaml优先内置解析兜底)、engine/js_harvester(JS全量拉取+接口/密钥/路由提取);回填 shiro/spring-security/kong-gateway,指纹引用零悬空(10指纹/7playbook) |
+| v4.0-3 | 2026-07-17 | **第三阶段(复利飞轮)**:engine/reflow(自动回灌新指纹/新check进knowledge,只增不删+去重+格式统一);闭环验证——回灌新指纹后 recon 可自动识别;AGENT.md/README 纳入 recon/js_harvester/reflow |
 
 ## 一句话
 

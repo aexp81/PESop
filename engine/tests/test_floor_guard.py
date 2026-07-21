@@ -66,28 +66,34 @@ def test_summary_dangling_counts(runs):
     assert s["dangling"]["secrets"] == 1   # 只剩 B 未榨干
 
 
-# ------------------------------------------------------------- floor_guard 三态
-def test_verdict_floor_not_satisfied(runs):
-    # 有未榨干的 secret → drain-secrets 未达标 → 禁止判走不通
+# ------------------------------------------------- floor_guard 事实+提问形态
+def test_unmet_floor_emits_questions_not_gaps(runs):
+    # 有未榨干的 secret → drain-secrets 未达标 → 抛出【问题】(疑问句),不再是缺口指令
     intel.add(TARGET, "secrets", {"name": "DANGLING", "value": "x"}, dedup_key="name")
     r = floor_guard.assess(TARGET)
     assert r["floor_satisfied"] is False
-    assert "禁止判走不通" in r["verdict"]
-    gap_ids = [g["id"] for g in r["gaps"]]
-    assert "drain-secrets" in gap_ids
+    assert "gaps" not in r                      # 不再有缺口清单
+    assert "open_questions" in r and r["open_questions"]
+    qids = [q["id"] for q in r["open_questions"]]
+    assert "drain-secrets" in qids
+    # 问题是疑问句(逼思考),不是"去做X"的指令
+    dq = next(q for q in r["open_questions"] if q["id"] == "drain-secrets")
+    assert "?" in dq["question"] or "?" in dq["question"]
+    # facts 如实摆出未消化情报
+    assert r["facts"]["secrets_unconsumed"] == 1
 
 
-def test_verdict_walk_dead_end_when_floor_ok_no_value(runs):
-    # 空态势:无指纹/无接口/无悬挂 → 各 check 皆 N/A 达标;无价值漏洞 → 允许判"走不通"
+def test_all_consumed_no_questions(runs):
+    # 空态势:无指纹/接口/悬挂 → 无未达标项 → 无 open_questions
     r = floor_guard.assess(TARGET)
     assert r["floor_satisfied"] is True
     assert r["value_reached"] is False
-    assert "允许判" in r["verdict"] and "走不通" in r["verdict"]
-    assert r["gaps"] == []
+    assert r["open_questions"] == []
+    assert "模型" in r["verdict"] or "维度" in r["verdict"]   # 引导修正模型/切维度
 
 
-def test_verdict_converge_when_floor_ok_and_value(runs):
-    # 下限达标 + 有一个 confirmed high finding → 可收敛,不设上限
+def test_value_reached_verdict_asks_depth(runs):
+    # 下限达标 + confirmed high finding → verdict 追问"是否已到最深/其它面想过没"
     ev_dir = os.path.join(evidence._target_dir(TARGET), "evidence")
     os.makedirs(ev_dir, exist_ok=True)
     ev_id = "ev-20260101-abc123"
@@ -95,20 +101,20 @@ def test_verdict_converge_when_floor_ok_and_value(runs):
         f.write("{}")
     res = evidence.add_finding(TARGET, title="RCE", severity="high",
                                status="confirmed", evidence=[ev_id])
-    assert res["status"] == "confirmed"   # 证据真实存在,未被降级
+    assert res["status"] == "confirmed"
     r = floor_guard.assess(TARGET)
     assert r["floor_satisfied"] is True
     assert r["value_reached"] is True
-    assert "可收敛" in r["verdict"]
+    assert "最深" in r["verdict"] or "攻击面" in r["verdict"]
 
 
-def test_coverage_gap_when_framework_fp_but_no_terminal(runs):
-    # 有 framework 指纹却无终态 finding → cover-framework 未达标
+def test_coverage_question_when_framework_fp_but_no_terminal(runs):
+    # 有 framework 指纹却无终态 finding → cover-framework 抛问题
     intel.add(TARGET, "fingerprints",
               {"id": "spring-boot", "tag": "framework"}, dedup_key="id")
     r = floor_guard.assess(TARGET)
-    gap_ids = [g["id"] for g in r["gaps"]]
-    assert "cover-framework" in gap_ids
+    qids = [q["id"] for q in r["open_questions"]]
+    assert "cover-framework" in qids
     assert r["floor_satisfied"] is False
 
 

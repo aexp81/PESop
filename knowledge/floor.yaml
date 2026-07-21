@@ -1,21 +1,22 @@
 # PESop 下限定义（floor.yaml）—— 守门层(floor_guard)只读此文件,不硬编码下限
 #
-# 骨架宪法(见 docs/ARCH-DECISIONS.md):engine 只守下限、不设上限;下限是可增删的
-# 检查项清单。加新下限 = append 一条;若能复用现有 check 类型则零代码。
-# 只增不删,reflow 可回灌。
+# 骨架宪法(见 docs/ARCH-DECISIONS.md):engine 只守下限、不设上限。
+# 【重大转向】engine 不再输出"缺口清单/祈使句指令"(那会把 AI 训成填表的流水线工人:
+# 为消缺口而 consume,不为价值而思考)。改为:如实摆事实 + 抛苏格拉底式问题,逼 AI 自己
+# 判断"这个情报意味着什么、下一步该往哪深钻"。约束仍在(逼你处理),但逼的是思考,不是打勾。
 #
-# check 支持的原子类型(守门函数内置解释器,新增类型才需动 floor_guard 代码):
-#   fingerprint_tag_covered  某 tag 域有指纹命中但未被处理(无对应终态 finding)→ 未达标
-#   modeling_done            有接口/application 指纹却未填 Q1-Q5 → 未达标(无 application 面则 N/A)
-#   endpoints_all_consumed   intel.endpoints 有未 consumed 的接口 → 未达标
-#   intel_field_no_dangling  某 intel 列表字段有"拿到却没用"(consumed=false)的悬挂项 → 未达标
+# check 支持的原子类型(守门函数内置解释器):
+#   fingerprint_tag_covered  某 tag 域有指纹命中但未被处理(无对应终态 finding)
+#   modeling_done            有接口/application 指纹却未填 Q1-Q5(无 application 面则 N/A)
+#   endpoints_all_consumed   intel.endpoints 有未 consumed 的接口
+#   intel_field_no_dangling  某 intel 列表字段有"拿到却没用"(consumed=false)的悬挂项
 #
 # 每条:
 #   id        唯一标识
 #   group     coverage(覆盖下限) | drain(榨干下限)
-#   check     原子检查类型(上面四种之一)
+#   check     原子检查类型
 #   args      该检查的参数(dict,可空)
-#   gap_hint  未达标时给 AI 看的缺口话术(只陈述缺口,不下达指令)
+#   question  未达标时抛给 AI 的【问题】(疑问句,逼思考;不是"去做X"的指令)
 
 floor_checks:
 
@@ -25,26 +26,26 @@ floor_checks:
     check: fingerprint_tag_covered
     args:
       tag: framework
-    gap_hint: "framework 域有指纹命中但未展开攻击链 → 读 domains/framework/ playbook 打完再判走不通"
+    question: "命中了 framework 指纹却还没有任何终态结论——你认为这个框架/组件最可能在哪里失效?打算用什么攻击链去证实或证伪?"
 
   - id: cover-infra
     group: coverage
     check: fingerprint_tag_covered
     args:
       tag: infra
-    gap_hint: "infra 域有中间件指纹但未打未授权 → 读 domains/infra/ 打完再判走不通"
+    question: "命中了 infra 中间件指纹却还没打——这个中间件默认配置里哪些未授权入口最可能没关?你怎么验证?"
 
   - id: cover-application-modeled
     group: coverage
     check: modeling_done
     args: {}
-    gap_hint: "有接口/application 指纹但未建模 → 先 intel.py model 填 Q1-Q5(建模档硬要求)"
+    question: "有接口/application 指纹但你还没建模。如果你是这个系统的开发者,它是什么系统、核心业务链是什么、最可能在哪里出问题?(先回答 Q1-Q5 再动手)"
 
   - id: cover-endpoints
     group: coverage
     check: endpoints_all_consumed
     args: {}
-    gap_hint: "intel.endpoints 里还有接口没验证(consumed=false) → 逐个验证完再判走不通"
+    question: "情报里还有接口没被验证过。这些接口里哪几个涉及敏感操作/数据?你判断哪个最可能存在未授权或越权?为什么?"
 
   # ===== B 组·榨干下限（drain）=====
   - id: drain-secrets
@@ -52,11 +53,11 @@ floor_checks:
     check: intel_field_no_dangling
     args:
       field: secrets
-    gap_hint: "有密钥/凭证拿到却没用(consumed=false) → 检查能否喂给其它域(OSS-AK 打对象存储/DB 串连库)再判走不通"
+    question: "你挖到了密钥/凭证但还没用于任何攻击。逐个想:每个凭证能解锁哪个系统(对象存储/数据库/第三方API)?它的攻击面和验证假设是什么?"
 
   - id: drain-hosts
     group: drain
     check: intel_field_no_dangling
     args:
       field: hosts
-    gap_hint: "有内网 IP/域名拿到却没打(consumed=false) → 顺着打完再判走不通"
+    question: "你发现了内网 IP/内部域名但还没打。这些主机可能承载什么服务?是否揭示了新的攻击面或架构模式?"

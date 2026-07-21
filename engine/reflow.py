@@ -47,6 +47,7 @@ DOMAINS_DIR = os.path.join(KNOW_DIR, "domains")          # 三域 playbook 根
 WAF_FP = os.path.join(KNOW_DIR, "waf", "fingerprints.yaml")
 WAF_BYPASS_DIR = os.path.join(KNOW_DIR, "waf", "bypass")
 PAYLOADS_DIR = os.path.join(KNOW_DIR, "payloads")
+JS_DIR = os.path.join(KNOW_DIR, "js")
 VALID_TAGS = ["infra", "framework", "application"]
 RUNS_ROOT = os.path.join(_PROJECT_ROOT, "runs")
 
@@ -179,6 +180,26 @@ def add_payload(group, payload, why=""):
     return {"ok": True, "added": payload, "group": group}
 
 
+def add_bundler(bid, detect, chunk_rule, asset_dirs=None, note=""):
+    """回灌一种打包工具规则到 knowledge/js/bundlers.yaml(只增不删,同 id 跳过)。"""
+    yaml = _require_yaml()
+    os.makedirs(JS_DIR, exist_ok=True)
+    path = os.path.join(JS_DIR, "bundlers.yaml")
+    if os.path.exists(path):
+        data = yaml.safe_load(open(path, encoding="utf-8")) or {}
+    else:
+        data = {"bundlers": []}
+    lst = data.setdefault("bundlers", [])
+    if any(isinstance(b, dict) and b.get("id") == bid for b in lst):
+        return {"ok": True, "skipped": "该 bundler id 已存在,去重", "id": bid}
+    lst.append({"id": bid, "detect": detect, "chunk_rule": chunk_rule,
+                "asset_dirs": asset_dirs or [], "note": note})
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("# 前端打包工具识别 + chunk 提取规则库(自动回灌维护,只增不删)\n\n")
+        yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False)
+    return {"ok": True, "added": bid, "chunk_rule": chunk_rule}
+
+
 def suggest(target):
     """从某次 run 产物里挑出'可能值得回灌'的线索,只提示不自动写。"""
     from urllib.parse import urlparse
@@ -259,6 +280,14 @@ def main():
     pl.add_argument("--payload", required=True)
     pl.add_argument("--why", default="")
 
+    bd = sub.add_parser("bundler", help="回灌前端打包工具识别+chunk提取规则")
+    bd.add_argument("--id", required=True, help="打包工具标识(如 rollup/parcel)")
+    bd.add_argument("--detect", action="append", required=True, help="识别信号,可多次")
+    bd.add_argument("--chunk-rule", required=True,
+                    help="chunk 提取规则类型(webpack_chunk_map/vite_modulepreload/nextjs_manifest/generic_asset_ref)")
+    bd.add_argument("--asset-dir", action="append", default=[], help="静态资源目录前缀,可多次")
+    bd.add_argument("--note", default="")
+
     sg = sub.add_parser("suggest", help="从 run 产物提示可回灌线索")
     sg.add_argument("--target", required=True)
 
@@ -278,6 +307,8 @@ def main():
         r = add_waf(args.id, args.signal or None, bypass)
     elif args.cmd == "payload":
         r = add_payload(args.group, args.payload, args.why)
+    elif args.cmd == "bundler":
+        r = add_bundler(args.id, args.detect, args.chunk_rule, args.asset_dir or None, args.note)
     elif args.cmd == "verify":
         r = verify()
     else:

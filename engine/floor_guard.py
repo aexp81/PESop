@@ -3,9 +3,12 @@
 PESop engine · floor_guard —— 下限守门层（A 阶段骨架核心）
 
 骨架宪法(见 docs/ARCH-DECISIONS.md):
-  engine 只守下限、不设上限;决策权归 AI。守门层只做三件事:
-    读态势(intel + findings) → 对照 knowledge/floor.yaml 的下限 → 出【缺口清单】。
-  它【不发包、不决策、不下指令、不生成假设】。只陈述缺口和裁决,供 AI 使用。
+  engine 只守下限、不设上限;决策权归 AI。
+  【重大转向】不再输出"缺口清单/该做什么"的指令(那会把 AI 训成填表的流水线工人:
+  为消缺口而机械 consume,不为价值而思考)。改为:
+    读态势 → ①facts 如实摆情报 ②open_questions 对未消化情报抛苏格拉底式问题,逼 AI
+    判断"这意味着什么、能打进哪里、该往哪深钻"。verdict 只陈述深度状态,不下指令。
+  它【不发包、不决策、不生成假设、不给待办清单】。
 
 "走不通"的定义(2.1):  value_reached=False  且  floor_satisfied=True
   → 只有下限达标(努力充分)且没挖到中危+价值时,才允许判"走不通"、才发散/变思路。
@@ -92,7 +95,7 @@ def _minimal_parse_floor(text):
                 continue
             # 顶层字段
             m = re.match(r"^\s+(\w+):\s*(.*)$", line)
-            if m and m.group(1) in ("group", "check", "gap_hint"):
+            if m and m.group(1) in ("group", "check", "question"):
                 cur[m.group(1)] = m.group(2).strip().strip('"').strip("'")
                 in_args = False
     if cur is not None:
@@ -159,44 +162,66 @@ _CHECK_DISPATCH = {
 # 对外主函数
 # --------------------------------------------------------------------------
 def assess(target):
-    """读态势 → 跑下限检查 → 出缺口清单 + 三态裁决。不发包/不决策/不下指令。"""
+    """读态势 → 如实摆事实 + 抛苏格拉底式问题(逼思考,不给指令清单)。
+
+    骨架宪法转向:engine 不再输出"缺口清单/该做什么"(那会把 AI 训成填表工人),
+    而是:①facts 如实呈现当前掌握的情报态势 ②open_questions 对未消化的情报抛出问题,
+    逼 AI 判断"这意味着什么、该往哪深钻"。verdict 只陈述状态,不下指令。
+    """
     checks, load_note = _load_floor()
     isum = _intel.summary(target)
     idata = _intel.load(target)
 
-    gaps = []
+    # 事实层:如实摆出当前态势(不评判、不指令)
+    facts = {
+        "waf": isum["waf"],
+        "fingerprints": isum["fingerprints"],
+        "endpoints_total": isum["counts"]["endpoints"],
+        "endpoints_unconsumed": isum["dangling"]["endpoints"],
+        "secrets_total": isum["counts"]["secrets"],
+        "secrets_unconsumed": isum["dangling"]["secrets"],
+        "hosts_unconsumed": isum["dangling"]["hosts"],
+        "modeling_done": isum.get("modeling_done", False),
+        "findings_with_value": _value_reached(target),
+    }
+
+    # 未达标的下限 → 转成【问题】抛给 AI(而非"去补X"的指令)
+    open_questions = []
+    unmet = 0
     for c in checks:
         fn = _CHECK_DISPATCH.get(c.get("check"))
         if fn is None:
-            # 未知 check 类型:不阻断,记为缺口提示(提醒该在 floor_guard 加解释器)
-            gaps.append({"id": c.get("id"), "group": c.get("group"),
-                         "gap_hint": f"未知 check 类型 '{c.get('check')}',需在 floor_guard 加解释器"})
             continue
         try:
             ok = fn(c.get("args") or {}, isum, idata, target)
-        except Exception as e:
-            gaps.append({"id": c.get("id"), "group": c.get("group"),
-                         "gap_hint": f"检查执行异常:{e}"})
+        except Exception:
             continue
         if not ok:
-            gaps.append({"id": c.get("id"), "group": c.get("group"),
-                         "gap_hint": c.get("gap_hint", "")})
+            unmet += 1
+            q = c.get("question") or c.get("gap_hint") or ""
+            if q:
+                open_questions.append({"id": c.get("id"), "group": c.get("group"), "question": q})
 
-    floor_satisfied = len(gaps) == 0
-    value_reached = _value_reached(target)
+    floor_satisfied = unmet == 0
+    value_reached = facts["findings_with_value"]
 
+    # verdict:只陈述"深度状态",不下指令。核心提醒——流程走完≠有纵深。
     if not floor_satisfied:
-        verdict = "禁止判走不通 —— 下限未达标,还差以下缺口(补齐或说明N/A后再收敛)"
+        verdict = ("还有情报没被消化、没被深钻。下面的问题不是待办清单,是要你回答的思考题——"
+                   "先想清楚每条情报意味着什么、能打进哪里,再决定下一步。")
     elif value_reached:
-        verdict = "下限已达标 且 已有中危+价值产出 → 可收敛;是否继续发散深挖由你定(不设上限)"
+        verdict = ("已挖到中危+价值。这条线是否已到你能想到的最深?还有没有未被验证的假设?"
+                   "其它攻击面是否也都想过了?(收敛与否由你判断,不设上限)")
     else:
-        verdict = "下限已达标 但 未挖到中危+价值 → 现在才允许判'走不通',发散/变思路由你定"
+        verdict = ("现有情报都已消化但尚无中危+价值产出。是你的系统理解模型需要修正,"
+                   "还是有维度还没切?(证伪≠系统安全,是模型要改)")
 
     result = {
         "target": target,
+        "facts": facts,
         "value_reached": value_reached,
         "floor_satisfied": floor_satisfied,
-        "gaps": gaps,
+        "open_questions": open_questions,
         "verdict": verdict,
     }
     if load_note:

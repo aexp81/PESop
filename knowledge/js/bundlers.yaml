@@ -1,0 +1,33 @@
+# 前端打包工具识别 + chunk 提取规则库
+# js_harvester 只解释此文件,不硬编码打包工具知识。加一种打包工具追加一条即可。
+# 只增不删,reflow bundler 回灌。
+#
+# 说明:React 不是打包工具,React 站点实际用 webpack(CRA/老项目)、vite(Vite+React)、
+# nextjs(Next.js) 打包,故本库按打包工具分类即可覆盖绝大部分 React/前端站点。
+#
+# 字段:
+#   id          打包工具标识
+#   detect      识别信号(在 HTML 或 entry JS 文本里的子串,命中任一即认定,小写匹配)
+#   chunk_rule  chunk URL 提取规则类型(对应 js_harvester 内置解释器):
+#                 webpack_chunk_map | vite_modulepreload | nextjs_manifest | generic_asset_ref
+#   asset_dirs  该工具常见的静态资源目录前缀(用于通用引用扫描兜底)
+#   note        人读说明
+
+bundlers:
+  - id: nextjs
+    detect: ["/_next/static/", "__next_f", "self.__next", "_buildmanifest", "_ssgmanifest"]
+    chunk_rule: nextjs_manifest
+    asset_dirs: ["/_next/static/chunks/", "/_next/static/"]
+    note: "Next.js:chunk 在 /_next/static/chunks/;_buildManifest.js 列出各路由的 chunk"
+
+  - id: webpack
+    detect: ["webpackjsonp", "__webpack_require__", "webpackchunk", "installedchunks"]
+    chunk_rule: webpack_chunk_map
+    asset_dirs: ["/static/js/", "/js/", "/dist/"]
+    note: "最常见(含 CRA);chunkId→hash 映射与 publicPath 在 runtime/main 里"
+
+  - id: vite
+    detect: ["/assets/", "type=\"module\"", "__vite", "import.meta", "modulepreload"]
+    chunk_rule: vite_modulepreload
+    asset_dirs: ["/assets/"]
+    note: "Vite(底层 Rollup):ES module + <link rel=modulepreload>,静态可拿大部分"

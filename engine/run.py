@@ -78,8 +78,8 @@ def _next_advice(target):
 
     # 跨域产物流动提示
     if isum["counts"]["secrets"] > 0:
-        advice.append(f"⑤ intel 已有 {isum['counts']['secrets']} 个密钥/凭证 "
-                      f"{isum['secrets_names']} → 检查能否喂给其它域(如OSS-AK打对象存储/DB串连库)")
+        advice.append(f"⑤ 已挖到 {isum['counts']['secrets']} 个密钥/凭证 "
+                      f"{isum['secrets_names']} → 每个能解锁哪个系统?攻击面是什么?(想清楚再动手,别只记录不利用)")
 
     # 收尾
     if fsum["total"] > 0:
@@ -88,15 +88,15 @@ def _next_advice(target):
             advice.append(f"⑥ 有 {st['suspected']} 个 suspected 未推到终态 → 继续钻或证伪")
         advice.append("⑦ 收尾看 evidence.py report(发现+情报聚合) → 写报告 → reflow 回灌")
 
-    # —— 下限守门(A阶段):只读态势给缺口清单,不决策(容错不阻断,与 intel 回写风格一致)——
+    # —— 下限守门:如实摆事实 + 抛思考题(不给待办清单,逼 AI 动脑)——
     try:
         import floor_guard as _fg   # noqa: E402
         fa = _fg.assess(target)
-        advice.append(f"⑧ 下限体检:{fa['verdict']}")
-        for g in fa["gaps"]:
-            advice.append(f"    ↳ 缺口[{g['group']}] {g['gap_hint']}")
+        advice.append(f"⑧ 纵深自检:{fa['verdict']}")
+        for q in fa.get("open_questions", []):
+            advice.append(f"    ? [{q['group']}] {q['question']}")
     except Exception as e:
-        advice.append(f"⑧ 下限体检跳过(floor_guard 不可用:{e})")
+        advice.append(f"⑧ 纵深自检跳过(floor_guard 不可用:{e})")
 
     return {"target": target, "next_advice": advice or ["态势为空,先 run.py init"]}
 

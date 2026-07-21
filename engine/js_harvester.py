@@ -180,7 +180,7 @@ def harvest(target, html_path="/", max_js=100):
     with open(os.path.join(tdir, "js_assets.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
 
-    # 产物自动流入 intel(修复审计 S2/M8:接口/密钥/内网域名自动进情报库,供各域取用)
+    # 产物自动流入 intel(接口/密钥/内网域名自动进情报库,供各域取用)
     try:
         import intel as _intel
         for p in out["aggregate"]["api_paths"]:

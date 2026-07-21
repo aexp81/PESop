@@ -68,7 +68,7 @@ def load(target):
             "created": datetime.now(timezone.utc).astimezone().isoformat(),
             "waf": {"present": None, "id": None, "evidence_id": None},
             "system_type": None,
-            "modeling": None,   # Q1-Q5 建模档产物(进 application 域前必须填,修复O5)
+            "modeling": None,   # Q1-Q5 建模档产物(进 application 域前必须填)
             "fingerprints": [], "ports": [], "hosts": [],
             "endpoints": [], "secrets": [], "notes": [],
         }
@@ -94,9 +94,52 @@ def add(target, field, item, dedup_key=None):
             return {"ok": True, "skipped": "已存在,去重", "field": field}
     elif item in lst:
         return {"ok": True, "skipped": "已存在,去重", "field": field}
+    # dict 型情报默认补 consumed=false(榨干下限的前提;向后兼容:老数据无此字段视为 false)
+    if isinstance(item, dict) and "consumed" not in item:
+        item = {**item, "consumed": False, "consumed_by": None, "consumed_at": None}
     lst.append(item)
     save(target, data)
     return {"ok": True, "added": item, "field": field, "count": len(lst)}
+
+
+# 可被标记 consumed 的字段(用于"榨干下限"):secrets/hosts/endpoints
+CONSUMABLE_FIELDS = ["secrets", "hosts", "endpoints"]
+# 各字段用哪个键做匹配(consume 时定位条目)
+_CONSUME_MATCH_KEYS = {
+    "secrets": ["name", "value"],
+    "hosts": ["host", "value", "name"],
+    "endpoints": ["path", "value"],
+}
+
+
+def consume(target, field, match_value, by):
+    """把某条已获取的情报标记为"已被利用"(consumed),供榨干下限判定。
+
+    在 field 列表里找 dict 条目:其匹配键(见 _CONSUME_MATCH_KEYS)的值等于
+    match_value,或该条目本身(str)等于 match_value,则标记
+    consumed=True / consumed_by=by / consumed_at=now。
+    找不到返回 {ok: False}。
+    """
+    if field not in CONSUMABLE_FIELDS:
+        raise ValueError(f"{field} 不支持 consume 标记。可标记:{CONSUMABLE_FIELDS}")
+    data = load(target)
+    keys = _CONSUME_MATCH_KEYS.get(field, ["name", "value"])
+    hit = None
+    for x in data.get(field, []):
+        if isinstance(x, dict):
+            if any(x.get(k) == match_value for k in keys):
+                hit = x
+                break
+        elif x == match_value:
+            # 纯字符串条目:无法就地加标记,跳过(dict 条目才承载 consumed)
+            continue
+    if hit is None:
+        return {"ok": False, "reason": f"未找到 {field} 中匹配 {match_value} 的条目", "field": field}
+    hit["consumed"] = True
+    hit["consumed_by"] = by
+    hit["consumed_at"] = datetime.now(timezone.utc).astimezone().isoformat()
+    save(target, data)
+    return {"ok": True, "consumed": hit, "field": field}
 
 
 def set_field(target, key, value):
@@ -122,7 +165,7 @@ def set_waf(target, present, waf_id=None, evidence_id=None):
 
 
 def set_modeling(target, q1, q2, q3, q4="", q5=""):
-    """写入 application 域的 Q1-Q5 建模档产物(修复审计 O5:三档内核有落地载体)。
+    """写入 application 域的 Q1-Q5 建模档产物。
     进 application 域测试前必须先填,run.py status 会检查有没有填。"""
     data = load(target)
     data["modeling"] = {
@@ -139,6 +182,13 @@ def set_modeling(target, q1, q2, q3, q4="", q5=""):
 
 def summary(target):
     d = load(target)
+    # 各可标记字段里"拿到却没用"(consumed 非 True)的悬挂条目数,供榨干下限判定
+    dangling = {}
+    for f in CONSUMABLE_FIELDS:
+        dangling[f] = sum(
+            1 for x in d.get(f, [])
+            if isinstance(x, dict) and not x.get("consumed", False)
+        )
     return {
         "target": target,
         "waf": d["waf"],
@@ -146,6 +196,7 @@ def summary(target):
         "modeling_done": d.get("modeling") is not None,
         "fingerprints": [f.get("id") for f in d["fingerprints"]],
         "counts": {k: len(d[k]) for k in LIST_FIELDS},
+        "dangling": dangling,
         "secrets_names": [s.get("name") for s in d["secrets"] if isinstance(s, dict)],
     }
 
@@ -176,6 +227,12 @@ def main():
     md.add_argument("--q4", default="", help="怎么验")
     md.add_argument("--q5", default="", help="响应说明什么/怎么迭代")
 
+    cs = sub.add_parser("consume", help="把已获取情报标记为已利用(榨干下限)")
+    cs.add_argument("--target", required=True)
+    cs.add_argument("--field", required=True, choices=CONSUMABLE_FIELDS)
+    cs.add_argument("--match", required=True, help="条目匹配值(如 secrets 的 name/value)")
+    cs.add_argument("--by", required=True, help="被谁/哪一步利用(如 '打通对象存储')")
+
     args = ap.parse_args()
     if args.cmd == "show":
         print(json.dumps(load(args.target), ensure_ascii=False, indent=2))
@@ -193,6 +250,9 @@ def main():
                          ensure_ascii=False, indent=2))
     elif args.cmd == "model":
         print(json.dumps(set_modeling(args.target, args.q1, args.q2, args.q3, args.q4, args.q5),
+                         ensure_ascii=False, indent=2))
+    elif args.cmd == "consume":
+        print(json.dumps(consume(args.target, args.field, args.match, args.by),
                          ensure_ascii=False, indent=2))
 
 

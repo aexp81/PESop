@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 """
-PESop engine · run —— 编排器（修复审计 S1/M10:把三维流程变可执行编排）
+PESop engine · run —— 编排器(把三维流程 + 下限守门变可执行)
 
-问题背景:此前 engine 各模块是独立 CLI,把它们按三维架构串起来全靠 AI 读 AGENT.md
-自觉拼。run.py 把"标准流程骨架"固化成可执行命令,减少 AI 记忆负担和跑偏空间。
-它不剥夺 AI 的判断(具体深钻/发散仍由 AI 做),但保证编排骨架被真正执行。
+把标准流程骨架固化成命令,减少 AI 靠读 AGENT.md 自行拼工具的空间。
+它不剥夺 AI 的判断(具体深钻/发散仍由 AI 做),只保证编排骨架被真正执行。
 
 命令:
-  init   —— 情报就位:自动串 waf.identify + recon(分诊+写intel)。一条命令完成
-            "标准流程 step1-2",AI 不必分别记两个工具的顺序。
-  status —— 全局态势:一眼看 intel(WAF/指纹/接口/密钥/建模) + findings(发现/终态)
-            + 下一步建议(哪个域该打、application 域有没有先建模)。
+  init   —— 情报就位:自动串 waf.identify + recon(分诊+写intel),一条命令完成。
+  status —— 全局态势:intel(WAF/指纹/接口/密钥/建模) + findings + 下一步建议
+            + 下限体检(floor_guard:够不够收工/该不该判走不通)。
   next   —— 只输出"下一步该干什么"的建议(status 的精简版)。
 
 用法:
@@ -88,7 +86,17 @@ def _next_advice(target):
         st = fsum["by_status"]
         if st.get("suspected", 0) > 0:
             advice.append(f"⑥ 有 {st['suspected']} 个 suspected 未推到终态 → 继续钻或证伪")
-        advice.append(f"⑦ 收尾看 evidence.py report(发现+情报聚合) → 写报告 → reflow 回灌")
+        advice.append("⑦ 收尾看 evidence.py report(发现+情报聚合) → 写报告 → reflow 回灌")
+
+    # —— 下限守门(A阶段):只读态势给缺口清单,不决策(容错不阻断,与 intel 回写风格一致)——
+    try:
+        import floor_guard as _fg   # noqa: E402
+        fa = _fg.assess(target)
+        advice.append(f"⑧ 下限体检:{fa['verdict']}")
+        for g in fa["gaps"]:
+            advice.append(f"    ↳ 缺口[{g['group']}] {g['gap_hint']}")
+    except Exception as e:
+        advice.append(f"⑧ 下限体检跳过(floor_guard 不可用:{e})")
 
     return {"target": target, "next_advice": advice or ["态势为空,先 run.py init"]}
 

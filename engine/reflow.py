@@ -8,7 +8,7 @@ PESop engine · reflow —— 自动回灌(复利飞轮的动力)
 
 回灌两类知识:
   1. 新指纹      -> append 进 knowledge/fingerprints.yaml
-  2. 新 check    -> append 进 knowledge/playbooks/<id>.yaml 的 checks(不存在则新建 playbook)
+  2. 新 check    -> append 进 knowledge/domains/<tag>/<playbook>.yaml 的 checks(不存在则新建)
 
 原则(对应 AGENT.md 第 5 节):
   - 只回灌"可复用的判据/手法",不回灌"目标专属数据"(那留在 runs/)。
@@ -66,7 +66,7 @@ def add_fingerprint(fid, tag, signals, identity, confidence, playbook=None, note
     if tag not in VALID_TAGS:
         return {"ok": False, "reason": f"tag 必须是 {VALID_TAGS} 之一,收到 '{tag}'"}
     if not match:
-        return {"ok": False, "reason": "必须提供 --match(结构化匹配token),否则 recon 无法识别该指纹(修复O3的要求)"}
+        return {"ok": False, "reason": "必须提供 --match(结构化匹配token),否则 recon 无法识别该指纹"}
     with open(FINGERPRINTS, encoding="utf-8") as f:
         data = yaml.safe_load(f)
     fps = data.setdefault("fingerprints", [])
@@ -85,7 +85,7 @@ def add_fingerprint(fid, tag, signals, identity, confidence, playbook=None, note
     fps.append(entry)
     with open(FINGERPRINTS, "w", encoding="utf-8") as f:
         f.write("# PESop 指纹库 —— 信号->身份->tag(打法域)+playbook（自动回灌维护,只增不删）\n")
-        f.write("# match 字段是 recon 的匹配依据,回灌必带(修复O3:回灌即可被识别)\n\n")
+        f.write("# match 字段是 recon 的匹配依据,回灌必带\n\n")
         yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
     return {"ok": True, "added": entry}
 
@@ -198,6 +198,31 @@ def suggest(target):
     return {"target": target, "reflow_hints": hints}
 
 
+def verify():
+    """知识一致性体检:扫描 fingerprints.yaml 所有 playbook 引用,列出悬空(文件不存在)的。
+    收尾/CI 用,主动发现"指纹指向的 playbook 文件不存在"的缝(playbook=null 视为有意留空,不算悬空)。
+    读 fingerprints 复用 recon 的 load_fingerprints(pyyaml 优先,无则内置兜底),故本命令不强依赖 pyyaml。
+    """
+    sys.path.insert(0, _ENGINE_DIR)
+    import recon as _recon
+    fps = _recon.load_fingerprints()
+    dangling = []
+    ok = []
+    for fp in fps:
+        pb = fp.get("playbook")
+        if not pb or pb == "null":
+            continue   # 有意留空(如纯 infra 端口/尚无 playbook),不算悬空
+        exists = os.path.exists(os.path.join(KNOW_DIR, pb))
+        (ok if exists else dangling).append({"id": fp.get("id"), "playbook": pb})
+    return {
+        "checked": len([f for f in fps if f.get("playbook") and f.get("playbook") != "null"]),
+        "ok_count": len(ok),
+        "dangling": dangling,
+        "verdict": ("全部指纹的 playbook 引用零悬空" if not dangling
+                    else f"发现 {len(dangling)} 个悬空引用 -> reflow check 补建对应 playbook"),
+    }
+
+
 def main():
     ap = argparse.ArgumentParser(description="PESop 分层自动回灌(只增不删)")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -237,6 +262,8 @@ def main():
     sg = sub.add_parser("suggest", help="从 run 产物提示可回灌线索")
     sg.add_argument("--target", required=True)
 
+    sub.add_parser("verify", help="知识一致性体检:检查指纹→playbook 引用有无悬空")
+
     args = ap.parse_args()
     if args.cmd == "fingerprint":
         r = add_fingerprint(args.id, args.tag, args.signal, args.identity,
@@ -251,6 +278,8 @@ def main():
         r = add_waf(args.id, args.signal or None, bypass)
     elif args.cmd == "payload":
         r = add_payload(args.group, args.payload, args.why)
+    elif args.cmd == "verify":
+        r = verify()
     else:
         r = suggest(args.target)
     print(json.dumps(r, ensure_ascii=False, indent=2))

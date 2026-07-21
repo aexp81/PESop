@@ -114,10 +114,10 @@ def _collect_features(target, probe_paths):
 
 
 # --------------------------------------------------------------------------
-# 匹配:纯读 fingerprints.yaml 每条指纹的 match 字段(修复审计 O3)
+# 匹配:纯读 fingerprints.yaml 每条指纹的 match 字段
 # --------------------------------------------------------------------------
-# recon 不再硬编码关键词。每条指纹自带 match:[token,...],recon 只读它。
-# 这样 reflow 回灌新指纹(带 match)后,recon 立即能识别 —— 飞轮不断。
+# recon 不硬编码关键词。每条指纹自带 match:[token,...],recon 只读它;
+# reflow 回灌新指纹(带 match)后 recon 立即能识别。
 
 
 def _fp_match_tokens(fp):
@@ -190,10 +190,15 @@ def recon(target, probe_paths=None, write_intel=True):
 
     # 生成分域行动建议(反射档 vs 建模档)
     domain_actions = {}
+    missing_playbooks = []
     for t in TAGS:
         if not dispatch[t]:
             continue
         pbs = sorted({h["playbook"] for h in dispatch[t] if h.get("playbook")})
+        # 校验每个 playbook 文件是否真实存在(治指纹→playbook 悬空引用)
+        for pb in pbs:
+            if not os.path.exists(os.path.join(_PROJECT_ROOT, "knowledge", pb)):
+                missing_playbooks.append(pb)
         if t in ("infra", "framework"):
             mode = "反射档:指纹已定,直接展开确定性攻击链/未授权,不必逐条写Q1-Q5"
         else:
@@ -214,6 +219,10 @@ def recon(target, probe_paths=None, write_intel=True):
     else:
         next_action = "无已知指纹命中 -> 走 Q1-Q5 手工建模,并把新指纹信号收尾 reflow 回灌"
 
+    if missing_playbooks:
+        next_action += (f" | ⚠ 指纹指向的 playbook 文件缺失:{sorted(set(missing_playbooks))} "
+                        f"-> 该指纹缺打法,先按建模档手工推进,并 reflow check 补建 playbook")
+
     return {
         "target": target,
         "probed_paths": probe_paths,
@@ -221,6 +230,7 @@ def recon(target, probe_paths=None, write_intel=True):
         "status_by_path": {f[0]: f[2] for f in features},
         "fingerprint_hits": hits,
         "dispatch_by_tag": domain_actions,
+        "missing_playbooks": sorted(set(missing_playbooks)),
         "untagged_hits": untagged,
         "next_action": next_action,
     }

@@ -1,0 +1,62 @@
+# PESop 下限定义（floor.yaml）—— 守门层(floor_guard)只读此文件,不硬编码下限
+#
+# 骨架宪法(见 docs/ARCH-DECISIONS.md):engine 只守下限、不设上限;下限是可增删的
+# 检查项清单。加新下限 = append 一条;若能复用现有 check 类型则零代码。
+# 只增不删,reflow 可回灌。
+#
+# check 支持的原子类型(守门函数内置解释器,新增类型才需动 floor_guard 代码):
+#   fingerprint_tag_covered  某 tag 域有指纹命中但未被处理(无对应终态 finding)→ 未达标
+#   modeling_done            有接口/application 指纹却未填 Q1-Q5 → 未达标(无 application 面则 N/A)
+#   endpoints_all_consumed   intel.endpoints 有未 consumed 的接口 → 未达标
+#   intel_field_no_dangling  某 intel 列表字段有"拿到却没用"(consumed=false)的悬挂项 → 未达标
+#
+# 每条:
+#   id        唯一标识
+#   group     coverage(覆盖下限) | drain(榨干下限)
+#   check     原子检查类型(上面四种之一)
+#   args      该检查的参数(dict,可空)
+#   gap_hint  未达标时给 AI 看的缺口话术(只陈述缺口,不下达指令)
+
+floor_checks:
+
+  # ===== A 组·覆盖下限（coverage）=====
+  - id: cover-framework
+    group: coverage
+    check: fingerprint_tag_covered
+    args:
+      tag: framework
+    gap_hint: "framework 域有指纹命中但未展开攻击链 → 读 domains/framework/ playbook 打完再判走不通"
+
+  - id: cover-infra
+    group: coverage
+    check: fingerprint_tag_covered
+    args:
+      tag: infra
+    gap_hint: "infra 域有中间件指纹但未打未授权 → 读 domains/infra/ 打完再判走不通"
+
+  - id: cover-application-modeled
+    group: coverage
+    check: modeling_done
+    args: {}
+    gap_hint: "有接口/application 指纹但未建模 → 先 intel.py model 填 Q1-Q5(建模档硬要求)"
+
+  - id: cover-endpoints
+    group: coverage
+    check: endpoints_all_consumed
+    args: {}
+    gap_hint: "intel.endpoints 里还有接口没验证(consumed=false) → 逐个验证完再判走不通"
+
+  # ===== B 组·榨干下限（drain）=====
+  - id: drain-secrets
+    group: drain
+    check: intel_field_no_dangling
+    args:
+      field: secrets
+    gap_hint: "有密钥/凭证拿到却没用(consumed=false) → 检查能否喂给其它域(OSS-AK 打对象存储/DB 串连库)再判走不通"
+
+  - id: drain-hosts
+    group: drain
+    check: intel_field_no_dangling
+    args:
+      field: hosts
+    gap_hint: "有内网 IP/域名拿到却没打(consumed=false) → 顺着打完再判走不通"

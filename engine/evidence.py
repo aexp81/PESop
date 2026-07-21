@@ -157,7 +157,7 @@ def summary(target):
 
 
 def report(target):
-    """收尾报告数据:发现台账 + intel 情报 聚合(修复审计 M7:两套存储打通,一处可见)。"""
+    """收尾报告数据:发现台账 + intel 情报聚合(两套存储打通,一处可见)。"""
     data = {"findings_summary": summary(target),
             "findings": list_findings(target)}
     # 关联 intel 情报(同 runs/<target>/ 下)

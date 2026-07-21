@@ -98,6 +98,21 @@ def _next_advice(target):
     except Exception as e:
         advice.append(f"⑧ 纵深自检跳过(floor_guard 不可用:{e})")
 
+    # —— 情报组合:摆出已装配的攻击链候选 + 反问(逼 AI 做组合推导,不下指令)——
+    try:
+        import synth as _synth   # noqa: E402
+        pend = _synth.pending(target, limit=5)
+        n = pend["pending_total"]
+        if n > 0:
+            advice.append(f"⑨ 已装配 {n} 条攻击链候选还没打过(情报已交叉组合,勿再各自孤立发):")
+            for c in pend["chains"]:
+                af = c.get("assembled_from", {})
+                advice.append(f"    ↳ [{c['id']}] {c.get('method')} {c.get('url')} "
+                              f"| 头:{list(c.get('headers',{}).keys()) or '无'} | 由 {af}")
+            advice.append("    ? 你判断先打哪条最可能突破?为什么?发过的用 synth consume 标记。")
+    except Exception as e:
+        advice.append(f"⑨ 情报组合跳过(synth 不可用:{e})")
+
     return {"target": target, "next_advice": advice or ["态势为空,先 run.py init"]}
 
 

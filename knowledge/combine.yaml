@@ -1,0 +1,27 @@
+# 情报组合规则库 —— synth 装配台只解释此文件,不硬编码组合逻辑
+#
+# 作用:声明"哪类情报 × 哪类情报 = 什么请求候选链"。synth 按规则把 intel 里散落的情报
+# 撮合成【完整请求候选】(base+prefix+path+头+token),但【不发包、不全排列爆炸】。
+# 只做有意义的配对;加组合方式追加一条即可。只增不删,可回灌。
+#
+# 每条:
+#   id       规则标识
+#   desc     人读说明(为什么这么组合)
+#   needs    该规则需要的 intel 字段(都非空才触发)
+#   rule     synth 内置的组合算子(base_x_path/path_x_header/authpath_x_token/id_x_param/host_x_proxyhdr)
+
+combine_rules:
+  - id: base-x-path
+    desc: "后端 base × 接口路径 = 完整候选 URL(治'路径×端口拆成三步各自发')"
+    needs: [backends, endpoints]
+    rule: base_x_path
+
+  - id: path-x-tracehdr
+    desc: "接口 × 拦截器注入头 = 带完整追踪/鉴权头的请求(治'EagleEye 头第 N 次才想起加')"
+    needs: [backends, endpoints, headers]
+    rule: path_x_header
+
+  - id: authpath-x-token
+    desc: "鉴权类接口 × 已发现 token = token 多位置复用候选(治'token 发现后没复用')"
+    needs: [backends, endpoints, secrets]
+    rule: authpath_x_token

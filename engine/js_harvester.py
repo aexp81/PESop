@@ -151,6 +151,36 @@ def extract_backends(text, frontend_base):
     return backends, prefixes
 
 
+# ---- 拦截器注入的请求头提取:登录/鉴权请求常带 EagleEye-*/X-B3-*/uber-trace 等 ----
+# axios 拦截器 config.headers['X']= / config.headers.X= / setRequestHeader('X',..) / headers:{'X':..}
+_RE_HDR_ASSIGN = re.compile(r'''\.headers\s*(?:\[\s*["'`]([\w\-]+)["'`]\s*\]|\.([\w\-]+))\s*=''')
+_RE_HDR_SETREQ = re.compile(r'''setRequestHeader\s*\(\s*["'`]([\w\-]+)["'`]''')
+_RE_HDR_OBJ = re.compile(r'''["'`]((?:EagleEye|X-|uber-|traceparent|Authorization|Token)[\w\-]*)["'`]\s*:''', re.I)
+# 已知高信号追踪/鉴权头(命中即高置信是"请求必带头")
+_KNOWN_TRACE_HDRS = ("eagleeye", "x-b3-", "uber-trace", "traceparent", "x-request-id",
+                     "x-trace", "authorization", "x-token", "x-csrf", "x-xsrf")
+
+
+def extract_headers(text):
+    """从 JS 挖拦截器注入的请求头名。返回 [{name, source, context}]。engine 只挖名,不猜值。"""
+    out, seen = [], set()
+
+    def _add(name, source, pos):
+        if not name or name.lower() in seen:
+            return
+        seen.add(name.lower())
+        _, ctx = _line_and_context(text, pos)
+        out.append({"name": name, "source": source, "context": ctx})
+
+    for m in _RE_HDR_ASSIGN.finditer(text):
+        _add(m.group(1) or m.group(2), "interceptor-assign", m.start())
+    for m in _RE_HDR_SETREQ.finditer(text):
+        _add(m.group(1), "setRequestHeader", m.start())
+    for m in _RE_HDR_OBJ.finditer(text):
+        _add(m.group(1), "headers-object", m.start())
+    return out
+
+
 def infer_common_prefix(api_paths):
     """从多条接口路径归纳公共前缀(如都以 /prod-api/ 开头)。覆盖多数且像 API 前缀才给。"""
     if len(api_paths) < 3:
@@ -431,6 +461,7 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
         "browser_augment": False,
         "backends": [],
         "prefixes": [],
+        "headers": [],
         "aggregate": {"api_paths": set(), "callsites": set(),
                       "secrets": [], "internal_hosts": set()},
     }
@@ -456,6 +487,7 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
         bks, pfs = extract_backends(inline_text, base)
         result["backends"].extend(bks)
         result["prefixes"].extend(pfs)
+        result["headers"].extend(extract_headers(inline_text))
 
     # 先下载入口 JS(用于识别打包工具 + 抠 chunk 映射)
     queue = list(entry_urls)           # 待下载队列(会追加 chunk)
@@ -512,6 +544,9 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
         for pf in pfs:
             if pf["prefix"] not in {x["prefix"] for x in result["prefixes"]}:
                 result["prefixes"].append(pf)
+        for hd in extract_headers(text_for_extract):
+            if hd["name"].lower() not in {x["name"].lower() for x in result["headers"]}:
+                result["headers"].append(hd)
 
     for (eu, jr, jbody) in downloaded_entry:
         _process_js(eu, "entry", jr, jbody)
@@ -570,6 +605,7 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
         "sourcemaps": result["sourcemaps"],
         "backends": result["backends"],
         "prefixes": all_prefixes,
+        "headers": _dedup_headers(result["headers"]),
         "aggregate": {
             "api_paths": sorted(agg["api_paths"]),
             "callsites": sorted(agg["callsites"]),
@@ -591,6 +627,8 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
             _intel.add(target, "hosts", h)
         for b in out["backends"]:
             _intel.add(target, "backends", b, dedup_key="base")
+        for hd in out["headers"]:
+            _intel.add(target, "headers", hd, dedup_key="name")
         out["intel_synced"] = True
     except Exception as e:
         out["intel_sync_error"] = str(e)
@@ -602,6 +640,15 @@ def _merge(agg, ext):
     agg["callsites"].update(ext["callsites"])
     agg["secrets"].extend(ext["secrets"])
     agg["internal_hosts"].update(ext["internal_hosts"])
+
+
+def _dedup_headers(headers):
+    out, seen = [], set()
+    for h in headers:
+        k = h["name"].lower()
+        if k not in seen:
+            seen.add(k); out.append(h)
+    return out
 
 
 def main():

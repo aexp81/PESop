@@ -39,7 +39,7 @@ _PROJECT_ROOT = os.path.dirname(_ENGINE_DIR)
 RUNS_ROOT = os.path.join(_PROJECT_ROOT, "runs")
 
 # 列表型字段(用 add 追加) vs 标量字段(用 set 覆盖)
-LIST_FIELDS = ["fingerprints", "ports", "hosts", "endpoints", "secrets", "notes"]
+LIST_FIELDS = ["fingerprints", "ports", "hosts", "endpoints", "secrets", "notes", "backends"]
 SCALAR_FIELDS = ["system_type"]
 
 
@@ -70,7 +70,7 @@ def load(target):
             "system_type": None,
             "modeling": None,   # Q1-Q5 建模档产物(进 application 域前必须填)
             "fingerprints": [], "ports": [], "hosts": [],
-            "endpoints": [], "secrets": [], "notes": [],
+            "endpoints": [], "secrets": [], "notes": [], "backends": [],
         }
     with open(p, encoding="utf-8") as f:
         return json.load(f)
@@ -195,7 +195,7 @@ def summary(target):
         "system_type": d["system_type"],
         "modeling_done": d.get("modeling") is not None,
         "fingerprints": [f.get("id") for f in d["fingerprints"]],
-        "counts": {k: len(d[k]) for k in LIST_FIELDS},
+        "counts": {k: len(d.get(k, [])) for k in LIST_FIELDS},
         "dangling": dangling,
         "secrets_names": [s.get("name") for s in d["secrets"] if isinstance(s, dict)],
     }

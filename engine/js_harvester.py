@@ -9,6 +9,11 @@ PESop engine · js_harvester —— JS 全量提取 + 接口/密钥/路由提取
   L2 浏览器    (可选)headless 浏览器捕获动态加载的 JS,补静态盲区;不可用则降级静态并标注
   → 正则挖:API 路径 / fetch·axios·XHR 调用点 / 硬编码密钥 / 内部域名 → 落盘 js_assets.json
 
+【后端接入点】前后端分离下,接口真实 URL = base(后端host:port) + prefix(如/prod-api) + path。
+从 JS 挖明写的 base(axios.baseURL/环境变量/域名端口常量)与 prefix(拦截器prefix/路径公共前缀
+归纳),产出结构化 backends 写入 intel。engine 只如实呈现候选,不盲拼、不发验证包——由 AI 判断
+用哪个 base+prefix 去测(勿把接口直接拼在前端地址上)。
+
 打包工具规则外置到 knowledge/js/bundlers.yaml(webpack/vite/nextjs...),加一种追加一条即可,
 故 React 站点(CRA→webpack / Vite+React→vite / Next.js→nextjs)均覆盖。浏览器只"发现"URL,
 真正下载仍走 http_client 存证——"发包必存证"铁律不被绕过。
@@ -77,6 +82,89 @@ _RE_SECRET = re.compile(
 _RE_AKID = re.compile(r'(LTAI[0-9A-Za-z]{12,}|AKIA[0-9A-Z]{16})')  # 阿里云/AWS AK
 # 内部域名
 _RE_INTERNAL_HOST = re.compile(r'["\'](https?://[\w.\-]*(?:internal|intranet|corp|test|dev|stg|staging|pre)[\w.\-]*[^"\']*)["\']', re.I)
+
+
+# ---- 后端接入点(base)提取:前后端分离下,接口真实 URL = base + prefix + path ----
+_RE_BASEURL = re.compile(r'''base[Uu][Rr][Ll]\s*[:=]\s*["'`]([^"'`]+)["'`]''')
+_RE_ENV_API = re.compile(
+    r'''["'`]?((?:VITE|VUE_APP|REACT_APP|NEXT_PUBLIC|NG)[\w]*?(?:API|BASE|URL|HOST|SERVER)[\w]*?)["'`]?\s*[:=]\s*["'`]([^"'`]+)["'`]''',
+    re.I)
+_RE_API_CONST = re.compile(
+    r'''["'`]?((?:api|base|server|gateway|backend|service)[\w]*?(?:url|host|base|api|addr|origin))["'`]?\s*[:=]\s*["'`]([^"'`]+)["'`]''',
+    re.I)
+_RE_URL_PORT = re.compile(r'''["'`(](https?://[\w.\-]+:(\d{2,5})(?:/[\w\-/.]*)?)["'`)]''')
+_RE_PREFIX = re.compile(
+    r'''["'`]?(?:api_?prefix|prefix|context_?path|base_?path)["'`]?\s*[:=]\s*["'`](/[\w\-/]+)["'`]''',
+    re.I)
+
+
+def _norm_base(u):
+    """把 base 候选归一。相对 '/xxx' 视为 prefix;http(s)/host:port 视为 base。非法返回 None。"""
+    u = (u or "").strip()
+    if not u:
+        return None
+    if u.startswith("/"):
+        return {"kind": "prefix", "value": u.rstrip("/")}
+    if not u.startswith("http"):
+        p = urlparse("http://" + u)          # 补 scheme 解析 host:port
+    else:
+        p = urlparse(u)
+    if not p.hostname:
+        return None
+    port = f":{p.port}" if p.port else ""
+    scheme = p.scheme if u.startswith("http") else "https"
+    return {"kind": "base", "base": f"{scheme}://{p.hostname}{port}",
+            "prefix": p.path.rstrip("/") if p.path and p.path != "/" else ""}
+
+
+def extract_backends(text, frontend_base):
+    """从 JS 文本挖【后端接入点】(接口真实 URL = base + prefix + path)。
+    只挖 JS 明写的(确定级),不推断、不发包。返回 (backends, prefixes)。
+    """
+    backends, prefixes = [], []
+    fe_host = urlparse(frontend_base).hostname
+
+    def _add_base(raw, source, conf, ctx):
+        nb = _norm_base(raw)
+        if not nb:
+            return
+        if nb["kind"] == "prefix":
+            prefixes.append({"prefix": nb["value"], "source": source, "context": ctx})
+        else:
+            bh = urlparse(nb["base"]).hostname
+            same = (bh == fe_host and ":" not in nb["base"].split("//", 1)[1])
+            backends.append({"base": nb["base"], "prefix": nb["prefix"], "source": source,
+                             "confidence": ("low" if same else conf),
+                             "same_as_frontend": same, "context": ctx})
+
+    for m in _RE_BASEURL.finditer(text):
+        _, ctx = _line_and_context(text, m.start()); _add_base(m.group(1), "axios.baseURL", "high", ctx)
+    for m in _RE_ENV_API.finditer(text):
+        _, ctx = _line_and_context(text, m.start()); _add_base(m.group(2), f"env:{m.group(1)}", "high", ctx)
+    for m in _RE_API_CONST.finditer(text):
+        _, ctx = _line_and_context(text, m.start()); _add_base(m.group(2), f"const:{m.group(1)}", "medium", ctx)
+    for m in _RE_URL_PORT.finditer(text):
+        _, ctx = _line_and_context(text, m.start()); _add_base(m.group(1), f"url-with-port:{m.group(2)}", "medium", ctx)
+    for m in _RE_PREFIX.finditer(text):
+        _, ctx = _line_and_context(text, m.start())
+        prefixes.append({"prefix": m.group(1).rstrip("/"), "source": "explicit-prefix", "context": ctx})
+    return backends, prefixes
+
+
+def infer_common_prefix(api_paths):
+    """从多条接口路径归纳公共前缀(如都以 /prod-api/ 开头)。覆盖多数且像 API 前缀才给。"""
+    if len(api_paths) < 3:
+        return []
+    firsts = {}
+    for p in api_paths:
+        if p.startswith("/"):
+            seg = "/" + p.strip("/").split("/", 1)[0]
+            firsts[seg] = firsts.get(seg, 0) + 1
+    out = []
+    for seg, cnt in firsts.items():
+        if cnt >= max(3, int(len(api_paths) * 0.6)) and re.search(r'api|gateway|rest|service|admin', seg, re.I):
+            out.append({"prefix": seg, "source": "inferred-common-prefix", "sample_count": cnt})
+    return out
 
 
 def _classify_secret(name, value):
@@ -341,6 +429,8 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
         "js_files": [],
         "sourcemaps": [],
         "browser_augment": False,
+        "backends": [],
+        "prefixes": [],
         "aggregate": {"api_paths": set(), "callsites": set(),
                       "secrets": [], "internal_hosts": set()},
     }
@@ -363,6 +453,9 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
         result["js_files"].append({"url": "<inline-in-html>", "evidence_id": r["evidence_id"],
                                    "source": "inline", "skipped": False, "extracted": ext})
         _merge(result["aggregate"], ext)
+        bks, pfs = extract_backends(inline_text, base)
+        result["backends"].extend(bks)
+        result["prefixes"].extend(pfs)
 
     # 先下载入口 JS(用于识别打包工具 + 抠 chunk 映射)
     queue = list(entry_urls)           # 待下载队列(会追加 chunk)
@@ -411,6 +504,14 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
             "source": source, "from_sourcemap": from_sm, "skipped": False, "extracted": ext,
         })
         _merge(result["aggregate"], ext)
+        # 挖后端接入点(base+prefix):前后端分离下接口真实 URL = base+prefix+path
+        bks, pfs = extract_backends(text_for_extract, base)
+        for b in bks:
+            if b["base"] + b["prefix"] not in {x["base"] + x["prefix"] for x in result["backends"]}:
+                result["backends"].append(b)
+        for pf in pfs:
+            if pf["prefix"] not in {x["prefix"] for x in result["prefixes"]}:
+                result["prefixes"].append(pf)
 
     for (eu, jr, jbody) in downloaded_entry:
         _process_js(eu, "entry", jr, jbody)
@@ -448,6 +549,12 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
 
     # 汇总落盘
     agg = result["aggregate"]
+    # 前缀:显式挖到的 + 从接口路径归纳的(去重)
+    all_prefixes = list(result["prefixes"])
+    seen_pf = {p["prefix"] for p in all_prefixes}
+    for pf in infer_common_prefix(sorted(agg["api_paths"])):
+        if pf["prefix"] not in seen_pf:
+            all_prefixes.append(pf); seen_pf.add(pf["prefix"])
     coverage = f"打包工具={result['bundler'] or '未识别'};静态chunk={len(chunk_urls)}个"
     coverage += ";浏览器增强已跑" if result["browser_augment"] else ";未做浏览器增强(动态chunk可能漏)"
     out = {
@@ -461,6 +568,8 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
         "coverage_note": coverage,
         "js_files": result["js_files"],
         "sourcemaps": result["sourcemaps"],
+        "backends": result["backends"],
+        "prefixes": all_prefixes,
         "aggregate": {
             "api_paths": sorted(agg["api_paths"]),
             "callsites": sorted(agg["callsites"]),
@@ -480,6 +589,8 @@ def harvest(target, html_path="/", max_js=100, use_browser="auto"):
             _intel.add(target, "secrets", {**s, "source": s.get("name", "js")}, dedup_key="value")
         for h in out["aggregate"]["internal_hosts"]:
             _intel.add(target, "hosts", h)
+        for b in out["backends"]:
+            _intel.add(target, "backends", b, dedup_key="base")
         out["intel_synced"] = True
     except Exception as e:
         out["intel_sync_error"] = str(e)
@@ -517,6 +628,13 @@ def main():
         "detail_file": f"runs/{_slug(args.target)}/js_assets.json",
     }
     print(json.dumps(summary, ensure_ascii=False, indent=2))
+    if out.get("backends") or out.get("prefixes"):
+        print("\n[*] 后端接入点(接口真实URL = base + prefix + path,勿直接拼前端地址):")
+        for b in out.get("backends", [])[:10]:
+            flag = " (疑似仍是前端)" if b.get("same_as_frontend") else ""
+            print(f"    base={b['base']}{b['prefix']}  [{b['confidence']}] 来源:{b['source']}{flag}")
+        for p in out.get("prefixes", [])[:10]:
+            print(f"    prefix={p['prefix']}  来源:{p['source']}")
     if out["aggregate"]["secrets"]:
         print("\n[!] 疑似密钥(分类+来源,engine 只如实呈现不验证,由你判断攻击面):")
         for s in out["aggregate"]["secrets"][:15]:

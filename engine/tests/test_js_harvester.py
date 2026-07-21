@@ -135,6 +135,52 @@ def test_secret_classification():
 
 
 
+def test_extract_backend_from_axios_baseurl():
+    js = 'axios.create({baseURL:"https://api.example.com:30812/prod-api"})'
+    bks, pfs = jh.extract_backends(js, "https://app.example.com")
+    assert bks, "应挖到后端 base"
+    b = bks[0]
+    assert b["base"] == "https://api.example.com:30812"
+    assert b["prefix"] == "/prod-api"
+    assert b["same_as_frontend"] is False
+    assert b["confidence"] == "high"
+
+
+def test_extract_backend_env_var():
+    js = 'const c={VITE_API_URL:"https://backend.x.com:8443"}'
+    bks, _ = jh.extract_backends(js, "https://app.x.com")
+    assert any(b["base"] == "https://backend.x.com:8443" for b in bks)
+
+
+def test_extract_url_with_nonstandard_port():
+    js = 'fetch("https://svc.internal:30812/v2/list")'
+    bks, _ = jh.extract_backends(js, "https://app.x.com")
+    assert any(":30812" in b["base"] for b in bks)
+
+
+def test_extract_explicit_prefix():
+    js = 'const config={apiPrefix:"/prod-api"}'
+    _, pfs = jh.extract_backends(js, "https://app.x.com")
+    assert any(p["prefix"] == "/prod-api" for p in pfs)
+
+
+def test_same_host_no_port_marked_low():
+    js = 'axios.defaults.baseURL="https://app.x.com/api"'
+    bks, _ = jh.extract_backends(js, "https://app.x.com")
+    assert bks and bks[0]["same_as_frontend"] is True
+    assert bks[0]["confidence"] == "low"
+
+
+def test_infer_common_prefix():
+    paths = ["/prod-api/user", "/prod-api/order", "/prod-api/role", "/other/x"]
+    out = jh.infer_common_prefix(paths)
+    assert any(p["prefix"] == "/prod-api" for p in out)
+
+
+def test_infer_common_prefix_too_few():
+    assert jh.infer_common_prefix(["/api/x"]) == []
+
+
 def test_minimal_parse_bundlers_matches_pyyaml():
     with open(jh._BUNDLERS_YAML, encoding="utf-8") as f:
         text = f.read()
